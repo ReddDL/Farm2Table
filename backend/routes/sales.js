@@ -1,10 +1,8 @@
-// not functional yet
-
 import express from 'express';
 const router = express.Router();
-import { generateSalesReport } from '../controllers/salesController.js'; // Update import to use named export
+import { generateSalesReport } from '../controllers/salesController.js'; // Ensure the correct path
 
-// Route to generate sales report based on interval (weekly, monthly, annual)
-router.get('/:interval', generateSalesReport); // Update to use the named function directly
+// route to generate sales report based on interval (weekly, monthly, annual)
+router.get('/interval', generateSalesReport);
 
-export default router; // Export the router directly
+export default router;
