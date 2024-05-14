@@ -4,6 +4,7 @@ import AdminLayout from "./AdminLayout.js";
 import RootLayout from "./RootLayout.js";
 import AdminDashboard from "./pages/AdminDashboard.js";
 import AdminProducts from "./pages/AdminProducts.js";
+import AdminOrders from "./pages/AdminOrders.js";
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
         <Route index element = {<Landing/>} />
         <Route path = '/dashboard' element = {<AdminDashboard />} />
         <Route path = '/products' element = {<AdminProducts />}/>
+        <Route path ='/orders' element = {<AdminOrders />} />
       </Route>
     )
   )
