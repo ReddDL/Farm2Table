@@ -1,3 +1,4 @@
+//import statements
 import User from '../models/User.js';
 
 //get all users

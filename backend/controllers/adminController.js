@@ -1,3 +1,4 @@
+//import statements
 import Product from '../models/Product.js';
 import User from '../models/User.js';
 

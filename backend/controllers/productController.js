@@ -1,3 +1,4 @@
+//import statements
 import Product from '../models/Product.js';
 
 // list all products
