@@ -1,21 +1,23 @@
-import Landing from "./pages/Landing.js";
-import { Route, createBrowserRouter, createRoutesFromElements, RouterProvider } from "react-router-dom";
-import RootLayout from "./RootLayout.js";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Landing from './pages/Landing';
+import RootLayout from './RootLayout';
+import Signin from './pages/Signin';
+import Signup from './pages/Signup';
+import NoNav from './NoNav';
 
 function App() {
-
-  const userRouter = createBrowserRouter(
-    createRoutesFromElements(
-      <Route path='/' element= { <RootLayout />}>
-        <Route index element = { <Landing /> } />
-      </Route>
-    )
-  ) 
-
   return (
-    <div>
-      <RouterProvider router={userRouter}/>
-    </div>
+    <Router>
+      <Routes>
+        <Route element={<RootLayout />}>
+          <Route path="/" element={<Landing />} />
+        </Route>
+        <Route element={<NoNav />}>
+          <Route path="/sign-in" element={<Signin />} />
+          <Route path="/sign-up" element={<Signup />} />
+        </Route>
+      </Routes>
+    </Router>
   );
 }
 
