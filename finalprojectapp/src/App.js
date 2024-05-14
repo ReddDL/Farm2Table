@@ -10,11 +10,18 @@ function App() {
     <Router>
       <Routes>
         <Route element={<RootLayout />}>
-          <Route path="/" element={<Landing />} />
+          <Route path="/user" element={<Landing />} />
         </Route>
         <Route element={<NoNav />}>
           <Route path="/sign-in" element={<Signin />} />
           <Route path="/sign-up" element={<Signup />} />
+        </Route>
+        <Route element = {<AdminLayout />}>
+          <Route path = '/admin' element = {<Landing/>}> 
+            <Route path = '/dashboard' element = {<AdminDashboard />} />
+            <Route path = '/products' element = {<AdminProducts />}/>
+            <Route path ='/orders' element = {<AdminOrders />} />
+          </Route>
         </Route>
       </Routes>
     </Router>
