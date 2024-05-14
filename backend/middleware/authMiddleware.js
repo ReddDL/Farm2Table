@@ -15,7 +15,7 @@ export const protect = async (req, res, next) => {
 
             //attach the user information to the request object, excluding the password
             req.user = await User.findById(decoded.userId).select('-password');
-
+            
             //proceed to the next middleware or route handler
             next();
         } else {
