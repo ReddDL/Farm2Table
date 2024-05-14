@@ -7,7 +7,7 @@ const Landing = () => {
     <div className='bg-eggshell'>
         <div className='h-screen w-full relative flex justify-center'>
             <video src={FieldDrone1080Black} autoPlay loop muted className='h-full w-screen object-cover'/>
-            <div className='absolute top-52 w-4/6 flex justify-center items-center flex-col'>
+            <div className=' border-solid border-2 border-red-600 absolute top-52 w-[80rem] flex justify-center max-w-5xl items-center flex-col'>
                 <h1 className='text-center text-alabaster volkhov-bold text-4xl leading-tight sm:text-4xl md:text-5xl xl:text-6xl'>Bringing Food</h1>
                 <h1 className='text-center text-alabaster volkhov-bold text-4xl leading-tight sm:text-3xl md:text-5xl xl:text-6xl'>Straight To Your Table</h1>
                 <p className='poppins-regular text-center text-alabaster mt-3'> Join us in celebrating the journey from farm-fresh produce to your table, where flavors come alive and memories are made. Explore our seasonal delights and savor the essence of nature's bounty, handpicked and delivered with love. </p>
