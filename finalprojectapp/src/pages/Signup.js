@@ -53,7 +53,7 @@ function Signup() {
                 </div>
                 
                 
-                <button className="bg-gunmetal text-alabaster mt-3 h-14 rounded-xl mt-10">SUBMIT</button>
+                <button className="bg-gunmetal text-alabaster mt-3 h-14 rounded-xl mt-10">Sign up</button>
                 <div>
                     <label>Already have an account? <a href="#" className='underline text-periwinkle poppins-medium'>Login</a></label>
                 </div>
