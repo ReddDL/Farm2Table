@@ -1,13 +1,18 @@
 import express from 'express';
 const router = express.Router();
 import { register, login, logout } from '../controllers/authController.js';
+import { protect } from '../middleware/authMiddleware.js';
 
-//registration
+// Registration route (accessible without authentication)
+// POST /api/auth/register
 router.post('/register', register);
-//login
+
+// Login route (accessible without authentication)
+// POST /api/auth/login
 router.post('/login', login);
-//logout
-router.post('/logout', logout);
+
+// Logout route (requires authentication)
+// POST /api/auth/logout
+router.post('/logout', protect, logout);
 
 export default router;
-    

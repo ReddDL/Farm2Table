@@ -1,17 +1,22 @@
 import express from 'express';
 import { createOrder, updateOrderStatus, getOrderById } from '../controllers/orderController.js';
+import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-// Create a new order
-router.post('/', createOrder);
+// protect all order routes
+router.use(protect);
 
-// Update order status
-router.put('/:id', updateOrderStatus);
+// create a new order
+// POST /api/orders/create
+router.post('/create', createOrder);
 
-// Get order details by ID
-router.get('/:id', getOrderById);
+// update order status by ID
+// PUT /api/orders/updateOrder/:id
+router.put('/updateOrder/:id', updateOrderStatus);
 
-// Add more route handlers for listing orders, deleting orders, etc.
+// get order details by ID
+// GET /api/orders/getOrder/:id
+router.get('/getOrder/:id', getOrderById);
 
 export default router;

@@ -1,3 +1,5 @@
+// not functional yet
+
 import express from 'express';
 const router = express.Router();
 import { generateSalesReport } from '../controllers/salesController.js'; // Update import to use named export

@@ -1,27 +1,18 @@
 import express from 'express';
-import { 
-    createProduct, 
-    getAllProducts, 
-    getProductById, 
-    updateProduct, 
-    deleteProduct 
-} from '../controllers/productController.js';
+import { listProducts, viewProduct } from '../controllers/productController.js';
+import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-//create a new product
-router.post('/create', createProduct);
+// Protect all routes
+router.use(protect);
 
-//get all products
-router.get('/fetch', getAllProducts);
+// Route to list all products
+// GET /api/products/list
+router.get('/list', listProducts);
 
-//get a single product by ID
-router.get('/getPID:id', getProductById);
-
-//update a product
-router.put('/update:id', updateProduct);
-
-//delete a product
-router.delete('/:id', deleteProduct);
+// Route to view a specific product by ID
+// GET /api/products/view/:id
+router.get('/view/:id', viewProduct);
 
 export default router;
