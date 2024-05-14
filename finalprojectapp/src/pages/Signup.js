@@ -61,7 +61,7 @@ function Signup() {
 
              
         </div>
-        <div className = "w-1/2 h-screen bg-oxford-blue flex items-center justify-center rounded-xl">
+        <div className = "w-1/2 h-screen flex items-center justify-center rounded-xl">
 
             <img className = "object-fill size-11/12 rounded-xl" src = {require('../images/farmer.jpg')}/>
 
