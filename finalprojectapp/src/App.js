@@ -3,6 +3,7 @@ import { Route, createBrowserRouter, createRoutesFromElements, RouterProvider } 
 import AdminLayout from "./AdminLayout.js";
 import RootLayout from "./RootLayout.js";
 import AdminDashboard from "./pages/AdminDashboard.js";
+import AdminProducts from "./pages/AdminProducts.js";
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
       <Route path='/' element = {<AdminLayout />}>
         <Route index element = {<Landing/>} />
         <Route path = '/dashboard' element = {<AdminDashboard />} />
+        <Route path = '/products' element = {<AdminProducts />}/>
       </Route>
     )
   )
