@@ -27,7 +27,6 @@ function App() {
             <Route path ='orders' element = {<AdminOrders />} />
           </Route>
         </Route>
-        <Route path = '/products' element = {<AdminProducts />}/>
       </Routes>
     </Router>
   );
