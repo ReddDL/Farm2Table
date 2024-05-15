@@ -22,11 +22,12 @@ function App() {
         </Route>
         <Route element = {<AdminLayout />}>
           <Route path = '/admin' element = {<Landing/>}> 
+            <Route path = 'dashboard' element = {<AdminDashboard />} />
+            <Route path = 'products' element = {<AdminProducts />}/>
+            <Route path ='orders' element = {<AdminOrders />} />
           </Route>
-            <Route path = '/admin/dashboard' element = {<AdminDashboard />} />
-            <Route path = '/admin/products' element = {<AdminProducts />}/>
-            <Route path ='/admin/orders' element = {<AdminOrders />} />
         </Route>
+        <Route path = '/products' element = {<AdminProducts />}/>
       </Routes>
     </Router>
   );
