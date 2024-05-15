@@ -2,7 +2,7 @@
 import Order from '../models/Order.js';
 import Product from '../models/Product.js';
 
-/*export const generateSalesReport = async (req, res) => {
+export const generateSalesReport = async (req, res) => {
     try {
         const { interval } = req.query; // Access the parameter using req.query.interval
         let startDate;
@@ -53,4 +53,3 @@ import Product from '../models/Product.js';
     }
 };
 
-*/
