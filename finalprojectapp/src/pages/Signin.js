@@ -1,14 +1,34 @@
 import React, { useState } from 'react';
 // import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import '../Fonts.css'
+import axios from 'axios';
 
-function Signup() {
+function Signin() {
 
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
+
+    async function handleLogin (event) {
+        event.preventDefault()
+        try {
+            const res = await axios.post('http://localhost:3001/login', {
+                email,
+                password
+            })
+
+            // get token
+            // return to landing
+        } catch {
+
+        }
+    }
+    
+
     return (
       <div className =" bg-eggshell w-screen h-screen flex flex-row justify-center items-center text-gunmetal poppins-light">
         <div className = "flex flex-col justify-center w-1/2 h-full items-center">
@@ -18,25 +38,29 @@ function Signup() {
             <div className="flex flex-col flex-wrap text-xl px-28">
                 <div className="pb-3 flex flex-row gap-3">
                 </div>
-                
-                <label >Email:</label>
-                <input 
-                    // placeholder="Enter your email" 
-                    className="rounded-md h-12 bg-eggshell border-2 border-gunmetal" 
-                    type="text" 
-                    id="email"/>
-                
-                <label className="mt-4">Password:</label>
-                <div>
-                    <input type={showPassword ? 'text' : 'password'}
-                            // placeholder="Enter your password" 
-                            className="rounded-md h-12 bg-eggshell border-2 border-gunmetal w-full" 
-                            id="password"/>
-                    <button className="float-end mt-4 mr-3" onClick={togglePasswordVisibility}>
-                        {/* {showPassword ? <FaEyeSlash /> : <FaEye />} */}
-                    </button>
-                </div>
-                
+                <form onSubmit={handleLogin}>
+                    {/* Email */}
+                    <label >Email:</label>
+                    <input 
+                        // placeholder="Enter your email" 
+                        className="rounded-md h-12 bg-eggshell border-2 border-gunmetal" 
+                        type="text" 
+                        id="email"
+                        onChange={(e) => setEmail(e.target.value)}/>
+                    {/* Password */}
+                    <label className="mt-4">Password:</label>
+                    <div>
+                        <input type={showPassword ? 'text' : 'password'}
+                                // placeholder="Enter your password" 
+                                className="rounded-md h-12 bg-eggshell border-2 border-gunmetal w-full" 
+                                id="password"
+                                onChange={(e) => setPassword(e.target.value)}
+                                />
+                        <button className="float-end mt-4 mr-3" onClick={togglePasswordVisibility} type="submit">
+                            {/* {showPassword ? <FaEyeSlash /> : <FaEye />} */}
+                        </button>
+                    </div>
+                </form>
                 
                 <button className="bg-gunmetal text-alabaster mt-3 h-14 rounded-xl mt-10">Sign in</button>
                 <div>
@@ -55,4 +79,4 @@ function Signup() {
     );
   }
   
-  export default Signup;
+  export default Signin;
