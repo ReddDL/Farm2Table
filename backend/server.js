@@ -8,6 +8,7 @@ const app = express();
 //middleware setup
 app.use(bodyParser.json()); // parses incoming JSON requests
 app.use(cors()); // enable Cross-Origin Resource Sharing
+app.use(express.json())
 
 //connect to MongoDB database
 mongoose.connect('mongodb://localhost/Farm-to-Table', {
