@@ -13,19 +13,18 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route element={<RootLayout />}>
-          <Route path="/user" element={<Landing />} />
+        <Route path="/" element={<RootLayout />}>
+          <Route path="user" element={<Landing />} />
         </Route>
-        <Route element={<NoNav />}>
-          <Route path="/sign-in" element={<Signin />} />
-          <Route path="/sign-up" element={<Signup />} />
+        <Route path="/" element={<NoNav />}>
+          <Route path="sign-in" element={<Signin />} />
+          <Route path="sign-up" element={<Signup />} />
         </Route>
-        <Route element = {<AdminLayout />}>
-          <Route path = '/admin' element = {<Landing/>}> 
-            <Route path = 'dashboard' element = {<AdminDashboard />} />
-            <Route path = 'products' element = {<AdminProducts />}/>
-            <Route path ='orders' element = {<AdminOrders />} />
-          </Route>
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route path="landing" element={<Landing />}/>
+          <Route path="dashboard" element={<AdminDashboard />} />
+          <Route path="products" element={<AdminProducts />} />
+          <Route path="orders" element={<AdminOrders />} />
         </Route>
       </Routes>
     </Router>
