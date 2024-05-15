@@ -4,6 +4,8 @@ import '../Fonts.css'
 
 function Signup() {
 
+
+
     const [showPassword, setShowPassword] = useState(false);
 
     const togglePasswordVisibility = () => {

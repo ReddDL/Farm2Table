@@ -9,13 +9,13 @@ const Header = () => {
             {/* <div className='flex flex-1 gap-4 justify-start'> */}
                 <ul className='flex flex-1 gap-4 justify-start'>
                 <li>
-                    <NavLink className='text-tea-green text-lg' to='/dashboard'> Dashboard </NavLink>
+                    <NavLink className='text-tea-green text-lg' to='/admin/dashboard'> Dashboard </NavLink>
                 </li>
                 <li>
-                    <NavLink className='text-tea-green text-lg' to='/products'> Products </NavLink>
+                    <NavLink className='text-tea-green text-lg' to='/admin/products'> Products </NavLink>
                 </li>
                 <li>
-                    <NavLink className='text-tea-green text-lg' to='/orders'> Orders </NavLink>
+                    <NavLink className='text-tea-green text-lg' to='/admin/orders'> Orders </NavLink>
                 </li>
                 </ul>
             {/* </div> */}

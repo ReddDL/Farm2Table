@@ -4,7 +4,7 @@ import ProductCard from '../components/ProductCard.js';
 const AdminDashboard = () => {
 
   return (
-    <div className='bg-eggshell flex flex-col px-8 lg:px-32 md:px-24 sm:px-10 pt-32'>
+    <div className='bg-eggshell flex flex-col px-8 lg:px-32 md:px-24 sm:px-10 pt-32 text-midnight-green'>
         <h1 className='poppins-regular text-4xl mb-5 '> Hello admin, here's a quick summary of the sales</h1>
         <ul className='poppins-regular flex gap-5 mb-4 text-lg'>
             <li><a href="#"> Annually </a></li>
