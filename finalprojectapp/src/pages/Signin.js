@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 // import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import '../Fonts.css'
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Signin() {
+    const navigate = useNavigate();
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -23,6 +25,7 @@ function Signin() {
 
             // get token
             // return to landing
+            navigate("/user",)
         } catch {
 
         }
