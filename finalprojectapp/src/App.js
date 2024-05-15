@@ -8,6 +8,7 @@ import AdminLayout from './AdminLayout.js';
 import AdminDashboard from './pages/AdminDashboard.js';
 import AdminProducts from './pages/AdminProducts.js';
 import AdminOrders from './pages/AdminOrders.js';
+import AdminUsers from './pages/AdminUsers.js';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="products" element={<AdminProducts />} />
           <Route path="orders" element={<AdminOrders />} />
+          <Route path='users' element={<AdminUsers/>} />
         </Route>
       </Routes>
     </Router>
