@@ -11,24 +11,21 @@ const Header = () => {
                 <li>
                     <NavLink className='text-tea-green text-lg' to='/products'> Products </NavLink>
                 </li>
+                <li>
+                    <NavLink className='text-tea-green text-lg' to='/products'> Orders </NavLink>
+                </li>
                 </ul>
             {/* </div> */}
             <div className=' flex flex-1 justify-center'>
                 <NavLink className='text-tea-green volkhov-regular text-2xl ' to='/'> Farm2Table </NavLink>
             </div>
-
-            <ul className='flex flex-1 justify-end flex-row'>
-                <li className='flex flex-row'>
-                    <NavLink className='text-tea-green text-lg pr-10 pt-0' to='/products'> Cart 0</NavLink>
-                </li>
-                <li>
-                    {/* <NavLink className='' to='/products'> <img className ="object-contain w-8 h-8" src={require("../images/profileIcon.png")}/> </NavLink> */}
-                </li>
-            </ul>
+            <div className=' flex flex-1 gap-2 justify-end'>
+                <a className='bg-alabaster rounded-3xl px-4 py-2' href='/sign-up' > Sign up</a>
+                <a className='bg-tea-green rounded-3xl px-4 py-2' href='/sign-in'> Log in</a>
+            </div>
         </div>
     </div>
   )
 }
 
 export default Header
-

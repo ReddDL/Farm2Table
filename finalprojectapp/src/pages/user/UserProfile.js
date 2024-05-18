@@ -1,4 +1,9 @@
+import { useOutletContext } from "react-router-dom";
+
 const UserProfile = () => {
+  // get userId from user layout context
+  const userId = useOutletContext();
+
   return (
     <div className='flex justify-center h-fit shadow-md'>
       <h1> 

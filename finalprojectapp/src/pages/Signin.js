@@ -35,8 +35,7 @@ function Signin() {
             alert('Login successful')
 
             // return to landing page
-            // TODO: change based on userType
-            navigate('/user')
+            navigate('/')
                 
             window.location.reload();
             // store token for access between pages
