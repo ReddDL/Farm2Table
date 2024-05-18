@@ -18,12 +18,12 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<RootLayout />}>
-          <Route path="user" element={<Landing />} />
+        <Route element={<RootLayout />}>
+          <Route path="/" element={<Landing />} />
         </Route>
-        <Route path="/" element={<NoNav />}>
-          <Route path="sign-in" element={<Signin />} />
-          <Route path="sign-up" element={<Signup />} />
+        <Route element={<NoNav />}>
+          <Route path="/sign-in" element={<Signin />} />
+          <Route path="/sign-up" element={<Signup />} />
         </Route>
         <Route path="/admin" element={<AdminLayout />}>
           <Route path="landing" element={<Landing />}/>
@@ -35,8 +35,8 @@ function App() {
         <Route element = {<UserLayout />}>
           <Route path = '/user' element = {<Landing/>} /> 
           <Route path = '/user/products' element = {<UserProducts />}/>
-          <Route path ='/user/cart' element = {<UserCart />} />
-          <Route path ='/user/profile' element = {<UserProfile />} />
+          <Route path = '/user/cart' element = {<UserCart />} />
+          <Route path = '/user/profile' element = {<UserProfile />} />
         </Route>
       </Routes>
     </Router>

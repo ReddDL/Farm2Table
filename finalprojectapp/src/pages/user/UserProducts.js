@@ -1,5 +1,5 @@
 import React from 'react'
-import ProductCard2 from '../../components/user/ProductCard2';
+import ProductCard2 from '../../components/ProductCard2';
 
 const UserProducts = () => {
 

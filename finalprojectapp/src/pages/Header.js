@@ -22,7 +22,7 @@ const Header = () => {
                     <NavLink className='text-tea-green text-lg pr-10 pt-0' to='/products'> Cart 0</NavLink>
                 </li>
                 <li>
-                    <NavLink className='' to='/products'> <img className ="object-contain w-8 h-8" src={require("../images/profileIcon.png")}/> </NavLink>
+                    {/* <NavLink className='' to='/products'> <img className ="object-contain w-8 h-8" src={require("../images/profileIcon.png")}/> </NavLink> */}
                 </li>
             </ul>
         </div>
