@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import ProductCard2 from '../../components/ProductCard2';
+import { useOutletContext } from 'react-router-dom';
 
 const UserProducts = () => {
+    // get userId from user layout context
+    const userId = useOutletContext();
 
     // apply sort logic
 

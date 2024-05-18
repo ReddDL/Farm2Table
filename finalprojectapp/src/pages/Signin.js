@@ -18,16 +18,32 @@ function Signin() {
     async function handleLogin (event) {
         event.preventDefault()
         try {
-            const res = await axios.post('http://localhost:3001/login', {
+            // login request, returns token if successful
+            const res = await axios.post('http://localhost:3000/api/auth/login', {
                 email,
                 password
             })
 
-            // get token
-            // return to landing
-            navigate("/user",)
-        } catch {
+            const token = res.data.token;
+            // console.log(token)
+            
+            // clear email and password
+            setEmail('')
+            setPassword('')
 
+            // user prompt for successful login
+            alert('Login successful')
+
+            // return to landing page
+            // TODO: change based on userType
+            navigate('/user')
+                
+            window.location.reload();
+            // store token for access between pages
+            localStorage.setItem('token', token)
+        } catch (error) {
+            alert('Login error')
+            console.log('Login Error', error)
         }
     }
     
