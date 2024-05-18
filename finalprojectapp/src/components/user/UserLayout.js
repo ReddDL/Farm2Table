@@ -1,14 +1,14 @@
 import React from 'react'
 import { Outlet, useOutletContext } from 'react-router-dom'
-import AdminHeader from './pages/AdminHeader.js'
-const AdminLayout = () => {
+import UserHeader from './UserHeader.js'
+const UserLayout = () => {
   const userId = useOutletContext();
   return (
     <>
-        <AdminHeader></AdminHeader>
+        <UserHeader></UserHeader>
         <Outlet context={userId}></Outlet>
     </>
   )
 }
 
-export default AdminLayout
+export default UserLayout
