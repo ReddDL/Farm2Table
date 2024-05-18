@@ -1,13 +1,20 @@
-import React from 'react'
-import ProductCard2 from '../components/ProductCard2';
+import React, { useContext } from 'react'
+import ProductCard2 from '../../components/ProductCard2';
+import { useOutletContext } from 'react-router-dom';
 
-const AdminProducts = () => {
+const UserProducts = () => {
+    // get userId from user layout context
+    const userId = useOutletContext();
 
     // apply sort logic
 
   return (
     <>
     <div className='bg-eggshell flex flex-col px-8 lg:px-32 md:px-24 sm:px-10 pt-32'>
+    <div className = 'flex justify-center mb-10'>
+      <h1 className='text-midnight-green text-4xl'>Welcome to our shop</h1>
+    </div>
+    
     <div className='flex poppins-regular items-center gap-4'>
         <div>
             <label for="filter">Filter by: </label>
@@ -27,7 +34,7 @@ const AdminProducts = () => {
         </div>
         <button onClick={filter}className='bg-midnight-green text-white px-3 py-1 rounded-lg'> Apply </button>
     </div>
-        <div id="product" className='product bg-alabaster p-5 mb-5 rounded-xl mt-4 flex flex-row sm:flex-col md:flex-row sm:items-center flex-wrap justify-start gap-10'>
+        <div id="product" className='product bg-alabaster min-h-screen p-5 mb-5 rounded-xl mt-4 flex flex-row sm:flex-col md:flex-row sm:items-center flex-wrap gap-10 justify-center'>
             <ProductCard2 data={Product1}/>
             <ProductCard2 data={Product2}/>
             <ProductCard2 data={Product3}/>
@@ -130,4 +137,4 @@ const Product3 =
 
 
 
-export default AdminProducts
+export default UserProducts
