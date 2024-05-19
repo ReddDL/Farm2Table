@@ -53,71 +53,58 @@ function Signup() {
     }
 
     return (
-      <div className =" bg-eggshell w-screen h-screen flex flex-row justify-center items-center text-gunmetal poppins-light">
-        <div className = "flex flex-col justify-center w-1/2 h-full items-center">
-            <label className="text-5xl pb-3 poppins-regular leading-3">Welcome to our cause!</label>
-            <label className = "text-2xl pb-8 poppins-light">Are you ready to support our farmers?</label>
-            
-            <div className="flex flex-col flex-wrap text-xl px-28">
-                <form onSubmit={handleSignup}>
-                    {/* Name */}
-                    <div className="pb-3 flex flex-row gap-3">
-                        {/* First Name */}
-                        <div className="flex flex-col w-1/2">
-                            <label>First name:</label>
-                            <input 
-                                // placeholder="Enter your First Name" 
-                                className="resize rounded-md w-full h-12 mr-5 bg-eggshell border-2 border-gunmetal px-3" 
-                                id="fname"
-                                onChange={(e) => setFirstName(e.target.value)}/>
-                        </div>
-                        {/* Last Name */}
-                        <div className="flex flex-col w-1/2">
-                            <label >Last name:</label>
-                            <input 
-                                // placeholder="Enter your Last Name" 
-                                className="resize rounded-md w-full h-12 bg-eggshell border-2 border-gunmetal" 
-                                id="lname" 
-                                name="lname"
-                                onChange={(e) => setLastName(e.target.value)}/>
-                        </div>
+      <div className =" bg-periwinkle w-screen h-screen text-gunmetal poppins-light p-3">
+        <section className = "z-10 relative top-1/2 translate-y-[-50%] mx-auto p-8 rounded-2xl max-w-lg bg-alabaster">
+            <h1 className="text-4xl mb-3 lato-bold">Sign up</h1>
+            <form onSubmit={handleSignup}>
+                {/* Name */}
+                <div className="pb-3 flex flex-row gap-3">
+                    {/* First Name */}
+                    <div className="flex flex-col w-1/2">
+                        <label>First name:</label>
+                        <input 
+                            // placeholder="Enter your First Name" 
+                            className="resize rounded-md w-full h-12 mr-5 bg-alabaster border-2 border-gunmetal px-3" 
+                            id="fname"
+                            onChange={(e) => setFirstName(e.target.value)}/>
                     </div>
-                    {/* Email */}
-                    <label >Email:</label>
-                    <input 
-                        // placeholder="Enter your email" 
-                        className="rounded-md h-12 bg-eggshell border-2 border-gunmetal" 
-                        type="text" 
-                        id="email"
-                        onChange={(e) => setEmail(e.target.value)}/>
-                    {/* Password */}
-                    <label className="mt-4">Password:</label>
-                    <div>
-                        <input type={showPassword ? 'text' : 'password'}
-                                // placeholder="Enter your password" 
-                                className="rounded-md h-12 bg-eggshell border-2 border-gunmetal w-full" 
-                                id="password"
-                                onChange={(e) => setPassword(e.target.value)}/>
-                        <button className="float-end mt-4 mr-3" onClick={togglePasswordVisibility}>
-                            {/* {showPassword ? <FaEyeSlash /> : <FaEye />} */}
-                        </button>
+                    {/* Last Name */}
+                    <div className="flex flex-col w-1/2">
+                        <label >Last name:</label>
+                        <input 
+                            // placeholder="Enter your Last Name" 
+                            className="resize rounded-md w-full h-12 bg-alabaster border-2 border-gunmetal" 
+                            id="lname" 
+                            name="lname"
+                            onChange={(e) => setLastName(e.target.value)}/>
                     </div>
-                    
-                    
-                    <button className="bg-gunmetal text-alabaster mt-3 h-14 rounded-xl mt-10">Sign up</button>
-                </form>
+                </div>
+                {/* Email */}
+                <label >Email:</label>
+                <input 
+                    className="rounded-md w-full h-12 bg-alabaster border-2 border-gunmetal" 
+                    type="text" 
+                    id="email"
+                    onChange={(e) => setEmail(e.target.value)}/>
+                {/* Password */}
+                <label className="mt-4">Password:</label>
                 <div>
-                    <label>Already have an account? <a href="#" className='underline text-periwinkle poppins-medium'>Login</a></label>
+                    <input type={showPassword ? 'text' : 'password'}
+                            className="rounded-md w-full h-12 bg-alabaster border-2 border-gunmetal w-full" 
+                            id="password"
+                            onChange={(e) => setPassword(e.target.value)}/>
+                    <button className="float-end mt-4 mr-3" onClick={togglePasswordVisibility}>
+                        {/* {showPassword ? <FaEyeSlash /> : <FaEye />} */}
+                    </button>
                 </div>
                 
+                
+                <button className="bg-gunmetal text-alabaster w-full mt-3 h-10 rounded-xl lato-regular text-lg">Sign up</button>
+            </form>
+            <div>
+                <label>Already have an account? <a href="#" className='underline text-periwinkle poppins-medium'>Login</a></label>
             </div>
-
-             
-        </div>
-        <div className = "w-1/2 h-screen">
-            <img className = "object-cover w-full h-full" src = {require('../images/farmer.jpg')}/>
-        </div>
-            
+        </section>
       </div>
     );
   }
