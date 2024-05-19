@@ -1,7 +1,6 @@
 import React from 'react'
 import FieldDrone1080Black from '../images/FieldDrone1080Black2.mp4';
 import '../Fonts.css';
-import './Landing.css';
 
 const Landing = () => {
   return (
