@@ -74,7 +74,7 @@ const UserProducts = () => {
             document.getElementById('product')
         ). render(element)
 
-        root.render(element)
+        // root.render(element)
     }
  
     if (loading) return <div>Loading...</div>;
@@ -129,98 +129,6 @@ const UserProducts = () => {
 }
 
 
-const filter = (event) =>{
-    var products = []
-    // console.log(Product1)
-    let sortValue = document.getElementById("sort");
-    let filterValue = document.getElementById("filter");
-    // console.log(document.getElementById("sort"));
-    //console.log(document.getElementById("product"));
-    //console.log(document.getElementById("product").children[0].childNodes[1].children[0].innerText);
-    let object = document.getElementById("product")
-    //console.log(object.children.length)
-    // console.log(object.children[0].childNodes[0].childNodes[0].attributes[0].nodeValue)
-    // console.log(object.children[0])
-    
-    // console.log(object.children[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1].innerText)
-    console.log(object.children[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].innerText)
-
-    for (let i=0; i<object.children.length; i++){
-
-
-        // Code below is the directory to the value sent to productsCard2 in the console
-        // object.children[i].childNodes[1].children[0] ; children[0] on the last part because first element of card
-        let title = object.children[i].childNodes[1].childNodes[0].childNodes[0].childNodes[0].innerText;
-        let type = object.children[i].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1].innerText;
-        
-        let price = object.children[i].childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[1].innerText;
-        let quantity =object.children[i].childNodes[1].childNodes[0].childNodes[1].childNodes[1].childNodes[1].innerText;
-        
-        let description = object.children[i].childNodes[1].children[1].innerText;
-        let imageSrc = object.children[i].childNodes[0].childNodes[0].attributes[0].nodeValue
-        // Creates a new instance of object
-        var productMade = Product.create(title, price, description, imageSrc, type, quantity)
-
-        products.push(productMade)
-
-    }
-
-    
-    const container = document.querySelector('#product')
-    // removeAllChildNodes(container)
-
-    if (filterValue.value ==="price" &&sortValue.value ==="ascending"){
-        products.sort((a,b)=>a.price-b.price);
-    } else if (filterValue.value ==="price" && sortValue.value ==="descending"){
-        products.sort((a,b)=>b.price-a.price);
-    } else if (filterValue.value ==="quantity" &&sortValue.value ==="ascending"){
-        products.sort((a,b)=>a.quantity-b.quantity);
-    } else if (filterValue.value ==="quantity" && sortValue.value ==="descending"){
-        products.sort((a,b)=>b.quantity-a.quantity);
-    } 
-    
-    else if (filterValue.value ==="name" && sortValue.value ==="ascending"){
-        products.sort((a,b)=>a.title.localeCompare(b.title));
-    } else if (filterValue.value ==="name" && sortValue.value ==="descending"){
-        products.sort((a,b)=>b.title.localeCompare(a.title));
-    } 
-    
-    else if (filterValue.value ==="type" && sortValue.value ==="ascending"){
-        products.sort((a,b)=>a.type.localeCompare(b.type));
-    } else if (filterValue.value ==="type" && sortValue.value ==="descending"){
-        products.sort((a,b)=>b.type.localeCompare(a.type));
-    }
-    
-    
-    
-    for(let i=0; i<products.length; i++){
-        const node = document.createElement("li");
-        const textnode = document.createTextNode(products[i].title);
-        node.appendChild(textnode);
-        object.children[i].childNodes[1].childNodes[0].childNodes[0].childNodes[0].innerText = products[i].title
-        object.children[i].childNodes[1].children[1].innerText = products[i].description
-        object.children[i].childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[1].innerText = products[i].price
-        object.children[i].childNodes[1].childNodes[0].childNodes[1].childNodes[1].childNodes[1].innerText = products[i].quantity
-        object.children[i].childNodes[0].childNodes[0].attributes[0].nodeValue = products[i].imageSrc
-        object.children[i].childNodes[0].childNodes[0].attributes[1].nodeValue = products[i].title // This is for alt in image
-        object.children[i].attributes[1].nodeValue = products[i].title // This is for id in image
-        object.children[i].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1].innerText = products[i].type;
-    }
-}
-
-
-const Product = { //Creates Product
-    create: function (x, y, z, a, b, c) {
-      const newPoint = Object.create(this);
-      newPoint.title = x;
-      newPoint.price = y;
-      newPoint.description= z;
-      newPoint.imageSrc = a;
-      newPoint.type = b;
-      newPoint.quantity = c;
-      return newPoint;
-    }
-};
 
 
 // TEST IF BACKEND UNAVAILABLE
