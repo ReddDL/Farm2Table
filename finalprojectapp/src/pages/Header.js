@@ -1,15 +1,18 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
+import axios from "axios";
 import './Landing.css';
 
 const Header = () => {
+     
+
   return (
     <div className='flex justify-center h-fit shadow-md'>
         <div className=' bg-midnight-green h-16 absolute top-5 rounded-xl z-10 w-full min-w-xs max-w-7xl flex justify-between items-center shadow-xl px-5 '>
             {/* <div className='flex flex-1 gap-4 justify-start'> */}
                 <ul className='flex flex-1 gap-4 justify-start'>
                 <li>
-                    <NavLink className='text-tea-green text-lg' to='/products'> Products </NavLink>
+                    <NavLink className='text-tea-green text-lg' to='user/products'> Products </NavLink>
                 </li>
                 </ul>
             {/* </div> */}

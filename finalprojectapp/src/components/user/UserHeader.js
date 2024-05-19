@@ -9,7 +9,7 @@ const UserHeader = () => {
             {/* <div className='flex flex-1 gap-4 justify-start'> */}
                 <ul className='flex flex-1 gap-4 justify-start'>
                 <li>
-                    <NavLink className='text-tea-green text-lg' to='/products'> Products </NavLink>
+                    <NavLink className='text-tea-green text-lg' to='user/products'> Products </NavLink>
                 </li>
                 <li>
                     <NavLink className='text-tea-green text-lg' to='/user/profile'> Orders </NavLink>
@@ -21,7 +21,7 @@ const UserHeader = () => {
             </div>
             <ul className='flex flex-1 gap-4 justify-end'>
               <li>
-                <NavLink className='text-tea-green text-lg' to='/cart'> Cart ({0}) </NavLink>
+                <NavLink className='text-tea-green text-lg' to='user/cart'> Cart ({0}) </NavLink>
               </li>
               <li>
                 <NavLink className='text-tea-green text-lg' to='/user/profile'> Profile </NavLink>
