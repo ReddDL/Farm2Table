@@ -47,7 +47,6 @@ const Header = () => {
                 <div className='absolute right-0 mt-2 w-32 bg-alabaster rounded-md shadow-lg z-20'>
                     <ul>
                     <li><NavLink className='block px-4 py-2 text-gray-800 hover:bg-gray-100' to='/profile'>Profile</NavLink></li>
-                    <li><NavLink className='block px-4 py-2 text-gray-800 hover:bg-gray-100' to='/settings'>Settings</NavLink></li>
                     <li><div className='block px-4 py-2 text-gray-800 cursor-pointer hover:bg-gray-100' onClick={handleLogout}>Log Out</div></li>
                     </ul>
                 </div>
