@@ -25,8 +25,6 @@ const Header = () => {
                 <NavLink className='text-tea-green volkhov-regular text-2xl ' to='/'> Farm2Table </NavLink>
             </div>
             <div className=' flex flex-1 gap-2 justify-end'>
-                <button className='bg-alabaster rounded-3xl px-4 py-2'> Sign up</button>
-                <button className='bg-tea-green rounded-3xl px-4 py-2'> Log in</button>
                 <button className='bg-tea-green rounded-3xl px-4 py-2' onClick={handleLogout}> Log out </button>
             </div>
         </div>
