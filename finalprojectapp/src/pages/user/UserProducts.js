@@ -13,6 +13,7 @@ const UserProducts = () => {
     const [farmProducts, setFarmProducts] = useState();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [addItemsCart, setAddItemsCart] = useState([]);
     function update (){
 
         setNumItems(()=>{
@@ -63,7 +64,7 @@ const UserProducts = () => {
             setFarmProducts(farmProducts.sort((a,b)=>b.type.localeCompare(a.type)));
         }
 
-        console.log(farmProducts)
+        // console.log(farmProducts)
         const element = (
             <React.StrictMode>
                 <div className = 'flex flex-row sm:flex-col md:flex-row sm:items-center flex-wrap gap-10 justify-center' id = 'product'>
@@ -122,7 +123,7 @@ const UserProducts = () => {
             <div className = 'flex flex-row sm:flex-col md:flex-row sm:items-center flex-wrap gap-10 justify-center' id = 'product'>
                 
                 {farmProducts.map((product)=>
-                    <ProductCardUser data={product}/>
+                    <ProductCardUser data={product} items = {addItemsCart} setItems = {setAddItemsCart}/>
                     
                 )}
             </div>
@@ -133,6 +134,23 @@ const UserProducts = () => {
     </>
   )
 }
+
+// const itemsCart = []
+
+export function AddToCartFunc (Item, setItemsCart, itemsCart){
+    
+    
+
+    setItemsCart(()=>{
+        var nval;
+        nval = [...itemsCart, Item]
+        return nval
+    })
+    console.log(itemsCart)
+
+}
+
+
 
 
 

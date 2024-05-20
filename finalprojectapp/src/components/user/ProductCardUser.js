@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import { AddToCartFunc } from '../../pages/user/UserProducts';
 
 const ProductCard2 = (prop) => {
+  const [itemsCart, setItemsCart] = useState([]);
+  // console.log(prop)
   let attributes = prop.data;
-  let attributesName = attributes.name;
-  const [cartProducts, setCartProducts] = useState([]);
-  const AddToCart = (event)=> {
 
-    setCartProducts(cartProducts.push(attributes))
-    console.log(cartProducts)
+  function PrepareToCart () {
+    AddToCartFunc(attributes, prop.setItems, prop.items)
+    // console.log(attributes)
   }
-
   
   return (
     <div className="card w-80 bg-white shadow-xl" key = {attributes._id} id = {attributes.name}>
@@ -38,10 +38,14 @@ const ProductCard2 = (prop) => {
             </div>
             <p className = "text-center">{attributes.description}</p>
             
-            <button onClick= {AddToCart} className = "bg-tea-green h-10 mt-3 rounded-lg text-oxford-blue">ADD TO CART</button>
+            <button onClick= {PrepareToCart} className = "AddToCart bg-tea-green h-10 mt-3 rounded-lg text-oxford-blue" id = {attributes._id}>ADD TO CART</button>
         </div>
     </div>
   )
+}
+
+function Cart(){
+  
 }
 
 
