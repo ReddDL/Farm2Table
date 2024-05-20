@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import ProductCard2 from '../../components/user/ProductCard2';
+import ProductCardUser from '../../components/user/ProductCardUser';
 import { NavLink } from 'react-router-dom';
 import axios from "axios";
 // import ReactDOM from 'react-dom';
@@ -68,7 +68,7 @@ const UserProducts = () => {
             <React.StrictMode>
                 <div className = 'flex flex-row sm:flex-col md:flex-row sm:items-center flex-wrap gap-10 justify-center' id = 'product'>
                 {farmProducts.map((product)=>
-                    <ProductCard2 data={product}/>
+                    <ProductCardUser data={product}/>
                     
                 )}
             </div>
@@ -122,7 +122,7 @@ const UserProducts = () => {
             <div className = 'flex flex-row sm:flex-col md:flex-row sm:items-center flex-wrap gap-10 justify-center' id = 'product'>
                 
                 {farmProducts.map((product)=>
-                    <ProductCard2 data={product}/>
+                    <ProductCardUser data={product}/>
                     
                 )}
             </div>
