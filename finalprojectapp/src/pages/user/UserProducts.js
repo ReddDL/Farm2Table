@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import ProductCard2 from '../../components/user/ProductCard2';
+import { NavLink } from 'react-router-dom';
 import axios from "axios";
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client'
 
 
 
 const UserProducts = () => {
+    
     const [numItems, setNumItems] = useState("0");
     const [farmProducts, setFarmProducts] = useState();
     const [loading, setLoading] = useState(true);
@@ -62,19 +65,22 @@ const UserProducts = () => {
 
         console.log(farmProducts)
         const element = (
-            <div className = 'flex flex-row sm:flex-col md:flex-row sm:items-center flex-wrap gap-10 justify-center' id = 'product'>
+            <React.StrictMode>
+                <div className = 'flex flex-row sm:flex-col md:flex-row sm:items-center flex-wrap gap-10 justify-center' id = 'product'>
                 {farmProducts.map((product)=>
                     <ProductCard2 data={product}/>
                     
                 )}
             </div>
+            </React.StrictMode>
+            
         )
-        
-        const root = ReactDOM.createRoot(
-            document.getElementById('product')
-        ). render(element)
 
-        // root.render(element)
+        const root = createRoot(
+            document.getElementById("product")
+        )
+
+        root.render(element)
     }
  
     if (loading) return <div>Loading...</div>;
@@ -109,7 +115,7 @@ const UserProducts = () => {
         <div className='product bg-alabaster min-h-screen p-5 mb-5 rounded-xl mt-4 flex flex-col justify-center items-center'>
             <div className = 'flex flex-row justify-center mb-16 items-center'>
                 <label className = "text-3xl mr-16">Number of Items Added to Cart: {numItems}</label>
-                <button onClick = {update} className = "text-3xl bg-midnight-green w-96 h-12 rounded-xl">Proceed to Checkout</button>
+                <NavLink to='/user/cart'><button onClick = {update} className = "text-3xl bg-midnight-green w-96 h-12 rounded-xl">Proceed to Checkout</button></NavLink>
             </div>
 
             {console.log(farmProducts)}
@@ -127,7 +133,6 @@ const UserProducts = () => {
     </>
   )
 }
-
 
 
 

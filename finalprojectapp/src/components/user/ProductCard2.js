@@ -4,14 +4,12 @@ const ProductCard2 = (prop) => {
   let attributes = prop.data;
   let attributesName = attributes.name;
   const [cartProducts, setCartProducts] = useState([]);
-
   const AddToCart = (event)=> {
 
-    const items = document.getElementById(attributesName); 
-    //console.log(items)
-    console.log(items.childNodes[1].childNodes[0].childNodes[0].childNodes[0].innerText)
-    // console.log(attributes.name)
+    setCartProducts(cartProducts.push(attributes))
+    console.log(cartProducts)
   }
+
   
   return (
     <div className="card w-80 bg-white shadow-xl" key = {attributes._id} id = {attributes.name}>
@@ -45,6 +43,7 @@ const ProductCard2 = (prop) => {
     </div>
   )
 }
+
 
 
 
