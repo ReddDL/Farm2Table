@@ -1,12 +1,95 @@
-import React, { useContext } from 'react'
-import ProductCard2 from '../../components/ProductCard2';
+import React, { useState, useEffect, useContext } from 'react';
+import ProductCardUser from '../../components/user/ProductCardUser';
 import { useOutletContext } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+import axios from "axios";
+// import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client'
+
+
 
 const UserProducts = () => {
-    // get userId from user layout context
+    
+    const [numItems, setNumItems] = useState("0");
+    const [farmProducts, setFarmProducts] = useState();
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [addItemsCart, setAddItemsCart] = useState([]);
     const userId = useOutletContext();
 
-    // apply sort logic
+    function update (){
+
+
+        setNumItems(()=>{
+            var nval = parseInt(numItems)+1;
+            return nval;
+        })
+    }
+    
+    useEffect(() => { 
+
+        axios.get('http://localhost:3000/api/products/list').then( 
+            response => { 
+                setFarmProducts(response.data); 
+                setLoading(false);
+            } 
+        ).catch(error => { 
+            setError(error);
+            setLoading(false);
+        }) 
+        
+    }, [])
+
+
+
+
+    function filterOn (){
+        let sortValue = document.getElementById("sort");
+        let filterValue = document.getElementById("filter");
+        if (filterValue.value ==="price" &&sortValue.value ==="ascending"){
+            setFarmProducts(farmProducts.sort((a,b)=>a.price-b.price));
+        } else if (filterValue.value ==="price" && sortValue.value ==="descending"){
+            setFarmProducts(farmProducts.sort((a,b)=>b.price-a.price));
+        } else if (filterValue.value ==="quantity" &&sortValue.value ==="ascending"){
+            setFarmProducts(farmProducts.sort((a,b)=>a.quantity-b.quantity));
+        } else if (filterValue.value ==="quantity" && sortValue.value ==="descending"){
+            setFarmProducts(farmProducts.sort((a,b)=>b.quantity-a.quantity));
+        } 
+        
+        else if (filterValue.value ==="name" && sortValue.value ==="ascending"){
+            setFarmProducts(farmProducts.sort((a,b)=>a.name.localeCompare(b.name)));
+        } else if (filterValue.value ==="name" && sortValue.value ==="descending"){
+            setFarmProducts(farmProducts.sort((a,b)=>b.name.localeCompare(a.name)));
+        } 
+        
+        else if (filterValue.value ==="type" && sortValue.value ==="ascending"){
+            setFarmProducts(farmProducts.sort((a,b)=>a.type.localeCompare(b.type)));
+        } else if (filterValue.value ==="type" && sortValue.value ==="descending"){
+            setFarmProducts(farmProducts.sort((a,b)=>b.type.localeCompare(a.type)));
+        }
+
+        // console.log(farmProducts)
+        const element = (
+            <React.StrictMode>
+                <div className = 'flex flex-row sm:flex-col md:flex-row sm:items-center flex-wrap gap-10 justify-center' id = 'product'>
+                {farmProducts.map((product)=>
+                    <ProductCardUser data={product} items = {addItemsCart} setItems = {setAddItemsCart}/>
+                    
+                )}
+            </div>
+            </React.StrictMode>
+            
+        )
+
+        const root = createRoot(
+            document.getElementById("product")
+        )
+
+        root.render(element)
+    }
+ 
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>Error: {error.message}</div>;
 
   return (
     <>
@@ -15,125 +98,106 @@ const UserProducts = () => {
       <h1 className='text-midnight-green text-4xl'>Welcome to our shop</h1>
     </div>
     
-    <div className='flex poppins-regular items-center gap-4'>
-        <div>
-            <label for="filter">Filter by: </label>
-            <select name="filter" id="filter" className='bg-midnight-green text-white px-2 py-1 rounded-lg mr-3'>
-                <option value="name">Name</option> 
-                <option value="price">Price</option>
-                <option value="type">Type</option>
-                <option value="quantity">Quantity</option>
-            </select>
+        <div className='flex poppins-regular items-center gap-4'>
+            <div>
+                <label htmlFor="filter">Filter by: </label>
+                <select name="filter" id="filter" className='bg-midnight-green text-white px-2 py-1 rounded-lg mr-3'>
+                    <option value="name">Name</option> 
+                    <option value="price">Price</option>
+                    <option value="type">Type</option>
+                    <option value="quantity">Quantity</option>
+                </select>
+                </div>
+            <div>
+                <label htmlFor="sort" >Sort by: </label>
+                <select name="sort" id="sort" className='bg-midnight-green text-white px-2 py-1 rounded-lg'>
+                    <option value="ascending">Ascending</option>
+                    <option value="descending">Descending</option>
+                </select>
             </div>
-        <div>
-            <label for="sort" >Sort by: </label>
-            <select name="sort" id="sort" className='bg-midnight-green text-white px-2 py-1 rounded-lg'>
-                <option value="ascending">Ascending</option>
-                <option value="descending">Descending</option>
-            </select>
+            <button onClick={filterOn}className='bg-midnight-green text-white px-3 py-1 rounded-lg'> Apply </button>
         </div>
-        <button onClick={filter}className='bg-midnight-green text-white px-3 py-1 rounded-lg'> Apply </button>
+        <div className='product bg-alabaster min-h-screen p-5 mb-5 rounded-xl mt-4 flex flex-col justify-center items-center'>
+            <div className = 'flex flex-row justify-center mb-16 items-center'>
+                <label id = 'cart-items' className = "text-3xl mr-16">Number of Items Added to Cart: {numItems}</label>
+                <NavLink to='/user/cart'><button onClick = {update} className = "text-3xl bg-midnight-green w-96 h-12 rounded-xl">Proceed to Checkout</button></NavLink>
+            </div>
+            <div className = 'flex flex-row sm:flex-col md:flex-row sm:items-center flex-wrap gap-10 justify-center' id = 'product'>
+                
+                {farmProducts.map((product)=>
+                    <ProductCardUser data={product} items = {addItemsCart} setItems = {setAddItemsCart}/>
+                    
+                )}
+            </div>
+        </div>
+
+        
     </div>
-        <div id="product" className='product bg-alabaster min-h-screen p-5 mb-5 rounded-xl mt-4 flex flex-row sm:flex-col md:flex-row sm:items-center flex-wrap gap-10 justify-center'>
-            <ProductCard2 data={Product1}/>
-            <ProductCard2 data={Product2}/>
-            <ProductCard2 data={Product3}/>
-        </div>
-      </div>
     </>
   )
 }
 
+// const itemsCart = []
 
-
-function removeAllChildNodes(parent){
-    while(parent.firstChild){
-        parent.removeChild(parent.firstChild);
-    }
-}
-
-const filter = (event) =>{
-    var products = []
-    // console.log(Product1)
-    let sortValue = document.getElementById("sort");
-    let filterValue = document.getElementById("filter");
-    console.log(document.getElementById("sort"));
-    //console.log(document.getElementById("product"));
-    //console.log(document.getElementById("product").children[0].childNodes[1].children[0].innerText);
-    let object = document.getElementById("product")
-    //console.log(object.children.length)
-
+export function AddToCartFunc (Item, setItemsCart, itemsCart){
     
-    for (let i=0; i<object.children.length; i++){
-
-
-        // Code below is the directory to the value sent to productsCard2 in the console
-        // object.children[i].childNodes[1].children[0] ; children[0] on the last part because first element of card
-        let title = object.children[i].childNodes[1].children[0].innerText;
-        let rating = object.children[i].childNodes[1].children[2].innerText;
-        
-        // Creates a new instance of object
-        var productMade = Product.create(title, rating)
-
-        products.push(productMade)
-
-    }
-
     
-    const container = document.querySelector('#product')
-    // removeAllChildNodes(container)
-
-    if (filterValue.value ==="quantity" &&sortValue.value ==="ascending"){
-        products.sort((a,b)=>a.rating-b.rating);
-    } else if (filterValue.value ==="quantity" && sortValue.value ==="descending"){
-        products.sort((a,b)=>b.rating-a.rating);
-    } else if (filterValue.value ==="name" && sortValue.value ==="ascending"){
-        products.sort((a,b)=>a.title.localeCompare(b.title));
-    } else if (filterValue.value ==="name" && sortValue.value ==="descending"){
-        products.sort((a,b)=>b.title.localeCompare(a.title));
-    }
     
-    console.log(products)
+    setItemsCart(()=>{
+        var nval;
+        nval = [...itemsCart, Item]
+        return nval
+    })
 
-    for(let i=0; i<products.length; i++){
-        const node = document.createElement("li");
-        const textnode = document.createTextNode(products[i].title);
-        node.appendChild(textnode);
-        object.children[i].childNodes[1].children[0].innerText = products[i].title
-        object.children[i].childNodes[1].children[2].innerText = products[i].rating
-    }
+    const element = (
+        <React.StrictMode>
+            <label className = "text-3xl mr-16">Number of Items Added to Cart: {itemsCart.length}</label>
+        </React.StrictMode>
+    )
+    const root = createRoot(
+        document.getElementById("cart-items")
+    )
+    root.render(element)
+    
+    console.log(itemsCart)
+
 }
 
 
-const Product = { //Creates Product
-    title: "",
-    rating: 0,
-    create: function (x, y) {
-      const newPoint = Object.create(this);
-      newPoint.title = x;
-      newPoint.rating = y;
-      return newPoint;
-    }
-};
-
-const Product1 =
-    {
-        title: "Darrots", rating: "3"
-    }
 
 
 
-const Product2 =
-    {
-        title: "Ceas", rating: "5"
-    }
+// TEST IF BACKEND UNAVAILABLE
 
+// const Products = [
+//     {
+//         title: "Cartridge", 
+//         price: "3000", 
+//         description: "This is the best food in town!!",
+//         image : require('../../images/ProductImage/cartridge.png'),
+//         key : 1
+    
+//     },
 
+//     {
+//         title: "Rice Cooker", 
+//         price: "5000", 
+//         description: "This is a drink, I will drink it",
+//         image : require('../../images/ProductImage/rice_cooker.png'),
+//         key : 2
+//     },
 
-const Product3 =
-    {
-        title: "Ereen Beans", rating: "4"
-    }
+//     {
+//         title: "Pancit Canton", 
+//         price: "4000", 
+//         description: "This is a food, I will eat it",
+//         image : require('../../images/ProductImage/pancit_canton.png'),
+//         key : 3
+//     }
+
+    
+// ]
+
 
 
 
