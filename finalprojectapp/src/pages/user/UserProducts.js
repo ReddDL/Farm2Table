@@ -69,7 +69,7 @@ const UserProducts = () => {
             <React.StrictMode>
                 <div className = 'flex flex-row sm:flex-col md:flex-row sm:items-center flex-wrap gap-10 justify-center' id = 'product'>
                 {farmProducts.map((product)=>
-                    <ProductCardUser data={product}/>
+                    <ProductCardUser data={product} items = {addItemsCart} setItems = {setAddItemsCart}/>
                     
                 )}
             </div>
@@ -115,11 +115,9 @@ const UserProducts = () => {
         </div>
         <div className='product bg-alabaster min-h-screen p-5 mb-5 rounded-xl mt-4 flex flex-col justify-center items-center'>
             <div className = 'flex flex-row justify-center mb-16 items-center'>
-                <label className = "text-3xl mr-16">Number of Items Added to Cart: {numItems}</label>
+                <label id = 'cart-items' className = "text-3xl mr-16">Number of Items Added to Cart: {numItems}</label>
                 <NavLink to='/user/cart'><button onClick = {update} className = "text-3xl bg-midnight-green w-96 h-12 rounded-xl">Proceed to Checkout</button></NavLink>
             </div>
-
-            {console.log(farmProducts)}
             <div className = 'flex flex-row sm:flex-col md:flex-row sm:items-center flex-wrap gap-10 justify-center' id = 'product'>
                 
                 {farmProducts.map((product)=>
@@ -140,12 +138,23 @@ const UserProducts = () => {
 export function AddToCartFunc (Item, setItemsCart, itemsCart){
     
     
-
+    
     setItemsCart(()=>{
         var nval;
         nval = [...itemsCart, Item]
         return nval
     })
+
+    const element = (
+        <React.StrictMode>
+            <label className = "text-3xl mr-16">Number of Items Added to Cart: {itemsCart.length}</label>
+        </React.StrictMode>
+    )
+    const root = createRoot(
+        document.getElementById("cart-items")
+    )
+    root.render(element)
+    
     console.log(itemsCart)
 
 }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { AddToCartFunc } from '../../pages/user/UserProducts';
 
 const ProductCard2 = (prop) => {
-  const [itemsCart, setItemsCart] = useState([]);
+
   // console.log(prop)
   let attributes = prop.data;
 
