@@ -1,58 +1,86 @@
 import React, { useState } from 'react';
 // import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import '../Fonts.css'
+import GreenTopo from '../images/GreenTopo.jpg';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-function Signup() {
+function Signin() {
+    const navigate = useNavigate();
 
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
-    return (
-      <div className =" bg-eggshell w-screen h-screen flex flex-row justify-center items-center text-gunmetal poppins-light">
-        <div className = "flex flex-col justify-center w-1/2 h-full items-center">
-            <label className="text-5xl pb-3 poppins-regular leading-3">Welcome back!</label>
-            <label className = "text-2xl pb-8 poppins-light">Are you ready to support our farmers?</label>
+
+    async function handleLogin (event) {
+        event.preventDefault()
+        try {
+            // login request, returns token if successful
+            const res = await axios.post('http://localhost:3000/api/auth/login', {
+                email,
+                password
+            })
+
+            const token = res.data.token;
+            // console.log(token)
             
-            <div className="flex flex-col flex-wrap text-xl px-28">
-                <div className="pb-3 flex flex-row gap-3">
-                </div>
+            // clear email and password
+            setEmail('')
+            setPassword('')
+
+            // user prompt for successful login
+            alert('Login successful')
+
+            // return to landing page
+            navigate('/')
                 
-                <label >Email:</label>
+            window.location.reload();
+            // store token for access between pages
+            localStorage.setItem('token', token)
+        } catch (error) {
+            alert('Login error')
+            console.log('Login Error', error)
+        }
+    }
+    
+
+    return (
+      <div className ="bg-periwinkle w-screen h-screen text-gunmetal poppins-light p-3">
+            <section className="z-10 relative top-1/2 translate-y-[-50%] mx-auto p-8 rounded-2xl max-w-lg bg-alabaster">
+            <h1 className="text-4xl mb-3 lato-bold">Login</h1>
+            <form onSubmit={handleLogin} className='w-full'>
+                {/* Email */}
                 <input 
-                    // placeholder="Enter your email" 
-                    className="rounded-md h-12 bg-eggshell border-2 border-gunmetal" 
+                    placeholder="Email" 
+                    className="rounded-lg h-12 w-full bg-alabaster border border-gray-400 mb-4 p-2" 
                     type="text" 
-                    id="email"/>
-                
-                <label className="mt-4">Password:</label>
+                    id="email"
+                    onChange={(e) => setEmail(e.target.value)}/>
+                {/* Password */}
                 <div>
                     <input type={showPassword ? 'text' : 'password'}
-                            // placeholder="Enter your password" 
-                            className="rounded-md h-12 bg-eggshell border-2 border-gunmetal w-full" 
-                            id="password"/>
-                    <button className="float-end mt-4 mr-3" onClick={togglePasswordVisibility}>
+                            placeholder="Password" 
+                            className="rounded-lg h-12 bg-alabaster border border-gray-400 w-full p-2" 
+                            id="password"
+                            onChange={(e) => setPassword(e.target.value)}
+                            />
+                    <button className="float-end mt-4 mr-3" onClick={togglePasswordVisibility} type="submit">
                         {/* {showPassword ? <FaEyeSlash /> : <FaEye />} */}
                     </button>
                 </div>
-                
-                
-                <button className="bg-gunmetal text-alabaster mt-3 h-14 rounded-xl mt-10">Sign in</button>
-                <div>
-                    <label>Don't have an account yet? <a href="#" className='underline text-periwinkle poppins-medium'>Sign up</a></label>
-                </div>
-                
-            </div>
-
-             
-        </div>
-        <div className = "w-1/2 h-screen">
-            <img className = "object-cover w-full h-full" src = {require('../images/farmer.jpg')}/>
-        </div>
+                <button className="bg-gunmetal text-alabaster w-full mt-3 h-10 rounded-xl lato-regular text-lg">Sign in</button>
+            </form>
             
+            <div>
+                <label className='text-sm'>Don't have an account yet? <a href="/sign-up" className='underline text-periwinkle poppins-medium'>Sign up</a></label>
+            </div>
+        </section>
       </div>
     );
   }
   
-  export default Signup;
+  export default Signin;

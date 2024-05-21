@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import ProductCardUser from '../../components/user/ProductCardUser';
+import { useOutletContext } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
 import axios from "axios";
 // import ReactDOM from 'react-dom';
@@ -14,7 +15,10 @@ const UserProducts = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [addItemsCart, setAddItemsCart] = useState([]);
+    const userId = useOutletContext();
+
     function update (){
+
 
         setNumItems(()=>{
             var nval = parseInt(numItems)+1;

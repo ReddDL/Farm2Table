@@ -1,11 +1,12 @@
 import React from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useOutletContext } from 'react-router-dom'
 import UserHeader from './UserHeader.js'
 const UserLayout = () => {
+  const userId = useOutletContext();
   return (
     <>
         <UserHeader></UserHeader>
-        <Outlet></Outlet>
+        <Outlet context={userId}></Outlet>
     </>
   )
 }

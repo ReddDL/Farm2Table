@@ -1,4 +1,9 @@
+import { useOutletContext } from "react-router-dom";
+
 const UserCart = () => {
+  // get userId from user layout context
+  const userId = useOutletContext;
+
   return (
     <>
     <div className='bg-eggshell flex flex-row px-8 lg:px-32 md:px-24 sm:px-10 pt-32'>
