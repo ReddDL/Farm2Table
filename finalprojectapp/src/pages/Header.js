@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
-<<<<<<< HEAD
+
 import axios from "axios";
-import './Landing.css';
-=======
->>>>>>> origin
+// import './Landing.css';
+
 
 const Header = () => {
      
