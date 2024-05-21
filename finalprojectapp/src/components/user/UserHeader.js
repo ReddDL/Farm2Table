@@ -30,15 +30,7 @@ const Header = () => {
             <div className=' flex flex-1 justify-center'>
                 <NavLink className='text-tea-green volkhov-regular text-2xl ' to='/'> Farm2Table </NavLink>
             </div>
-<<<<<<< HEAD
-            <ul className='flex flex-1 gap-4 justify-end'>
-              <li>
-                <NavLink className='text-tea-green text-lg' to='user/cart'> Cart ({0}) </NavLink>
-              </li>
-              <li>
-                <NavLink className='text-tea-green text-lg' to='/user/profile'> Profile </NavLink>
-              </li>
-=======
+
 
             <ul className='flex flex-1 justify-end flex-row h-full items-center'>
                 <li className='flex flex-row'>
@@ -61,7 +53,7 @@ const Header = () => {
                 </div>
                 )}
             </li>
->>>>>>> origin
+
             </ul>
         </div>
     </div>
