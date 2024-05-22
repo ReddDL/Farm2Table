@@ -22,7 +22,7 @@ const AdminProducts = () => {
       <div className='flex poppins-regular items-center gap-4'>
         <div>
           {/* <label htmlFor="filter">Filter by: </label> */}
-          <select name="filter" id="filter" className='bg-alabaster text-midnight-green px-2 py-1 mr-3 border border-solid border-gray-600 pr-9'>
+          <select name="filter" id="filter" className='bg-eggshell text-midnight-green px-2 py-1 mr-3 border border-solid border-gray-600 pr-9'>
             <option value="filterBy">Filter by</option>
             <option value="name">Name</option>
             <option value="price">Price</option>
@@ -32,13 +32,13 @@ const AdminProducts = () => {
         </div>
         <div>
           {/* <label htmlFor="sort">Sort by: </label> */}
-          <select name="sort" id="sort" className='bg-alabaster text-midnight-green px-2 py-1 mr-3 border border-solid border-gray-600 pr-9'>
+          <select name="sort" id="sort" className='bg-eggshell text-midnight-green px-2 py-1 mr-3 border border-solid border-gray-600 pr-9'>
             <option value="sortBy">Sort by</option>
             <option value="ascending">Ascending</option>
             <option value="descending">Descending</option>
           </select>
         </div>
-        <button onClick={filter} className='bg-alabaster text-midnight-green px-3 py-1 border border border-solid border-gray-600'>Apply</button>
+        <button onClick={filter} className='bg-eggshell text-midnight-green px-3 py-1 border border border-solid border-gray-600'>Apply</button>
       </div>
       <div id="product" className='product bg-alabaster p-5 mb-5 rounded-xl mt-4 flex flex-row sm:flex-col md:flex-row sm:items-center flex-wrap justify-start gap-10'>
         {products.map((product) => (
