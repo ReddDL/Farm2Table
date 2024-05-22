@@ -199,6 +199,7 @@ export function AddToCartFunc (Item, setItemsCart, itemsCart){
 
     var inCart = false;
     var objectValue = 0;  
+    var totalItems = 0;
 
     itemsCart.items.map((object)=>{
         if (object.productId === Item._id){
@@ -208,6 +209,7 @@ export function AddToCartFunc (Item, setItemsCart, itemsCart){
         }
 
     })
+
 
 
             var nval = itemsCart;
@@ -237,7 +239,6 @@ export function AddToCartFunc (Item, setItemsCart, itemsCart){
 
                         if (object.productId === Item._id){
 
-
                                 object.quantity = objectValue;
                                 return nval
                         }
@@ -250,9 +251,27 @@ export function AddToCartFunc (Item, setItemsCart, itemsCart){
                     
                 })
 
-            }   
+            }
     
 
+
+    for (let i=0; i<itemsCart.items.length; i++){
+        totalItems = itemsCart.items[i].quantity + totalItems;
+    }
+
+
+
+    const element = (
+        <>
+            <label className = "cart-items text-3xl mr-16">Number of Items Added to Cart: {totalItems}</label>
+        </>
+    )
+    
+    const root = createRoot(
+        document.getElementById("cart-items")
+    ).render(element)
+    
+    
 }
 
 export default UserProducts

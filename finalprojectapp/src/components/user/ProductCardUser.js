@@ -7,7 +7,7 @@ const ProductCard2 = (prop) => {
   let attributes = prop.data;
 
   function PrepareToCart () {
-    AddToCartFunc(attributes, prop.setItems, prop.items)
+    AddToCartFunc(attributes, prop.setItems, prop.items, prop.itemCounter)
     // console.log(attributes)
   }
   
