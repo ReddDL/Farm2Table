@@ -33,6 +33,7 @@ import authRouter from './routes/auth.js';
 import productsRouter from './routes/products.js';
 import ordersRouter from './routes/orders.js';
 import salesRouter from './routes/sales.js';
+import shoppingCartRouter from './routes/shoppingCart.js';
 
 app.use('/api/admin', adminRouter); //mount admin routes
 app.use('/api/users', usersRouter); //mount user routes
@@ -40,6 +41,7 @@ app.use('/api/auth', authRouter);   //mount authentication routes
 app.use('/api/products', productsRouter); //mount product routes
 app.use('/api/orders', ordersRouter);     //mount order routes
 app.use('/api/sales', salesRouter);       //mount sales routes
+app.use('/api/cart', shoppingCartRouter); //mount shopping cart routes
 
 // port number
 const PORT = process.env.PORT || 3000;
