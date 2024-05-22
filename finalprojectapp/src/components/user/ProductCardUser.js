@@ -44,9 +44,6 @@ const ProductCard2 = (prop) => {
   )
 }
 
-function Cart(){
-  
-}
 
 
 

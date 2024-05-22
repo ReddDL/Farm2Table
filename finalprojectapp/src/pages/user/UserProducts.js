@@ -14,17 +14,15 @@ const UserProducts = () => {
     const [farmProducts, setFarmProducts] = useState();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [addItemsCart, setAddItemsCart] = useState([]);
+    const [addItemsCart, setAddItemsCart] = useState();
+    
     const userId = useOutletContext();
 
-    function update (){
-
-
-        setNumItems(()=>{
-            var nval = parseInt(numItems)+1;
-            return nval;
-        })
-    }
+    const [cart, setCart] = useState({
+        userId: 20000000000,
+        items: []
+    });
+    
     
     useEffect(() => { 
         
@@ -36,112 +34,103 @@ const UserProducts = () => {
         ).catch(error => { 
             setError(error);
             setLoading(false);
-        }) 
-
-
+        })
         
     }, [])
-
-
-
-
-
 
     function filterOn (){
         let sortValue = document.getElementById("sort");
         let filterValue = document.getElementById("filter");
 
-        var priceAsc = document.getElementById("price-asc")
-        var priceDesc = document.getElementById("price-desc")
-        var quantityAsc = document.getElementById("quantity-asc")
-        var quantityDesc = document.getElementById("quantity-desc")
-        var nameAsc = document.getElementById("name-asc")
-        var nameDesc = document.getElementById("name-desc")
-        var typeAsc = document.getElementById("type-asc")
-        var typeDesc = document.getElementById("type-desc")
+        var priceAsc        = document.getElementById("price-asc")
+        var priceDesc       = document.getElementById("price-desc")
+        var quantityAsc     = document.getElementById("quantity-asc")
+        var quantityDesc    = document.getElementById("quantity-desc")
+        var nameAsc         = document.getElementById("name-asc")
+        var nameDesc        = document.getElementById("name-desc")
+        var typeAsc         = document.getElementById("type-asc")
+        var typeDesc        = document.getElementById("type-desc")
 
-        if (filterValue.value ==="price" &&sortValue.value ==="ascending"){
-            
-            priceAsc.style.display = "flex";
-            priceDesc.style.display = "none";
-            quantityAsc.style.display = "none";
-            quantityDesc.style.display = "none";
-            nameAsc.style.display = "none";
-            nameDesc.style.display = "none";
-            priceDesc.style.display = "none";
-            priceDesc.style.display = "none";
-        } else if (filterValue.value ==="price" && sortValue.value ==="descending"){
-            priceAsc.style.display = "none";
-            priceDesc.style.display = "flex";
-            quantityAsc.style.display = "none";
-            quantityDesc.style.display = "none";
-            nameAsc.style.display = "none";
-            nameDesc.style.display = "none";
-            typeAsc.style.display = "none";
-            typeAsc.style.display = "none";
-        } else if (filterValue.value ==="quantity" &&sortValue.value ==="ascending"){
-            priceAsc.style.display = "none";
-            priceDesc.style.display = "none";
-            quantityAsc.style.display = "flex";
-            quantityDesc.style.display = "none";
-            nameAsc.style.display = "none";
-            nameDesc.style.display = "none";
-            typeAsc.style.display = "none";
-            typeAsc.style.display = "none";
-        } else if (filterValue.value ==="quantity" && sortValue.value ==="descending"){
-            priceAsc.style.display = "none";
-            priceDesc.style.display = "none";
-            quantityAsc.style.display = "none";
-            quantityDesc.style.display = "flex";
-            nameAsc.style.display = "none";
-            nameDesc.style.display = "none";
-            typeAsc.style.display = "none";
-            typeAsc.style.display = "none";
-        } 
-        
-        else if (filterValue.value ==="name" && sortValue.value ==="ascending"){
-            priceAsc.style.display = "none";
-            priceDesc.style.display = "none";
-            quantityAsc.style.display = "none";
-            quantityDesc.style.display = "none";
-            nameAsc.style.display = "flex";
-            nameDesc.style.display = "none";
-            typeAsc.style.display = "none";
-            typeAsc.style.display = "none";
-        } else if (filterValue.value ==="name" && sortValue.value ==="descending"){
-            priceAsc.style.display = "none";
-            priceDesc.style.display = "none";
-            quantityAsc.style.display = "none";
-            quantityDesc.style.display = "none";
-            nameAsc.style.display = "none";
-            nameDesc.style.display = "flex";
-            typeAsc.style.display = "none";
-            typeAsc.style.display = "none";
-        } 
-        
-        else if (filterValue.value ==="type" && sortValue.value ==="ascending"){
-            priceAsc.style.display = "none";
-            priceDesc.style.display = "none";
-            quantityAsc.style.display = "none";
-            quantityDesc.style.display = "none";
-            nameAsc.style.display = "none";
-            nameDesc.style.display = "none";
-            typeAsc.style.display = "flex";
-            typeAsc.style.display = "none";
-        
-        } else if (filterValue.value ==="type" && sortValue.value ==="descending"){
-            priceAsc.style.display = "none";
-            priceDesc.style.display = "none";
-            quantityAsc.style.display = "none";
-            quantityDesc.style.display = "none";
-            nameAsc.style.display = "none";
-            nameDesc.style.display = "none";
-            typeAsc.style.display = "none";
-            typeAsc.style.display = "flex";
-        
-        }
+
+        priceAsc.style.display      = "none";
+        priceDesc.style.display     = "none";
+        quantityAsc.style.display   = "none";
+        quantityDesc.style.display  = "none";
+        nameAsc.style.display       = "none";
+        nameDesc.style.display      = "none";
+        typeAsc.style.display       = "none";
+        typeAsc.style.display       = "none";
+
+        if (filterValue.value ==="price" &&sortValue.value ==="ascending") priceAsc.style.display = "flex";
+
+        else if (filterValue.value ==="price" && sortValue.value ==="descending") priceDesc.style.display = "flex";
+
+        else if (filterValue.value ==="quantity" &&sortValue.value ==="ascending") quantityAsc.style.display = "flex";
+ 
+        else if (filterValue.value ==="quantity" && sortValue.value ==="descending") quantityDesc.style.display = "flex";
+
+        else if (filterValue.value ==="name" && sortValue.value ==="ascending") nameAsc.style.display = "flex";
+
+        else if (filterValue.value ==="name" && sortValue.value ==="descending") nameDesc.style.display = "flex";
+
+        else if (filterValue.value ==="type" && sortValue.value ==="ascending") typeAsc.style.display = "flex";
+
+        else if (filterValue.value ==="type" && sortValue.value ==="descending") typeAsc.style.display = "flex";
 
         
+    }
+
+
+    
+    const arraySort = [
+
+        {   id      :   'name-asc',             sort    :   (a,b)=>a.name.localeCompare(b.name)     }, 
+
+        {   id      :   'name-desc',            sort    :   (a,b)=>b.name.localeCompare(a.name)     }, 
+
+        {   id      :   'quantity-desc',        sort    :   (a,b)=>b.quantity-a.quantity            }, 
+        
+        {   id      :   'quantity-asc',         sort    :   (a,b)=>a.quantity-b.quantity            }, 
+
+        {   id      :   'price-desc',           sort    :   (a,b)=>b.price-a.price                  }, 
+
+        {   id      :   'price-asc',            sort    :   (a,b)=>a.price-b.price                  }, 
+
+        {   id      :   'type-desc',            sort    :   (a,b)=>b.type.localeCompare(a.type)     }, 
+
+        {   id      :   'type-asc',             sort    :   (a,b)=>a.type.localeCompare(b.type)     }, 
+    ]
+
+    const PlaceHolder = ()=> {
+        var key = 0;
+
+        return(
+
+            <div id = "hideAll">
+
+                    <div className = 'sorterProducts flex flex-row sm:flex-col md:flex-row sm:items-center flex-wrap gap-10 justify-center' id = "name-asc" style = {show} key = {0}>
+                        {farmProducts.sort(arraySort[0].sort).map((user_product)=>
+                            
+                            <ProductCardUser data={user_product} items = {cart} setItems = {setCart} key ={user_product._id}/>
+                            
+                        )}
+                    </div>
+
+
+                {arraySort.slice(1).map((sortObj, index) => 
+                    
+                    <div className = 'sorterProducts flex flex-row sm:flex-col md:flex-row sm:items-center flex-wrap gap-10 justify-center' id = {sortObj.id} style = {hide} key = {index}>
+                        {farmProducts.sort(sortObj.sort).map((user_product)=>
+                            
+                            <ProductCardUser data={user_product} items = {cart} setItems = {setCart} key ={user_product._id}/>
+                            
+                        )}
+                    </div>
+
+                )}
+
+            </div>
+        )
     }
 
     const show = {
@@ -150,15 +139,21 @@ const UserProducts = () => {
     const hide = {
         display: 'none'
     };
- 
+        
+    // filterOn();
+
+
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error.message}</div>;
 
   return (
     <>
     <div className='bg-eggshell flex flex-col px-8 lg:px-32 md:px-24 sm:px-10 pt-32'>
+
     <div className = 'flex justify-center mb-10'>
+
       <h1 className='text-midnight-green text-4xl'>Welcome to our shop</h1>
+
     </div>
     
         <div className='flex poppins-regular items-center gap-4'>
@@ -183,115 +178,81 @@ const UserProducts = () => {
         <div className='product bg-alabaster min-h-screen p-5 mb-5 rounded-xl mt-4 flex flex-col justify-center items-center'>
             <div className = 'flex flex-row justify-center mb-16 items-center'>
                 <label id = 'cart-items' className = "text-3xl mr-16">Number of Items Added to Cart: {numItems}</label>
-                <NavLink to='/user/cart'><button onClick = {update} className = "text-3xl bg-midnight-green w-96 h-12 rounded-xl">Proceed to Checkout</button></NavLink>
+                <NavLink to='/user/cart'><button className = "text-3xl bg-midnight-green w-96 h-12 rounded-xl">Proceed to Checkout</button></NavLink>
             </div>
 
             {/* FOR DIFFERENT SORTING TEKNIKS */}
-            <div className = 'flex flex-row sm:flex-col md:flex-row sm:items-center flex-wrap gap-10 justify-center' id = 'name-asc' style={show}>
-                {farmProducts.sort((a,b)=>a.name.localeCompare(b.name)).map((user_product)=>
-                    
-                    <ProductCardUser data={user_product} items = {addItemsCart} setItems = {setAddItemsCart} key ={user_product._id}/>
-                    
-                )}
-            </div>
-            
-            <div className = 'flex flex-row sm:flex-col md:flex-row sm:items-center flex-wrap gap-10 justify-center' id = 'name-desc' style={hide}>
-                {farmProducts.sort((a,b)=>b.name.localeCompare(a.name)).map((user_product)=>
-                    
-                    <ProductCardUser data={user_product} items = {addItemsCart} setItems = {setAddItemsCart} key ={user_product._id}/>
-                    
-                )}
-            </div>
-
-            <div className = 'flex flex-row sm:flex-col md:flex-row sm:items-center flex-wrap gap-10 justify-center' id = 'type-asc' style={hide}>
-                {farmProducts.sort((a,b)=>a.type.localeCompare(b.type)).map((user_product)=>
-                    
-                    <ProductCardUser data={user_product} items = {addItemsCart} setItems = {setAddItemsCart} key ={user_product._id}/>
-                    
-                )}
-            </div>
-
-            <div className = 'flex flex-row sm:flex-col md:flex-row sm:items-center flex-wrap gap-10 justify-center' id = 'type-desc' style={hide}>
-                {farmProducts.sort((a,b)=>b.type.localeCompare(a.type)).map((user_product)=>
-                    
-                    <ProductCardUser data={user_product} items = {addItemsCart} setItems = {setAddItemsCart} key ={user_product._id}/>
-                    
-                )}
-            </div>
-
-            <div className = 'flex flex-row sm:flex-col md:flex-row sm:items-center flex-wrap gap-10 justify-center' id = 'price-asc' style={hide}>
-                {farmProducts.sort((a,b)=>a.price-b.price).map((user_product)=>
-                    
-                    <ProductCardUser data={user_product} items = {addItemsCart} setItems = {setAddItemsCart} key ={user_product._id}/>
-                    
-                )}
-            </div>
-
-            <div className = 'flex flex-row sm:flex-col md:flex-row sm:items-center flex-wrap gap-10 justify-center' id = 'price-desc' style={hide}>
-                {farmProducts.sort((a,b)=>b.price-a.price).map((user_product)=>
-                    
-                    <ProductCardUser data={user_product} items = {addItemsCart} setItems = {setAddItemsCart} key ={user_product._id}/>
-                    
-                )}
-            </div>
-
-            <div className = 'flex flex-row sm:flex-col md:flex-row sm:items-center flex-wrap gap-10 justify-center' id = 'quantity-asc' style={hide}>
-                {farmProducts.sort((a,b)=>b.quantity-a.quantity).map((user_product)=>
-                    
-                    <ProductCardUser data={user_product} items = {addItemsCart} setItems = {setAddItemsCart} key ={user_product._id}/>
-                    
-                )}
-            </div>
-
-            <div className = 'flex flex-row sm:flex-col md:flex-row sm:items-center flex-wrap gap-10 justify-center' id = 'quantity-desc' style={hide}>
-                {farmProducts.sort((a,b)=>b.quantity-a.quantity).map((user_product)=>
-                    
-                    <ProductCardUser data={user_product} items = {addItemsCart} setItems = {setAddItemsCart} key ={user_product._id}/>
-                    
-                )}
-            </div>
-
+            <PlaceHolder/>
             
         </div>
 
         
     </div>
+
     </>
   )
 }
 
-
-
 // const itemsCart = []
 
 export function AddToCartFunc (Item, setItemsCart, itemsCart){
-    
-    
-    console.log(Item)
-    console.log(setItemsCart)
-    setItemsCart(()=>{
-        var nval;
-        nval = [...itemsCart, Item]
-        return nval
+
+    var inCart = false;
+    var objectValue = 0;  
+
+    itemsCart.items.map((object)=>{
+        if (object.productId === Item._id){
+            inCart = true;
+            objectValue = object.quantity +1;           // Important because if value is already in cart, it ensures that add to cart will only increment by one item
+
+        }
+
     })
 
-    // const element = (
-    //     <React.StrictMode>
-    //         <label className = "text-3xl mr-16">Number of Items Added to Cart: {itemsCart.length}</label>
-    //     </React.StrictMode>
-    // )
-    // const root = createRoot(
-    //     document.getElementById("cart-items")
-    // )
-    // root.render(element)
+
+            var nval = itemsCart;
+            // console.log("HELLO WORLD")
+            if(itemsCart.items.length === 0){
+
+                // ranOnce++;
+                setItemsCart(()=>{
+                    nval = {userId: itemsCart.userId, items: [{productId: Item._id, quantity: 1}]}
+                    return nval;
+                })
+            }
     
-    console.log(itemsCart)
+            else if (inCart === false){
+                
+                setItemsCart(()=>{
+
+                    return {userId: itemsCart.userId, items: [...nval.items, {productId: Item._id, quantity: 1}]}
+                });
+                
+            } else if(inCart === true){
+
+                setItemsCart(()=>{
+                    nval = itemsCart;
+
+                    nval.items.map((object)=>{
+
+                        if (object.productId === Item._id){
+
+
+                                object.quantity = objectValue;
+                                return nval
+                        }
+                
+                    }
+                
+                
+                    )
+                    return nval
+                    
+                })
+
+            }   
+    
 
 }
-
-
-
-
-
 
 export default UserProducts
