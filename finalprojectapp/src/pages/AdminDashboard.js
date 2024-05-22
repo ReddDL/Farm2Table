@@ -45,9 +45,10 @@ const AdminDashboard = () => {
             <ul className='poppins-regular flex gap-5 mb-4 text-lg'>
                 <li>
                     <button 
-                    onClick={() => handleIntervalChange('Annually')} 
-                    className={interval === 'Annually' ? activeLink : inactiveLink}>
-                        Annually
+                        onClick={() => handleIntervalChange('Weekly')}
+                        className={interval === 'Weekly' ? activeLink : inactiveLink}
+                    >
+                        Weekly
                     </button>
                 </li>
                 <li>
@@ -60,10 +61,9 @@ const AdminDashboard = () => {
                 </li>
                 <li>
                     <button 
-                        onClick={() => handleIntervalChange('Weekly')}
-                        className={interval === 'Weekly' ? activeLink : inactiveLink}
-                    >
-                        Weekly
+                    onClick={() => handleIntervalChange('Annually')} 
+                    className={interval === 'Annually' ? activeLink : inactiveLink}>
+                        Annually
                     </button>
                 </li>
             </ul>
