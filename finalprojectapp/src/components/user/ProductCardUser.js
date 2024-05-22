@@ -13,7 +13,7 @@ const ProductCard2 = (prop) => {
   
   return (
     <div className="card w-80 bg-white shadow-xl" key = {attributes._id} id = {attributes.name}>
-        <figure className="object-fill w-80 h-60"><img src={require('../../images/ProductImage/cartridge.png')} alt={attributes.title} className = "h-80"/></figure>
+        <figure className="object-fill w-80 h-60"><img src={attributes.image} alt={attributes.title} className = "h-80"/></figure>
         <div className="card-body">
             <div className = 'flex flex-row flex-wrap items-center justify-center'>
               <div className="">
