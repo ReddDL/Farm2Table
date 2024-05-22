@@ -9,7 +9,7 @@ import { createRoot } from 'react-dom/client'
 
 
 const UserProducts = () => {
-    
+    var root;
     const [numItems, setNumItems] = useState("0");
     const [farmProducts, setFarmProducts] = useState();
     const [loading, setLoading] = useState(true);
@@ -27,7 +27,7 @@ const UserProducts = () => {
     }
     
     useEffect(() => { 
-
+        
         axios.get('http://localhost:3000/api/products/list').then( 
             response => { 
                 setFarmProducts(response.data); 
@@ -37,8 +37,12 @@ const UserProducts = () => {
             setError(error);
             setLoading(false);
         }) 
+
+
         
     }, [])
+
+
 
 
 
@@ -46,47 +50,106 @@ const UserProducts = () => {
     function filterOn (){
         let sortValue = document.getElementById("sort");
         let filterValue = document.getElementById("filter");
+
+        var priceAsc = document.getElementById("price-asc")
+        var priceDesc = document.getElementById("price-desc")
+        var quantityAsc = document.getElementById("quantity-asc")
+        var quantityDesc = document.getElementById("quantity-desc")
+        var nameAsc = document.getElementById("name-asc")
+        var nameDesc = document.getElementById("name-desc")
+        var typeAsc = document.getElementById("type-asc")
+        var typeDesc = document.getElementById("type-desc")
+
         if (filterValue.value ==="price" &&sortValue.value ==="ascending"){
-            setFarmProducts(farmProducts.sort((a,b)=>a.price-b.price));
+            
+            priceAsc.style.display = "flex";
+            priceDesc.style.display = "none";
+            quantityAsc.style.display = "none";
+            quantityDesc.style.display = "none";
+            nameAsc.style.display = "none";
+            nameDesc.style.display = "none";
+            priceDesc.style.display = "none";
+            priceDesc.style.display = "none";
         } else if (filterValue.value ==="price" && sortValue.value ==="descending"){
-            setFarmProducts(farmProducts.sort((a,b)=>b.price-a.price));
+            priceAsc.style.display = "none";
+            priceDesc.style.display = "flex";
+            quantityAsc.style.display = "none";
+            quantityDesc.style.display = "none";
+            nameAsc.style.display = "none";
+            nameDesc.style.display = "none";
+            typeAsc.style.display = "none";
+            typeAsc.style.display = "none";
         } else if (filterValue.value ==="quantity" &&sortValue.value ==="ascending"){
-            setFarmProducts(farmProducts.sort((a,b)=>a.quantity-b.quantity));
+            priceAsc.style.display = "none";
+            priceDesc.style.display = "none";
+            quantityAsc.style.display = "flex";
+            quantityDesc.style.display = "none";
+            nameAsc.style.display = "none";
+            nameDesc.style.display = "none";
+            typeAsc.style.display = "none";
+            typeAsc.style.display = "none";
         } else if (filterValue.value ==="quantity" && sortValue.value ==="descending"){
-            setFarmProducts(farmProducts.sort((a,b)=>b.quantity-a.quantity));
+            priceAsc.style.display = "none";
+            priceDesc.style.display = "none";
+            quantityAsc.style.display = "none";
+            quantityDesc.style.display = "flex";
+            nameAsc.style.display = "none";
+            nameDesc.style.display = "none";
+            typeAsc.style.display = "none";
+            typeAsc.style.display = "none";
         } 
         
         else if (filterValue.value ==="name" && sortValue.value ==="ascending"){
-            setFarmProducts(farmProducts.sort((a,b)=>a.name.localeCompare(b.name)));
+            priceAsc.style.display = "none";
+            priceDesc.style.display = "none";
+            quantityAsc.style.display = "none";
+            quantityDesc.style.display = "none";
+            nameAsc.style.display = "flex";
+            nameDesc.style.display = "none";
+            typeAsc.style.display = "none";
+            typeAsc.style.display = "none";
         } else if (filterValue.value ==="name" && sortValue.value ==="descending"){
-            setFarmProducts(farmProducts.sort((a,b)=>b.name.localeCompare(a.name)));
+            priceAsc.style.display = "none";
+            priceDesc.style.display = "none";
+            quantityAsc.style.display = "none";
+            quantityDesc.style.display = "none";
+            nameAsc.style.display = "none";
+            nameDesc.style.display = "flex";
+            typeAsc.style.display = "none";
+            typeAsc.style.display = "none";
         } 
         
         else if (filterValue.value ==="type" && sortValue.value ==="ascending"){
-            setFarmProducts(farmProducts.sort((a,b)=>a.type.localeCompare(b.type)));
+            priceAsc.style.display = "none";
+            priceDesc.style.display = "none";
+            quantityAsc.style.display = "none";
+            quantityDesc.style.display = "none";
+            nameAsc.style.display = "none";
+            nameDesc.style.display = "none";
+            typeAsc.style.display = "flex";
+            typeAsc.style.display = "none";
+        
         } else if (filterValue.value ==="type" && sortValue.value ==="descending"){
-            setFarmProducts(farmProducts.sort((a,b)=>b.type.localeCompare(a.type)));
+            priceAsc.style.display = "none";
+            priceDesc.style.display = "none";
+            quantityAsc.style.display = "none";
+            quantityDesc.style.display = "none";
+            nameAsc.style.display = "none";
+            nameDesc.style.display = "none";
+            typeAsc.style.display = "none";
+            typeAsc.style.display = "flex";
+        
         }
 
-        // console.log(farmProducts)
-        const element = (
-            <React.StrictMode>
-                <div className = 'flex flex-row sm:flex-col md:flex-row sm:items-center flex-wrap gap-10 justify-center' id = 'product'>
-                {farmProducts.map((product)=>
-                    <ProductCardUser data={product} items = {addItemsCart} setItems = {setAddItemsCart}/>
-                    
-                )}
-            </div>
-            </React.StrictMode>
-            
-        )
-
-        const root = createRoot(
-            document.getElementById("product")
-        )
-
-        root.render(element)
+        
     }
+
+    const show = {
+        display: 'flex'
+    };
+    const hide = {
+        display: 'none'
+    };
  
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error.message}</div>;
@@ -122,13 +185,73 @@ const UserProducts = () => {
                 <label id = 'cart-items' className = "text-3xl mr-16">Number of Items Added to Cart: {numItems}</label>
                 <NavLink to='/user/cart'><button onClick = {update} className = "text-3xl bg-midnight-green w-96 h-12 rounded-xl">Proceed to Checkout</button></NavLink>
             </div>
-            <div className = 'flex flex-row sm:flex-col md:flex-row sm:items-center flex-wrap gap-10 justify-center' id = 'product'>
-                
-                {farmProducts.map((product)=>
-                    <ProductCardUser data={product} items = {addItemsCart} setItems = {setAddItemsCart}/>
+
+            {/* FOR DIFFERENT SORTING TEKNIKS */}
+            <div className = 'flex flex-row sm:flex-col md:flex-row sm:items-center flex-wrap gap-10 justify-center' id = 'name-asc' style={show}>
+                {farmProducts.sort((a,b)=>a.name.localeCompare(b.name)).map((user_product)=>
+                    
+                    <ProductCardUser data={user_product} items = {addItemsCart} setItems = {setAddItemsCart} key ={user_product._id}/>
                     
                 )}
             </div>
+            
+            <div className = 'flex flex-row sm:flex-col md:flex-row sm:items-center flex-wrap gap-10 justify-center' id = 'name-desc' style={hide}>
+                {farmProducts.sort((a,b)=>b.name.localeCompare(a.name)).map((user_product)=>
+                    
+                    <ProductCardUser data={user_product} items = {addItemsCart} setItems = {setAddItemsCart} key ={user_product._id}/>
+                    
+                )}
+            </div>
+
+            <div className = 'flex flex-row sm:flex-col md:flex-row sm:items-center flex-wrap gap-10 justify-center' id = 'type-asc' style={hide}>
+                {farmProducts.sort((a,b)=>a.type.localeCompare(b.type)).map((user_product)=>
+                    
+                    <ProductCardUser data={user_product} items = {addItemsCart} setItems = {setAddItemsCart} key ={user_product._id}/>
+                    
+                )}
+            </div>
+
+            <div className = 'flex flex-row sm:flex-col md:flex-row sm:items-center flex-wrap gap-10 justify-center' id = 'type-desc' style={hide}>
+                {farmProducts.sort((a,b)=>b.type.localeCompare(a.type)).map((user_product)=>
+                    
+                    <ProductCardUser data={user_product} items = {addItemsCart} setItems = {setAddItemsCart} key ={user_product._id}/>
+                    
+                )}
+            </div>
+
+            <div className = 'flex flex-row sm:flex-col md:flex-row sm:items-center flex-wrap gap-10 justify-center' id = 'price-asc' style={hide}>
+                {farmProducts.sort((a,b)=>a.price-b.price).map((user_product)=>
+                    
+                    <ProductCardUser data={user_product} items = {addItemsCart} setItems = {setAddItemsCart} key ={user_product._id}/>
+                    
+                )}
+            </div>
+
+            <div className = 'flex flex-row sm:flex-col md:flex-row sm:items-center flex-wrap gap-10 justify-center' id = 'price-desc' style={hide}>
+                {farmProducts.sort((a,b)=>b.price-a.price).map((user_product)=>
+                    
+                    <ProductCardUser data={user_product} items = {addItemsCart} setItems = {setAddItemsCart} key ={user_product._id}/>
+                    
+                )}
+            </div>
+
+            <div className = 'flex flex-row sm:flex-col md:flex-row sm:items-center flex-wrap gap-10 justify-center' id = 'quantity-asc' style={hide}>
+                {farmProducts.sort((a,b)=>b.quantity-a.quantity).map((user_product)=>
+                    
+                    <ProductCardUser data={user_product} items = {addItemsCart} setItems = {setAddItemsCart} key ={user_product._id}/>
+                    
+                )}
+            </div>
+
+            <div className = 'flex flex-row sm:flex-col md:flex-row sm:items-center flex-wrap gap-10 justify-center' id = 'quantity-desc' style={hide}>
+                {farmProducts.sort((a,b)=>b.quantity-a.quantity).map((user_product)=>
+                    
+                    <ProductCardUser data={user_product} items = {addItemsCart} setItems = {setAddItemsCart} key ={user_product._id}/>
+                    
+                )}
+            </div>
+
+            
         </div>
 
         
@@ -137,66 +260,36 @@ const UserProducts = () => {
   )
 }
 
+
+
 // const itemsCart = []
 
 export function AddToCartFunc (Item, setItemsCart, itemsCart){
     
     
-    
+    console.log(Item)
+    console.log(setItemsCart)
     setItemsCart(()=>{
         var nval;
         nval = [...itemsCart, Item]
         return nval
     })
 
-    const element = (
-        <React.StrictMode>
-            <label className = "text-3xl mr-16">Number of Items Added to Cart: {itemsCart.length}</label>
-        </React.StrictMode>
-    )
-    const root = createRoot(
-        document.getElementById("cart-items")
-    )
-    root.render(element)
+    // const element = (
+    //     <React.StrictMode>
+    //         <label className = "text-3xl mr-16">Number of Items Added to Cart: {itemsCart.length}</label>
+    //     </React.StrictMode>
+    // )
+    // const root = createRoot(
+    //     document.getElementById("cart-items")
+    // )
+    // root.render(element)
     
     console.log(itemsCart)
 
 }
 
 
-
-
-
-// TEST IF BACKEND UNAVAILABLE
-
-// const Products = [
-//     {
-//         title: "Cartridge", 
-//         price: "3000", 
-//         description: "This is the best food in town!!",
-//         image : require('../../images/ProductImage/cartridge.png'),
-//         key : 1
-    
-//     },
-
-//     {
-//         title: "Rice Cooker", 
-//         price: "5000", 
-//         description: "This is a drink, I will drink it",
-//         image : require('../../images/ProductImage/rice_cooker.png'),
-//         key : 2
-//     },
-
-//     {
-//         title: "Pancit Canton", 
-//         price: "4000", 
-//         description: "This is a food, I will eat it",
-//         image : require('../../images/ProductImage/pancit_canton.png'),
-//         key : 3
-//     }
-
-    
-// ]
 
 
 
