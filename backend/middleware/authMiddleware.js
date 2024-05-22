@@ -16,7 +16,7 @@ export const protect = async (req, res, next) => {
             token = req.headers.authorization.split(' ')[1];
 
             //verify the token using the secret key
-            // const decoded = jwt.verify(token, process.env.JWT_SECRET );
+
             const decoded = jwt.verify(token, process.env.JWT_SECRET || secretKey);
 
             //attach the user information to the request object, excluding the password

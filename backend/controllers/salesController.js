@@ -4,7 +4,7 @@ import Product from '../models/Product.js';
 
 export const generateSalesReport = async (req, res) => {
     try {
-        const { interval } = req.query; // Access the parameter using req.query.interval
+        const { interval } = req.query; // access the parameter using req.query.interval
         let startDate;
 
         // Calculate start date based on the interval
