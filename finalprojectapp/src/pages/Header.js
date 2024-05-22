@@ -15,7 +15,7 @@ const Header = () => {
 
 
   return (
-    <div className='flex justify-center h-16 top-5 px-4 z-10 absolute mx-auto w-full shadow-md'>
+    <div className='flex justify-center h-16 top-5 px-4 z-10 absolute mx-auto w-full'>
         <div className=' bg-midnight-green h-16 rounded-xl z-10 w-full min-w-xs max-w-7xl flex justify-between items-center shadow-xl px-5'>
             <div className='flex flex-1 gap-4 justify-start'>
                 {/* <ul className='flex flex-1 gap-4 justify-start'>
