@@ -3,16 +3,17 @@ import { useNavigate } from "react-router-dom";
 export default function NoPage () {
   const navigate = useNavigate();
 
+  // return to home page
   function handleReturn () {
     navigate("/")
   }
 
   return(
-    <div className="flex flex-col justify-center items-center content-center gap-5">
-      <div className="flex-1 text-5xl">
+    <div className="h-dvh outline outline-black/60 flex flex-col justify-center place-items-center gap-5">
+      <div className="text-5xl">
         Page Not Found
       </div>
-      <div className="btn w-fit flex-1 text-lg" onClick={handleReturn}>
+      <div className="btn w-fit text-lg" onClick={handleReturn}>
         Return to Home Page
       </div>
     </div>

@@ -7,7 +7,8 @@ const Header = () => {
 
   function handleLogout () {
     localStorage.removeItem('token');
-    navigate('/')
+    localStorage.removeItem('user');
+    navigate('/');
     window.location.reload();
   }
 
@@ -23,7 +24,7 @@ const Header = () => {
             {/* <div className='flex flex-1 gap-4 justify-start'> */}
                 <ul className='flex flex-1 gap-4 justify-start'>
                 <li>
-                    <NavLink className='text-tea-green text-lg' to='user/products'> Products </NavLink>
+                    <NavLink className='text-tea-green text-lg' to='/products'> Products </NavLink>
                 </li>
                 </ul>
             {/* </div> */}
@@ -53,10 +54,9 @@ const Header = () => {
                 </div>
                 )}
             </li>
-
             </ul>
-        </div>
     </div>
+  </div>
   )
 }
 
