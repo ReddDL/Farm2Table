@@ -18,7 +18,7 @@ const AdminProducts = () => {
   };
 
   return (
-    <div className='bg-eggshell flex flex-col px-8 lg:px-32 md:px-24 sm:px-10 pt-32'>
+    <div className='bg-eggshell flex flex-col px-8 lg:px-32 md:px-24 sm:px-10 pt-32 min-h-screen'>
       <div className='flex poppins-regular items-center gap-4'>
         <div>
           <label htmlFor="filter">Filter by: </label>
