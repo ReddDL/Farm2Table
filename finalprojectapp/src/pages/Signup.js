@@ -31,7 +31,6 @@ function Signup() {
             })
 
             const token = res.data.token;
-            // console.log(token)
 
             // clear email and password
             setEmail('')

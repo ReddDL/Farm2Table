@@ -2,9 +2,9 @@ import { useOutletContext } from "react-router-dom";
 import UserOrderCard from "../../components/user/UserOrderCard";
 
 const UserProfile = () => {
-  // Get userId from user layout context
-  const userId = useOutletContext();
-
+  // get user info
+  const { firstName, lastName, email } = JSON.parse(localStorage.getItem('user'));
+  
   const Orders = [
     {
       productId: '123345',
@@ -34,8 +34,8 @@ const UserProfile = () => {
       <h1 className="text-4xl lato-bold">My Profile</h1>
       <h5 className="mt-3 text-lg poppins-regular">Personal information</h5>
       <div className='bg-alabaster h-36 rounded-xl p-9 border border-solid border-gunmetal shadow-lg'>
-        <p className="text-2xl poppins-medium">First Name Last name</p>
-        <p>Email@email.com</p>
+        <p className="text-2xl poppins-medium">{firstName} {lastName}</p>
+        <p>{email}</p>
       </div>
       <h5 className="mt-8 text-lg poppins-regular">Order History</h5>
       <div className='bg-alabaster h-fit rounded-xl p-9 border border-solid border-gunmetal shadow-lg flex flex-col gap-4'>

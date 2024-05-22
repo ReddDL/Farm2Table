@@ -1,8 +1,29 @@
 import { useOutletContext } from "react-router-dom";
-
+import CartProductCard from '../../components/user/CartProductCard.js'
 const UserCart = () => {
-  // get userId from user layout context
-  const userId = useOutletContext;
+  const products = [
+    {
+        name: "product1",
+        description: "desc1",
+        type: 'crop',
+        price: 12,
+        quantity: 1
+    },
+    {
+        name: "product2",
+        description: "desc2",
+        type: 'poultry',
+        price: 20,
+        quantity: 10
+    },
+    {
+        name: "product3",
+        description: "desc3",
+        type: 'crop',
+        price: 300,
+        quantity: 100
+    }
+  ]
 
   return (
     <>

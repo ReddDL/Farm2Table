@@ -6,6 +6,7 @@ const Header = () => {
 
     function handleLogout () {
         localStorage.removeItem('token');
+        localStorage.removeItem('user');
         navigate('/')
         window.location.reload();
     }
