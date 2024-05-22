@@ -2,7 +2,7 @@ import React from 'react'
 
 const OrderCard = () => {
   return (
-    <div className='h-32 w-full bg-white flex items-center justify-between rounded-xl'>
+    <div className='h-32 w-full bg-white flex items-center justify-between rounded-xl border-solid border border-gunmetal'>
         {/* image */}
         <div className='flex items-center'>
             <div className='h-28 w-28 ml-2 bg-periwinkle rounded-xl'></div>

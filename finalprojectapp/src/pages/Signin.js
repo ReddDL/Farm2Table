@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 // import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import '../Fonts.css'
+import GreenTopo from '../images/GreenTopo.jpg';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -48,51 +49,36 @@ function Signin() {
     
 
     return (
-      <div className =" bg-eggshell w-screen h-screen flex flex-row justify-center items-center text-gunmetal poppins-light">
-        <div className = "flex flex-col justify-center w-1/2 h-full items-center">
-            <label className="text-5xl pb-3 poppins-regular leading-3">Welcome back!</label>
-            <label className = "text-2xl pb-8 poppins-light">Are you ready to support our farmers?</label>
-            
-            <div className="flex flex-col flex-wrap text-xl px-28">
-                <div className="pb-3 flex flex-row gap-3">
-                </div>
-                <form onSubmit={handleLogin}>
-                    {/* Email */}
-                    <label >Email:</label>
-                    <input 
-                        // placeholder="Enter your email" 
-                        className="rounded-md h-12 bg-eggshell border-2 border-gunmetal" 
-                        type="text" 
-                        id="email"
-                        onChange={(e) => setEmail(e.target.value)}/>
-                    {/* Password */}
-                    <label className="mt-4">Password:</label>
-                    <div>
-                        <input type={showPassword ? 'text' : 'password'}
-                                // placeholder="Enter your password" 
-                                className="rounded-md h-12 bg-eggshell border-2 border-gunmetal w-full" 
-                                id="password"
-                                onChange={(e) => setPassword(e.target.value)}
-                                />
-                        <button className="float-end mt-4 mr-3" onClick={togglePasswordVisibility} type="submit">
-                            {/* {showPassword ? <FaEyeSlash /> : <FaEye />} */}
-                        </button>
-                    </div>
-                </form>
-                
-                <button className="bg-gunmetal text-alabaster mt-3 h-14 rounded-xl mt-10">Sign in</button>
+      <div className ="bg-periwinkle w-screen h-screen text-gunmetal poppins-light p-3">
+            <section className="z-10 relative top-1/2 translate-y-[-50%] mx-auto p-8 rounded-2xl max-w-lg bg-alabaster">
+            <h1 className="text-4xl mb-3 lato-bold">Login</h1>
+            <form onSubmit={handleLogin} className='w-full'>
+                {/* Email */}
+                <input 
+                    placeholder="Email" 
+                    className="rounded-lg h-12 w-full bg-alabaster border border-gray-400 mb-4 p-2" 
+                    type="text" 
+                    id="email"
+                    onChange={(e) => setEmail(e.target.value)}/>
+                {/* Password */}
                 <div>
-                    <label>Don't have an account yet? <a href="#" className='underline text-periwinkle poppins-medium'>Sign up</a></label>
+                    <input type={showPassword ? 'text' : 'password'}
+                            placeholder="Password" 
+                            className="rounded-lg h-12 bg-alabaster border border-gray-400 w-full p-2" 
+                            id="password"
+                            onChange={(e) => setPassword(e.target.value)}
+                            />
+                    <button className="float-end mt-4 mr-3" onClick={togglePasswordVisibility} type="submit">
+                        {/* {showPassword ? <FaEyeSlash /> : <FaEye />} */}
+                    </button>
                 </div>
-                
-            </div>
-
-             
-        </div>
-        <div className = "w-1/2 h-screen">
-            <img className = "object-cover w-full h-full" src = {require('../images/farmer.jpg')}/>
-        </div>
+                <button className="bg-gunmetal text-alabaster w-full mt-3 h-10 rounded-xl lato-regular text-lg">Sign in</button>
+            </form>
             
+            <div>
+                <label className='text-sm'>Don't have an account yet? <a href="/sign-up" className='underline text-periwinkle poppins-medium'>Sign up</a></label>
+            </div>
+        </section>
       </div>
     );
   }
