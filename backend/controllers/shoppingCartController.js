@@ -1,7 +1,8 @@
-import ShoppingCart from '../models/Cart.js';
+import ShoppingCart from '../models/ShoppingCart.js';
 import Product from '../models/Product.js';
+import User from '../models/User.js';
 
-//get shopping cart for a user
+// Get shopping cart for a user
 export const getShoppingCart = async (req, res) => {
     try {
         const cart = await ShoppingCart.findOne({ userId: req.user._id }).populate('items.productId');
@@ -12,7 +13,7 @@ export const getShoppingCart = async (req, res) => {
     }
 };
 
-//add item to shopping cart
+// Add item to shopping cart
 export const addItemToCart = async (req, res) => {
     try {
         const { productId, quantity } = req.body;
@@ -32,13 +33,21 @@ export const addItemToCart = async (req, res) => {
         }
         cart.updatedAt = Date.now();
         await cart.save();
+
+        // Update user's shopping cart reference
+        const user = await User.findById(req.user._id);
+        if (!user.shoppingCart.includes(cart._id)) {
+            user.shoppingCart.push(cart._id);
+            await user.save();
+        }
+
         res.status(200).json(cart);
     } catch (err) {
         res.status(500).json({ message: 'Server Error' });
     }
 };
 
-//remove item from shopping cart
+// Remove item from shopping cart
 export const removeItemFromCart = async (req, res) => {
     try {
         const { productId } = req.params;
@@ -54,7 +63,7 @@ export const removeItemFromCart = async (req, res) => {
     }
 };
 
-//clear shopping cart
+// Clear shopping cart
 export const clearCart = async (req, res) => {
     try {
         const cart = await ShoppingCart.findOne({ userId: req.user._id });
