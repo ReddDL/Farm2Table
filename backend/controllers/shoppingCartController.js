@@ -5,7 +5,7 @@ import User from '../models/User.js';
 // Get shopping cart for a user
 export const getShoppingCart = async (req, res) => {
     try {
-        const cart = await ShoppingCart.findOne({ userId: req.user._id }).populate('items.productId');
+        const cart = await ShoppingCart.findOne({ userId: req.user._id }).populate('items');
         if (!cart) return res.status(404).json({ message: 'Shopping cart not found' });
         res.status(200).json(cart);
     } catch (err) {
