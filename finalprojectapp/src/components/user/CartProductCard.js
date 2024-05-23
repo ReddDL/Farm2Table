@@ -3,8 +3,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useEffect, useState } from "react";
 
 export default function CartProductCard ({ product, updateCart }) {
-  const {name, type, price} = product;
-  const [quantity, setQuantity] = useState(product["quantity"]);
+  const {_id, name, type, price, image} = product;
+  console.log("card", product)
+  const [orderQuantity, setOrderQuantity] = useState(product["orderQuantity"]);
   const [showInput, setShowInput] = useState(false);
 
   const products = [
@@ -13,48 +14,49 @@ export default function CartProductCard ({ product, updateCart }) {
         description: "desc1",
         type: 'crop',
         price: 12,
-        quantity: 1
+        orderQuantity: 1
     },
     {
         name: "product2",
         description: "desc2",
         type: 'poultry',
         price: 20,
-        quantity: 10
+        orderQuantity: 10
     },
     {
         name: "product3",
         description: "desc3",
         type: 'crop',
         price: 300,
-        quantity: 100
+        orderQuantity: 100
     }
   ]
 
-  function addQuantity() {
-    setQuantity(quantity+1);
+  function addOrderQuantity() {
+    setOrderQuantity(orderQuantity+1)
+    updateCart({productId: _id, quantity: 1})
   }
 
-  function subQuantity() {
-    if (quantity > 1) {
-      setQuantity(quantity-1);
+  function subOrderQuantity() {
+    if (orderQuantity > 1) {
+      setOrderQuantity(orderQuantity-1)
+      updateCart({productId: _id, quantity: -1})
     } 
   }
 
-  useEffect(() => {
-    updateCart({...product, quantity})
-    console.log("nani")
-  }, [quantity])
+  // useEffect(() => {
+  //   updateCart({_id, orderQuantity})
+  // }, [orderQuantity])
 
   return (
     <div className="flex-1 flex rounded-[20px] bg-white text-space-cadet p-5 my-5">
-      <div className="flex flex-col flex-1">
-        <div className="badge bg-midnight-green text-eggshell font-bold">
+      <div className="flex flex-1 font-bold text-xl gap-5 items-center">
+        {/* <div className="badge bg-midnight-green text-eggshell font-bold">
           { type.toUpperCase() }
-        </div>
-        <p className="font-bold text-xl">
-          { name }
-        </p>
+        </div> */}
+        <img src={image} className = "size-20"/>
+        { name }
+        
         {/* <p>
           { description }
         </p> */}
@@ -63,17 +65,17 @@ export default function CartProductCard ({ product, updateCart }) {
         <div className="flex items-center justify-start">
           <div className="divider divider-horizontal"></div>
             <div className="flex gap-10 justify-center items-center">
-              <FontAwesomeIcon icon={faMinus} onClick={subQuantity} className="btn btn-ghost btn-xs p-2" />
+              <FontAwesomeIcon icon={faMinus} onClick={subOrderQuantity} className="btn btn-ghost btn-xs p-2" />
               <div className={`text-lg w-10 text-center`} onClick={() => setShowInput(true)}>
-               { quantity }
+               { orderQuantity }
               </div>
-              <FontAwesomeIcon icon={faPlus} onClick={addQuantity} className="btn btn-ghost btn-xs p-2"/>
+              <FontAwesomeIcon icon={faPlus} onClick={addOrderQuantity} className="btn btn-ghost btn-xs p-2"/>
             </div>
           <div className="divider divider-horizontal"></div>
         </div>
       </div>
       <div className="flex-1 text-lg place-content-center text-center max-w-20">
-        ₱ { price*quantity }
+        ₱ { price*orderQuantity }
       </div>
     </div>
   )
