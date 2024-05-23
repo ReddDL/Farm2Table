@@ -31,7 +31,7 @@ export const addItemToCart = async (req, res) => {
                 cart.items.push({ productId, quantity });
             }
         }
-        cart.updatedAt = Date.now();
+        // cart.updatedAt = Date.now();
         await cart.save();
 
         // Update user's shopping cart reference
