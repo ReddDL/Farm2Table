@@ -22,7 +22,7 @@ const OrderCard = ({ order, updateOrders, key }) => {
 
         setStatus(2)
       } catch (error) {
-        console.log("Server error encounntered while trying to update status")
+        console.log("Server error encountered while trying to update status")
       }
     }
   }
