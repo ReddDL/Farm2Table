@@ -1,10 +1,26 @@
+import axios from 'axios';
 import React from 'react';
 
 const OrderCard = ({ order }) => {
   // Determine button color based on order status
+  // console.log(order)
+  // console.log(order._id)
   const buttonClass = order.status === 0
     ? 'bg-gray-400 text-black' // Pending status
     : 'bg-midnight-green text-white'; // Confirmed status
+
+  async function handleCancelOrder() {
+    console.log(order)
+    console.log(order._id)
+    try {
+      const res = await axios.put(`http://localhost:3000/api/orders/updateOrder/${order._id}`, {
+        orderId: order._id,
+        newStatus: 2
+      })
+    } catch (error) {
+      console.log("Server error encounntered while trying to update status")
+    }
+  }
 
   return (
     <div className='h-36 w-full bg-white flex items-center justify-between rounded-xl border-solid border border-gunmetal shadow-lg p-5'>
@@ -21,7 +37,10 @@ const OrderCard = ({ order }) => {
         </div>
       </div>
       <button className={`px-5 py-4 rounded-xl w-40 ${buttonClass}`}>
-        {order.status === 0 ? 'Pending' : 'Confirmed'}
+        {order.status === 0 ? 'Pending' : order.status === 1 ? 'Confirmed' : 'Cancelled'}
+      </button>
+      <button className={`px-5 py-4 rounded-xl w-40 ${buttonClass} ${order.status === 0? "": "hidden"}`} onClick={handleCancelOrder}>
+        Cancel Order
       </button>
     </div>
   );
