@@ -22,8 +22,8 @@ router.get('/', getShoppingCart);
 router.post('/add', addItemToCart);
 
 // Route to update shopping cart
-// POST /api/cart/update
-router.post('/update', updateCart);
+// PUT /api/cart/update
+router.put('/update', updateCart);
 
 // Route to remove an item from the shopping cart
 // DELETE /api/cart/remove/:productId
