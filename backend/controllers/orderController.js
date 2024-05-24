@@ -35,6 +35,7 @@ export const createOrder = async (req, res) => {
       
       //create a new order instance
       const newOrder = new Order({
+          userId: req.user._id,
           items: productsList,
           status: 0,
           email,
@@ -70,9 +71,8 @@ export const updateOrderStatus = async (req, res) => {
   try {
     // extract order ID and new status from request body
     const { orderId, newStatus } = req.body;
-
     // find the order by ID and update its status
-    await Order.findByIdAndUpdate(orderId, { status: newStatus });
+    const order = await Order.findByIdAndUpdate(orderId, { status: newStatus });
 
     // send a success response
     res.status(200).json({ message: 'Order status updated successfully' });
@@ -101,5 +101,16 @@ export const getOrderById = async (req, res) => {
     // handle any errors and send a 500 (Internal Server Error) response
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+// Get all orders by user
+export const getUserOrders = async (req, res) => {
+  try {
+      const orders = await Order.find({ userId: req.user._id });
+      if (!orders) return res.status(404).json({ message: 'No orders found' });
+      res.status(200).json(orders);
+  } catch (err) {
+      res.status(500).json({ message: 'Server Error' });
   }
 };

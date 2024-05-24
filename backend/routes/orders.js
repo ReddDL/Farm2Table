@@ -1,5 +1,5 @@
 import express from 'express';
-import { createOrder, updateOrderStatus, getOrderById } from '../controllers/orderController.js';
+import { createOrder, updateOrderStatus, getOrderById, getUserOrders } from '../controllers/orderController.js';
 import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
@@ -18,5 +18,9 @@ router.put('/updateOrder/:id', updateOrderStatus);
 // get order details by ID
 // GET /api/orders/getOrder/:id
 router.get('/getOrder/:id', getOrderById);
+
+// get all orders by user
+// GET /api/orders/getUserOrders
+router.get('/getUserOrders', getUserOrders); 
 
 export default router;
