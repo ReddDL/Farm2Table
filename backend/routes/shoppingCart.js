@@ -2,6 +2,7 @@ import express from 'express';
 import {
     getShoppingCart,
     addItemToCart,
+    updateCart,
     removeItemFromCart,
     clearCart
 } from '../controllers/shoppingCartController.js';
@@ -19,6 +20,10 @@ router.get('/', getShoppingCart);
 // Route to add an item to the shopping cart
 // POST /api/cart/add
 router.post('/add', addItemToCart);
+
+// Route to update shopping cart
+// POST /api/cart/update
+router.post('/update', updateCart);
 
 // Route to remove an item from the shopping cart
 // DELETE /api/cart/remove/:productId

@@ -16,19 +16,20 @@ export const getShoppingCart = async (req, res) => {
 // Add item to shopping cart
 export const addItemToCart = async (req, res) => {
     try {
-        const { productId, quantity } = req.body;
+        const { productId } = req.body;
         const product = await Product.findById(productId);
         if (!product) return res.status(404).json({ message: 'Product not found' });
 
         let cart = await ShoppingCart.findOne({ userId: req.user._id });
         if (!cart) {
-            cart = new ShoppingCart({ userId: req.user._id, items: [{ productId, quantity }] });
+            cart = new ShoppingCart({ userId: req.user._id, items: [{ productId, quantity: 1 }] });
         } else {
             const itemIndex = cart.items.findIndex(item => item.productId.toString() === productId);
-            if (itemIndex > -1) {
-                cart.items[itemIndex].quantity += quantity;
-            } else {
-                cart.items.push({ productId, quantity });
+            // if (itemIndex > -1) {
+            //     cart.items[itemIndex].quantity += quantity;
+            // } else {
+            if (itemIndex === -1) {  
+                cart.items.push({ productId, quantity: 1 });
             }
         }
         // cart.updatedAt = Date.now();
@@ -45,6 +46,31 @@ export const addItemToCart = async (req, res) => {
     } catch (err) {
         res.status(500).json({ message: 'Server Error' });
     }
+};
+
+// Update shopping cart
+export const updateCart = async (req, res) => {
+  try {
+      const { productId, quantity } = req.body;
+
+      const cart = await ShoppingCart.findOne({ userId: req.user._id })
+      console.log(productId)
+      console.log(cart)
+      const index = cart.items.findIndex((cartProduct) => cartProduct.productId.toString() === productId)
+      // console.log("nP", newProduct)
+      console.log("index", index)
+      
+      // placeholder variable for updated cart
+      cart.items[index] = { productId, quantity };
+      console.log(cart)
+
+      // update cart
+      await cart.save();
+      console.log(cart)
+      res.status(200).json(cart);
+  } catch (err) {
+      res.status(500).json({ message: 'Server Error' });
+  }
 };
 
 // Remove item from shopping cart
