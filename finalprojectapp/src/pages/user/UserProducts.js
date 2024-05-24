@@ -9,35 +9,70 @@ import { createRoot } from 'react-dom/client'
 
 
 const UserProducts = () => {
-    var root;
-    const [numItems, setNumItems] = useState("0");
-    const [farmProducts, setFarmProducts] = useState();
+    const [numItems, setNumItems] = useState(0);
+    const [cart, setCart] = useState([]);
+    const [farmProducts, setFarmProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [addItemsCart, setAddItemsCart] = useState();
+
+    const [cartProducts, setCartProducts] = useState([]);
     
     const userId = useOutletContext();
 
-    const [cart, setCart] = useState({
-        userId: 20000000000,
-        items: []
-    });
     
     
-    useEffect(() => { 
+    
+    useEffect(() => {   
         
-        axios.get('http://localhost:3000/api/products/list').then( 
-            response => { 
-                setFarmProducts(response.data); 
-                setLoading(false);
-            } 
-        ).catch(error => { 
-            setError(error);
-            setLoading(false);
-        })
+        async function fetchProducts (){
+            try{
+                const res = await axios.get('http://localhost:3000/api/products/list')
+                console.log(res.data)
+                setFarmProducts(res.data)
+            } catch(error){
+
+                
+            }
+        }
+        fetchProducts()
         
     }, [])
 
+    
+    useEffect(() => {
+        async function fetchCart () {
+          try { 
+            const res = await axios.get("http://localhost:3000/api/cart/")
+            console.log(res.data)
+            setCart(res.data)
+            setNumItems(()=>{
+                var nval = 0;
+                res.data.items.map((item)=>
+                    
+                    nval = nval + (item.quantity)
+                )
+
+                return nval;
+            })
+            
+            setLoading(false);
+            
+
+          } catch (error) {
+            switch (error?.response?.status) {
+              case 404:
+                console.log("User has no cart")
+                break;
+              case 500:
+                console.log("Error fetching cart")
+            }
+            
+          }
+        }
+        fetchCart();
+      }, [])      
+    
+      
     function filterOn (){
         let sortValue = document.getElementById("sort");
         let filterValue = document.getElementById("filter");
@@ -103,15 +138,24 @@ const UserProducts = () => {
 
     const PlaceHolder = ()=> {
         var key = 0;
+        let sortValue = document.getElementById("sort");
+        let filterValue = document.getElementById("filter");
 
+        try {
+
+        } catch {
+
+        }
+        // console.log(sortValue.value == null)
+        console.log("-----")
         return(
 
-            <div id = "hideAll">
+            <>
 
                     <div className = 'sorterProducts flex flex-row sm:flex-col md:flex-row sm:items-center flex-wrap gap-10 justify-center' id = "name-asc" style = {show} key = {0}>
                         {farmProducts.sort(arraySort[0].sort).map((user_product)=>
                             
-                            <ProductCardUser data={user_product} items = {cart} setItems = {setCart} key ={user_product._id}/>
+                            <ProductCardUser data={user_product} items = {cart} setItems = {setCart} key ={user_product._id} setNumItems ={setNumItems} numItems = {numItems}/>
                             
                         )}
                     </div>
@@ -122,14 +166,14 @@ const UserProducts = () => {
                     <div className = 'sorterProducts flex flex-row sm:flex-col md:flex-row sm:items-center flex-wrap gap-10 justify-center' id = {sortObj.id} style = {hide} key = {index}>
                         {farmProducts.sort(sortObj.sort).map((user_product)=>
                             
-                            <ProductCardUser data={user_product} items = {cart} setItems = {setCart} key ={user_product._id}/>
+                            <ProductCardUser data={user_product} items = {cart} setItems = {setCart} key ={user_product._id} setNumItems = {setNumItems} numItems = {numItems}/>
                             
                         )}
                     </div>
 
                 )}
 
-            </div>
+            </>
         )
     }
 
@@ -143,8 +187,9 @@ const UserProducts = () => {
     // filterOn();
 
 
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error.message}</div>;
+    // console.log(cart)
+
+    // if (!loading) return (<div>Loading....</div>)
 
   return (
     <>
@@ -178,7 +223,7 @@ const UserProducts = () => {
         <div className='product bg-alabaster min-h-screen p-5 mb-5 rounded-xl mt-4 flex flex-col justify-center items-center'>
             <div className = 'flex flex-row justify-center mb-16 items-center'>
                 <label id = 'cart-items' className = "text-3xl mr-16">Number of Items Added to Cart: {numItems}</label>
-                <NavLink to='/user/cart'><button className = "text-3xl bg-midnight-green w-96 h-12 rounded-xl">Proceed to Checkout</button></NavLink>
+                <NavLink to='/cart'><button className = "text-3xl bg-midnight-green w-96 h-12 rounded-xl">Proceed to Checkout</button></NavLink>
             </div>
 
             {/* FOR DIFFERENT SORTING TEKNIKS */}
@@ -195,83 +240,13 @@ const UserProducts = () => {
 
 // const itemsCart = []
 
-export function AddToCartFunc (Item, setItemsCart, itemsCart){
-
-    var inCart = false;
-    var objectValue = 0;  
-    var totalItems = 0;
-
-    itemsCart.items.map((object)=>{
-        if (object.productId === Item._id){
-            inCart = true;
-            objectValue = object.quantity +1;           // Important because if value is already in cart, it ensures that add to cart will only increment by one item
-
-        }
-
-    })
-
-
-
-            var nval = itemsCart;
-            // console.log("HELLO WORLD")
-            if(itemsCart.items.length === 0){
-
-                // ranOnce++;
-                setItemsCart(()=>{
-                    nval = {userId: itemsCart.userId, items: [{productId: Item._id, quantity: 1}]}
-                    return nval;
-                })
-            }
-    
-            else if (inCart === false){
-                
-                setItemsCart(()=>{
-
-                    return {userId: itemsCart.userId, items: [...nval.items, {productId: Item._id, quantity: 1}]}
-                });
-                
-            } else if(inCart === true){
-
-                setItemsCart(()=>{
-                    nval = itemsCart;
-
-                    nval.items.map((object)=>{
-
-                        if (object.productId === Item._id){
-
-                                object.quantity = objectValue;
-                                return nval
-                        }
-                
-                    }
-                
-                
-                    )
-                    return nval
-                    
-                })
-
-            }
-    
-
-
-    for (let i=0; i<itemsCart.items.length; i++){
-        totalItems = itemsCart.items[i].quantity + totalItems;
+export async function ItemCount(setNumItems, totalQuantity, itemQuantity){
+    setNumItems(()=>{
+        var nval = totalQuantity + itemQuantity;
+        return nval;
     }
-
-
-
-    const element = (
-        <>
-            <label className = "cart-items text-3xl mr-16">Number of Items Added to Cart: {totalItems}</label>
-        </>
+        
     )
-    
-    const root = createRoot(
-        document.getElementById("cart-items")
-    ).render(element)
-    
-    
 }
 
 export default UserProducts
