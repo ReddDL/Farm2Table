@@ -1,6 +1,12 @@
 import express from 'express';
-import { createOrder, updateOrderStatus, getOrderById, getUserOrders } from '../controllers/orderController.js';
-import { protect } from '../middleware/authMiddleware.js';
+import { 
+  createOrder, 
+  updateOrderStatus, 
+  getOrderById, 
+  getUserOrders, 
+  getAllOrders
+} from '../controllers/orderController.js';
+import { protect, adminOnly } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
@@ -22,5 +28,12 @@ router.get('/getOrder/:id', getOrderById);
 // get all orders by user
 // GET /api/orders/getUserOrders
 router.get('/getUserOrders', getUserOrders); 
+
+router.use(adminOnly)
+
+// get all orders
+// GET /api/orders/getAllOrders
+router.get('/getAllOrders', getAllOrders); 
+
 
 export default router;
