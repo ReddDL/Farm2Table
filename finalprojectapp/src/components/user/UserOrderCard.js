@@ -1,7 +1,10 @@
 import axios from 'axios';
 import React from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
 
-const OrderCard = ({ order }) => {
+const OrderCard = ({ order, updateOrders, key }) => {
+  const [status, setStatus] = useState(order.status);
   // Determine button color based on order status
   const buttonClass = order.status === 0
     ? 'bg-gray-400 text-black' // Pending status
@@ -16,12 +19,20 @@ const OrderCard = ({ order }) => {
           orderId: order._id,
           newStatus: 2
         })
+
+        setStatus(2)
       } catch (error) {
         console.log("Server error encounntered while trying to update status")
       }
     }
   }
 
+  // update order's status and orders in user profile 
+  useEffect(() => {
+    order["status"] = status;
+    updateOrders(order, key);
+  }, [status])
+  
   return (
     <div className='h-36 w-full bg-white flex items-center justify-between rounded-xl border-solid border border-gunmetal shadow-lg p-5'>
       {/* Order details */}

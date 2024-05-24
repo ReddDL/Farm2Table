@@ -32,6 +32,22 @@ const UserProfile = () => {
     },
   ];
 
+  // update orders for re-render
+  function updateOrders(order, index) {
+    console.log("y", order)
+    // placeholder for updating state variable
+    const newOrders = [];
+    // clone orders array
+    orders.forEach((order, index) => {
+      newOrders[index] = order
+    })
+    // assign new order
+    newOrders[index] = order;
+    console.log("new", newOrders)
+    // update state variable
+    setOrders(newOrders);
+  }
+
   // fetch user's orders
   useEffect(() => {
     async function fetchOrders() {
@@ -62,7 +78,7 @@ const UserProfile = () => {
       <h5 className="mt-8 text-lg poppins-regular">Order History</h5>
       <div className='bg-alabaster h-fit rounded-xl p-9 border border-solid border-gunmetal shadow-lg flex flex-col gap-4'>
         {orders.map((order, index) => (
-          <UserOrderCard key={index} order={order} />
+          <UserOrderCard key={index} order={order} updateOrders={updateOrders} />
         ))}
       </div>
     </div>
