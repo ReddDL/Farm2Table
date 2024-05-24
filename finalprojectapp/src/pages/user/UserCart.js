@@ -62,45 +62,56 @@ const UserCart = () => {
 
   // update cart when user interacts with product card
   async function handleUpdateCart({ _id, orderQuantity }) {
-    console.log("wwwwwwwwwwwww")
-    console.log("wubba")
-    // get index of product to be updated in cart
-    console.log("carto", cart)
     const productId = _id;
     const quantity = orderQuantity;
 
+    // get index of product to be updated in cart
     const index = cart.items.findIndex((cartProduct) => cartProduct.productId === productId)
-    // console.log("nP", newProduct)
-    console.log("index", index)
     
     // create new cart object to update state variable
     const newCart = {};
-    
     Object.keys(cart).forEach((key) => {
       newCart[key] = cart[key];
     })
-    newCart.items[index] = { productId, quantity };
-    
+
+    if (quantity === 0) {
+      newCart.items.splice(index, 1, )
+      // update cart in db
+      try { 
+        const res = await axios.delete(`http://localhost:3000/api/cart/remove/${productId}`, {
+          productId
+        })
+        console.log('hip')
+      } catch (error) {
+        console.log('eror')
+        switch (error?.response?.status) {
+          case 500:
+            console.log("Error updating cart")
+        }
+      }
+    } else {
+      newCart.items[index] = { productId, quantity };
+      // update cart in db
+      try { 
+        const res = await axios.put("http://localhost:3000/api/cart/update", {
+          productId,
+          quantity
+        })
+        console.log('hip')
+      } catch (error) {
+        console.log('eror')
+        switch (error?.response?.status) {
+          case 500:
+            console.log("Error updating cart")
+        }
+      }
+    }
 
     console.log("nc", newCart)
     // update state variable
     setCart(newCart);
 
-    // update cart in db
-    try { 
-      const res = await axios.post("http://localhost:3000/api/cart/update", {
-        productId,
-        quantity
-      })
-      console.log('hip')
-    } catch (error) {
-      console.log('eror')
-      switch (error?.response?.status) {
-        case 500:
-          console.log("Error updating cart")
-      }
-      
-    }
+    
   }
   // fetch details of products in cart
   useEffect(() => {
@@ -140,7 +151,7 @@ const UserCart = () => {
       );
       setCheckoutTotal(cartTotal);
     }
-  }, [cartProducts])
+  }, [cart, cartProducts])
 
   // save order upon checkout
   async function handleCheckout () {
@@ -166,7 +177,7 @@ const UserCart = () => {
     <>
     <div className='bg-eggshell min-h-screen flex flex-row px-8 lg:px-32 md:px-24 sm:px-10 pt-32'>
       {/* Cart products */}
-      <div className = 'w-1/2'>
+      <div className = 'w-2/3'>
         <label className = "text-2xl text-gunmetal">Your Shopping Cart</label>
         {
           cart?.items?.length > 0 ? (
@@ -180,7 +191,7 @@ const UserCart = () => {
         }
       </div>
       {/* Cart summary + checkout */}
-      <div className = 'w-1/2 m-10 flex'>
+      <div className = 'w-1/3 m-10 flex'>
         <div className="flex-1 flex flex-col rounded-box bg-white">
           <div className="flex flex-1 p-10 text-center items-center justify-between text-2xl text-black">
             <div>
