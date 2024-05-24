@@ -156,20 +156,24 @@ const UserCart = () => {
   // save order upon checkout
   async function handleCheckout () {
     console.log(cart.items)
-    try { 
-      const res = await axios.post("http://localhost:3000/api/orders/create", {
-        items: cart.items,
-        email
-      })
-    } catch (error) {
-      switch (error?.response?.status) {
-        case 404:
-          console.log("Product not found")
-          break;
-        case 500:
-          console.log("Error adding to cart")
+    for (const item of cart.items) {
+      try { 
+        const res = await axios.post("http://localhost:3000/api/orders/create", {
+          productId: item.productId,
+          quantity: item.quantity,
+          email
+        })
+        
+      } catch (error) {
+        switch (error?.response?.status) {
+          case 404:
+            console.log("Product not found")
+            break;
+          case 500:
+            console.log("Error adding to cart")
+        }
+        
       }
-      
     }
   }
 
