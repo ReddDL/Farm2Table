@@ -32,11 +32,12 @@ const UserProfile = () => {
     },
   ];
 
+  // fetch user's orders
   useEffect(() => {
     async function fetchOrders() {
       try {
         const res = await axios.get("http://localhost:3000/api/orders/getUserOrders")
-        console.log(res.data)
+        // update state variable
         setOrders(res.data);
       } catch (error) {
         switch (error?.response?.status) {

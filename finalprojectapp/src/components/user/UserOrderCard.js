@@ -3,22 +3,22 @@ import React from 'react';
 
 const OrderCard = ({ order }) => {
   // Determine button color based on order status
-  // console.log(order)
-  // console.log(order._id)
   const buttonClass = order.status === 0
     ? 'bg-gray-400 text-black' // Pending status
     : 'bg-midnight-green text-white'; // Confirmed status
 
+  // function for cancelling order
   async function handleCancelOrder() {
-    console.log(order)
-    console.log(order._id)
-    try {
-      const res = await axios.put(`http://localhost:3000/api/orders/updateOrder/${order._id}`, {
-        orderId: order._id,
-        newStatus: 2
-      })
-    } catch (error) {
-      console.log("Server error encounntered while trying to update status")
+    // if order is just pending/not yet confirmed
+    if ( order.status === 0 ) {
+      try {
+        const res = await axios.put(`http://localhost:3000/api/orders/updateOrder/${order._id}`, {
+          orderId: order._id,
+          newStatus: 2
+        })
+      } catch (error) {
+        console.log("Server error encounntered while trying to update status")
+      }
     }
   }
 
