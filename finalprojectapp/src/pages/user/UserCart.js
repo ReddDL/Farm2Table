@@ -6,6 +6,7 @@ import axios from "axios";
 
 // import CartProductCard from '../../components/user/CartProductCard.js'
 const UserCart = () => {
+  const { firstName, lastName, email } = JSON.parse(localStorage.getItem('user'))
   const [cart, setCart] = useState([]);
   const [cartProducts, setCartProducts] = useState([]);
   const [checkoutTotal, setCheckoutTotal] = useState(0);
@@ -143,9 +144,11 @@ const UserCart = () => {
 
   // save order upon checkout
   async function handleCheckout () {
+    console.log(cart.items)
     try { 
-      const res = await axios.post("http://localhost:3000/api/cart/add", {
-        cart
+      const res = await axios.post("http://localhost:3000/api/orders/create", {
+        items: cart.items,
+        email
       })
     } catch (error) {
       switch (error?.response?.status) {
