@@ -9,7 +9,7 @@ import { createRoot } from 'react-dom/client'
 
 
 const UserProducts = () => {
-    const [numItems, setNumItems] = useState("0");
+    const [numItems, setNumItems] = useState(0);
     const [cart, setCart] = useState([]);
     const [farmProducts, setFarmProducts] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -22,7 +22,7 @@ const UserProducts = () => {
     
     
     
-    useEffect(() => { 
+    useEffect(() => {   
         
         async function fetchProducts (){
             try{
@@ -31,19 +31,33 @@ const UserProducts = () => {
                 setFarmProducts(res.data)
             } catch(error){
 
-                setLoading(false);
+                
             }
         }
         fetchProducts()
         
     }, [])
+
+    
     useEffect(() => {
         async function fetchCart () {
           try { 
             const res = await axios.get("http://localhost:3000/api/cart/")
             console.log(res.data)
             setCart(res.data)
-            console.log("HELLO WORLDDD")
+            setNumItems(()=>{
+                var nval = 0;
+                res.data.items.map((item)=>
+                    
+                    nval = nval + (item.quantity)
+                )
+
+                return nval;
+            })
+            
+            setLoading(false);
+            
+
           } catch (error) {
             switch (error?.response?.status) {
               case 404:
@@ -56,38 +70,9 @@ const UserProducts = () => {
           }
         }
         fetchCart();
-      }, [])
-
-    // async function updateCart({ productId, quantity }) {
-    //     // const index = cart.findIndex(cartProduct => newProduct._id === cartProduct._id)
-    //     // console.log("nP", newProduct)
-    //     // console.log("index", index)
-        
-    //     // const newCart = cart;
-    //     // newCart[index] = newProduct;
-        
-    //     // console.log("nc", newCart)
-    //     // setCart(newCart);
-    //     try { 
-    //       const res = await axios.post("http://localhost:3000/api/cart/add", {
-    //         productId,
-    //         quantity
-    //       })
-    //     } catch (error) {
-    //       switch (error?.response?.status) {
-    //         case 404:
-    //           console.log("Product not found")
-    //           break;
-    //         case 500:
-    //           console.log("Error adding to cart")
-    //       }
-          
-    //     }
-    //   }
+      }, [])      
     
       
-    
-
     function filterOn (){
         let sortValue = document.getElementById("sort");
         let filterValue = document.getElementById("filter");
@@ -170,7 +155,7 @@ const UserProducts = () => {
                     <div className = 'sorterProducts flex flex-row sm:flex-col md:flex-row sm:items-center flex-wrap gap-10 justify-center' id = "name-asc" style = {show} key = {0}>
                         {farmProducts.sort(arraySort[0].sort).map((user_product)=>
                             
-                            <ProductCardUser data={user_product} items = {cart} setItems = {setCart} key ={user_product._id}/>
+                            <ProductCardUser data={user_product} items = {cart} setItems = {setCart} key ={user_product._id} setNumItems ={setNumItems} numItems = {numItems}/>
                             
                         )}
                     </div>
@@ -181,7 +166,7 @@ const UserProducts = () => {
                     <div className = 'sorterProducts flex flex-row sm:flex-col md:flex-row sm:items-center flex-wrap gap-10 justify-center' id = {sortObj.id} style = {hide} key = {index}>
                         {farmProducts.sort(sortObj.sort).map((user_product)=>
                             
-                            <ProductCardUser data={user_product} items = {cart} setItems = {setCart} key ={user_product._id}/>
+                            <ProductCardUser data={user_product} items = {cart} setItems = {setCart} key ={user_product._id} setNumItems = {setNumItems} numItems = {numItems}/>
                             
                         )}
                     </div>
@@ -202,7 +187,9 @@ const UserProducts = () => {
     // filterOn();
 
 
+    // console.log(cart)
 
+    // if (!loading) return (<div>Loading....</div>)
 
   return (
     <>
@@ -235,7 +222,7 @@ const UserProducts = () => {
         </div>
         <div className='product bg-alabaster min-h-screen p-5 mb-5 rounded-xl mt-4 flex flex-col justify-center items-center'>
             <div className = 'flex flex-row justify-center mb-16 items-center'>
-                <label id = 'cart-items' className = "text-3xl mr-16">Number of Items Added to Cart: {cart.length}</label>
+                <label id = 'cart-items' className = "text-3xl mr-16">Number of Items Added to Cart: {numItems}</label>
                 <NavLink to='/cart'><button className = "text-3xl bg-midnight-green w-96 h-12 rounded-xl">Proceed to Checkout</button></NavLink>
             </div>
 
@@ -253,101 +240,13 @@ const UserProducts = () => {
 
 // const itemsCart = []
 
-export async function AddToCartFunc (Item, setItemsCart, itemsCart){
-
-    var inCart = false;
-    var objectValue = 0;  
-    var totalItems = 0;
-    // var productId = Item._id;
-    // var quantity = 
-    // try { 
-    //   const res = await axios.post("http://localhost:3000/api/cart/add", {
-    //     productId,
-    //     quantity
-    //   })
-    // } catch (error) {
-    //   switch (error?.response?.status) {
-    //     case 404:
-    //       console.log("Product not found")
-    //       break;
-    //     case 500:
-    //       console.log("Error adding to cart")
-    //   }
-      
-    // }
-
-    
-    itemsCart.items.map((object)=>{
-        if (object.productId === Item._id){
-            inCart = true;
-            objectValue = object.quantity +1;           // Important because if value is already in cart, it ensures that add to cart will only increment by one item
-
-        }
-
-    })
-
-
-
-            var nval = itemsCart;
-            // console.log("HELLO WORLD")
-            if(itemsCart.items.length === 0){
-
-                // ranOnce++;
-                setItemsCart(()=>{
-                    nval = {userId: itemsCart.userId, items: [{productId: Item._id, quantity: 1}]}
-                    return nval;
-                })
-            }
-    
-            else if (inCart === false){
-                
-                setItemsCart(()=>{
-
-                    return {userId: itemsCart.userId, items: [...nval.items, {productId: Item._id, quantity: 1}]}
-                });
-                
-            } else if(inCart === true){
-
-                setItemsCart(()=>{
-                    nval = itemsCart;
-
-                    nval.items.map((object)=>{
-
-                        if (object.productId === Item._id){
-
-                                object.quantity = objectValue;
-                                return nval
-                        }
-                
-                    }
-                
-                
-                    )
-                    return nval
-                    
-                })
-
-            }
-    
-
-
-    for (let i=0; i<itemsCart.items.length; i++){
-        totalItems = itemsCart.items[i].quantity + totalItems;
+export async function ItemCount(setNumItems, totalQuantity, itemQuantity){
+    setNumItems(()=>{
+        var nval = totalQuantity + itemQuantity;
+        return nval;
     }
-
-
-
-    const element = (
-        <>
-            <label className = "cart-items text-3xl mr-16">Number of Items Added to Cart: {totalItems}</label>
-        </>
+        
     )
-    
-    const root = createRoot(
-        document.getElementById("cart-items")
-    ).render(element)
-    
-    
 }
 
 export default UserProducts

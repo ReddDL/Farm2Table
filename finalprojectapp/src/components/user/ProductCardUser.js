@@ -1,21 +1,21 @@
 import { faCross, faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from 'react';
-import { AddToCartFunc } from '../../pages/user/UserProducts';
+import { ItemCount } from '../../pages/user/UserProducts';
 import CartProductCard from "./CartProductCard";
 import axios from "axios";
 
 const ProductCard2 = (prop) => {
   let attributes = prop.data;
-  const [orderQuantity, setOrderQuantity] = useState(0);
-  console.log(prop)
+  const [orderQuantity, setOrderQuantity] = useState(1);
+  // console.log(prop)
 
   console.log(attributes)
   function PrepareToCart () {
-    // AddToCartFunc(attributes, prop.setItems, prop.items, prop.itemCounter)
+    ItemCount(prop.setNumItems, prop.numItems, orderQuantity)
     // console.log(attributes)
     updateCart({productId: attributes._id, quantity: orderQuantity})
-      setOrderQuantity(0)
+    setOrderQuantity(1)
   }
 
   function addOrderQuantity() {
@@ -67,21 +67,12 @@ const ProductCard2 = (prop) => {
 
 
 async function updateCart({ productId, quantity }) {
-  // const index = cart.findIndex(cartProduct => newProduct._id === cartProduct._id)
-  // console.log("nP", newProduct)
-  // console.log("index", index)
-  
-  // const newCart = cart;
-  // newCart[index] = newProduct;
-  
-  // console.log("nc", newCart)
-  // setCart(newCart);
   try { 
     const res = await axios.post("http://localhost:3000/api/cart/add", {
       productId,
       quantity
     })
-    console.log("SUCCESS!!")
+    console.log("SUCCESS!!  ")
   } catch (error) {
     switch (error?.response?.status) {
       case 404:
