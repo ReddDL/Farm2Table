@@ -5,7 +5,8 @@ export default function NoPage () {
 
   // return to home page
   function handleReturn () {
-    navigate("/")
+    navigate("/");
+    window.location.reload();
   }
 
   return(
