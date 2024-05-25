@@ -7,6 +7,7 @@ import axios from "axios";
 
 const ProductCard2 = (prop) => {
   let attributes = prop.data;
+  const [inCart, setInCart] = useState(attributes?.inCart);
   const [orderQuantity, setOrderQuantity] = useState(1);
   // console.log(prop)
 
@@ -28,6 +29,24 @@ const ProductCard2 = (prop) => {
       setOrderQuantity(orderQuantity-1)
     } 
   }
+  
+  // add product to cart
+  async function addToCart() {
+    try { 
+      const res = await axios.post("http://localhost:3000/api/cart/add", {
+        productId: attributes._id
+      })
+    } catch (error) {
+      switch (error?.response?.status) {
+        case 404:
+          console.log("User has no cart")
+          break;
+        case 500:
+          console.log("Error fetching cart")
+      }
+    }
+  }
+
   return (
     <div className="card w-80 bg-white shadow-xl" key = {attributes._id} id = {attributes.name}>
         <figure className="object-fill w-80 h-60"><img src={attributes.image} alt={attributes.title} className = "h-80"/></figure>
@@ -59,7 +78,14 @@ const ProductCard2 = (prop) => {
             </div>
             <p className = "text-center">{attributes.description}</p>
             
-            <button onClick= {PrepareToCart} className = "AddToCart bg-tea-green h-10 mt-3 rounded-lg text-oxford-blue" id = {attributes._id}>ADD TO CART</button>
+            {
+              inCart ? (
+                <button className = "AddToCart bg-space-cadet h-10 mt-3 rounded-lg text-eggshell" id = {attributes._id} disabled>IN CART</button>
+              ) : (
+                <button onClick= {addToCart} className = "AddToCart bg-tea-green h-10 mt-3 rounded-lg text-oxford-blue" id = {attributes._id} >ADD TO CART</button>
+              )
+            }
+            
         </div>
     </div>
   )

@@ -6,8 +6,10 @@ import axios from "axios";
 
 // import CartProductCard from '../../components/user/CartProductCard.js'
 const UserCart = () => {
+  const { firstName, lastName, email } = JSON.parse(localStorage.getItem('user'))
   const [cart, setCart] = useState([]);
   const [cartProducts, setCartProducts] = useState([]);
+  const [checkoutTotal, setCheckoutTotal] = useState(0);
   
   // ([
   //   {
@@ -38,12 +40,11 @@ const UserCart = () => {
   //   // }
   // ])
   
-  
+  // fetch user's cart
   useEffect(() => {
     async function fetchCart () {
       try { 
         const res = await axios.get("http://localhost:3000/api/cart/")
-        console.log(res.data)
         setCart(res.data)
       } catch (error) {
         switch (error?.response?.status) {
@@ -59,82 +60,164 @@ const UserCart = () => {
     fetchCart();
   }, [])
 
-  async function updateCart({ productId, quantity }) {
-    // const index = cart.findIndex(cartProduct => newProduct._id === cartProduct._id)
-    // console.log("nP", newProduct)
-    // console.log("index", index)
-    
-    // const newCart = cart;
-    // newCart[index] = newProduct;
-    
-    // console.log("nc", newCart)
-    // setCart(newCart);
-    try { 
-      const res = await axios.post("http://localhost:3000/api/cart/add", {
-        productId,
-        quantity
-      })
-    } catch (error) {
-      switch (error?.response?.status) {
-        case 404:
-          console.log("Product not found")
-          break;
-        case 500:
-          console.log("Error adding to cart")
-      }
-      
-    }
-  }
+  // update cart when user interacts with product card
+  async function handleUpdateCart({ _id, orderQuantity }) {
+    const productId = _id;
+    const quantity = orderQuantity;
 
-  useEffect(() => {
-    async function fetchProducts() {
+    // get index of product to be updated in cart
+    const index = cart.items.findIndex((cartProduct) => cartProduct.productId === productId)
+    
+    // create new cart object to update state variable
+    const newCart = {};
+    Object.keys(cart).forEach((key) => {
+      newCart[key] = cart[key];
+    })
+
+    if (quantity === 0) {
+      newCart.items.splice(index, 1, )
+      // update cart in db
       try { 
-        const products = cart.items
-        const detailedProducts = [];
-
-        for (let i=0; i<products.length; i++) {
-          const res = await axios.get(
-            `http://localhost:3000/api/products/view/${products[i].productId}`
-          );
-
-          detailedProducts.push({...res.data, orderQuantity: products[i].quantity});
-        }
-        
-        setCartProducts(detailedProducts);
+        const res = await axios.delete(`http://localhost:3000/api/cart/remove/${productId}`, {
+          productId
+        })
+        console.log('hip')
       } catch (error) {
-        console.log("Error fetching product")
+        console.log('eror')
+        switch (error?.response?.status) {
+          case 500:
+            console.log("Error updating cart")
+        }
       }
+    } else {
+      newCart.items[index] = { productId, quantity };
+      // update cart in db
+      try { 
+        const res = await axios.put("http://localhost:3000/api/cart/update", {
+          productId,
+          quantity
+        })
+        console.log('hip')
+      } catch (error) {
+        console.log('eror')
+        switch (error?.response?.status) {
+          case 500:
+            console.log("Error updating cart")
+        }
+      }
+    }
+
+    console.log("nc", newCart)
+    // update state variable
+    setCart(newCart);
+
+    
+  }
+  // fetch details of products in cart
+  useEffect(() => {
+    console.log("cartooo", cart)
+    async function fetchProducts() {
+      const products = cart.items;
+      // placeholder variable for product data
+      const detailedProducts = [];
+
+      if (products?.length > 0) {
+        for (let i=0; i<products.length; i++) {
+          try { 
+            const res = await axios.get(
+              `http://localhost:3000/api/products/view/${products[i].productId}`
+            );
+            detailedProducts.push({...res.data, orderQuantity: products[i].quantity});
+          } catch (error) {
+            console.log("Error fetching product")
+          }
+        }
+      }
+      console.log("products", cart, detailedProducts)
+      setCartProducts(detailedProducts);
     }
 
     fetchProducts();
   }, [cart])
   
-
+  // update checkout total
   useEffect(() => {
-    console.log("cartyy", )
-  }, [cart])
+    console.log("products", cartProducts)
+    if (cartProducts?.length > 0) {
+      // get total price of each product given unit price and order quantity 
+      const cartPrices = cartProducts.map(({price, orderQuantity}) => price*orderQuantity)
+
+      console.log(cartPrices)
+      // summation of cart prices
+      const cartTotal = cartPrices.reduce(
+        (accumulator, currentValue) => accumulator + currentValue
+      )
+      setCheckoutTotal(cartTotal);
+    } else {
+      setCheckoutTotal(0)
+    }
+  }, [cartProducts])
+
+  // save order upon checkout
+  async function handleCheckout () {
+    let success = 0;
+
+    for (const item of cart.items) {
+      try { 
+        const createRes = await axios.post("http://localhost:3000/api/orders/create", {
+          productId: item.productId,
+          quantity: item.quantity,
+          email
+        })
+        success++;
+      } catch (error) {
+        console.log(error);
+        alert(`Error placing an order for the product with the ID ${item.productId}`)
+        return
+      }
+    }
+
+    console.log(success, cart.items.length)
+    if (success === cart.items.length) {
+      // clear cart
+      const clearRes = await axios.delete("http://localhost:3000/api/cart/clear")
+      setCart([]);
+
+      alert("All orders successfully placed!")
+    }
+  }
 
   return (
     <>
-    <div className='bg-eggshell flex flex-row px-8 lg:px-32 md:px-24 sm:px-10 pt-32'>
-      <div className = 'w-1/2'>
+    <div className='bg-eggshell min-h-screen flex flex-row px-8 lg:px-32 md:px-24 sm:px-10 pt-32'>
+      {/* Cart products */}
+      <div className = 'w-2/3'>
         <label className = "text-2xl text-gunmetal">Your Shopping Cart</label>
         {
           cart?.items?.length > 0 ? (
             cartProducts.map((product) => {
               // const productInfo = fetchProduct(product.productId);
-              return <CartProductCard product={product} updateCart={updateCart} key={product._id}/>
+              return <CartProductCard product={product} updateCart={handleUpdateCart} key={product._id}/>
             })
           ) : (
             "Your cart is currently empty"
           )
-          
         }
       </div>
-      <div className = 'w-1/2'>
-        2nd div
+      {/* Cart summary + checkout */}
+      <div className = 'w-1/3 m-10 flex'>
+        <div className="flex-1 flex flex-col rounded-box bg-white">
+          <div className="flex flex-1 p-10 text-center items-center justify-between text-2xl text-black">
+            <div>
+              Total:
+            </div> 
+            <div>
+              $ {checkoutTotal}
+            </div>
+          </div>
+          <button className="btn m-10" onClick={handleCheckout}>Checkout</button>
+        </div>
       </div>
-
     </div>
     </>
     
