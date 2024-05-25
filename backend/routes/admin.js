@@ -43,6 +43,6 @@ router.delete('/products/delete/:id', deleteProduct);
 
 // route to confirm order fulfillment
 // PUT /api/admin/orders/confirm/:id
-router.put('/orders/confirm/:id', confirmOrderFulfillment);
+router.patch('/orders/confirm/:id', confirmOrderFulfillment);
 
 export default router;
