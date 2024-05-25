@@ -34,8 +34,8 @@ export const generateSalesReport = async (req, res) => {
 
         for (const order of orders) {
             const productId = order.productId;
-            if (!salesReport[productId]) {
-                const product = await Product.findById(productId);
+            const product = await Product.findById(productId);
+            if (!salesReport[productId]) {    
                 salesReport[productId] = {
                     productName: product.name,
                     quantitySold: 0,
@@ -43,10 +43,9 @@ export const generateSalesReport = async (req, res) => {
                 };
             }
             salesReport[productId].quantitySold += order.quantity;
-            salesReport[productId].income += order.quantity * order.price; // assuming `price` is part of the order model
-            totalSalesAmount += order.quantity * order.price;
+            salesReport[productId].income += order.quantity * product.price; // assuming `price` is part of the order model
+            totalSalesAmount += order.quantity * product.price;
         }
-
         res.status(200).json({ salesReport, totalSalesAmount });
     } catch (err) {
         res.status(500).json({ message: 'Server Error' });
