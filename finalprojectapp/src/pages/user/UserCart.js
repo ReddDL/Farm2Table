@@ -213,7 +213,7 @@ const UserCart = () => {
             </div> 
             <div>
               {
-                cart?.items ? (
+                cart?.items?.length > 0 ? (
                   cart.items.map((item)=>item.quantity).reduce(
                     (accumulator, currentValue) => accumulator + currentValue
                   )
