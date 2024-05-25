@@ -209,6 +209,22 @@ const UserCart = () => {
         <div className="flex-1 flex flex-col rounded-box bg-white">
           <div className="flex flex-1 p-10 text-center items-center justify-between text-2xl text-black">
             <div>
+              Total Number of Items:
+            </div> 
+            <div>
+              {
+                cart?.items ? (
+                  cart.items.map((item)=>item.quantity).reduce(
+                    (accumulator, currentValue) => accumulator + currentValue
+                  )
+                ) : (
+                  0
+                )
+              }
+            </div>
+          </div>
+          <div className="flex flex-1 p-10 text-center items-center justify-between text-2xl text-black">
+            <div>
               Total:
             </div> 
             <div>
