@@ -117,21 +117,24 @@ const UserCart = () => {
   useEffect(() => {
     console.log("cartooo", cart)
     async function fetchProducts() {
-      try { 
-        const products = cart.items;
-        // placeholder variable for product data
-        const detailedProducts = [];
+      const products = cart.items;
+      // placeholder variable for product data
+      const detailedProducts = [];
 
+      if (products?.length > 0) {
         for (let i=0; i<products.length; i++) {
-          const res = await axios.get(
-            `http://localhost:3000/api/products/view/${products[i].productId}`
-          );
-          detailedProducts.push({...res.data, orderQuantity: products[i].quantity});
+          try { 
+            const res = await axios.get(
+              `http://localhost:3000/api/products/view/${products[i].productId}`
+            );
+            detailedProducts.push({...res.data, orderQuantity: products[i].quantity});
+          } catch (error) {
+            console.log("Error fetching product")
+          }
         }
-        setCartProducts(detailedProducts);
-      } catch (error) {
-        console.log("Error fetching product")
       }
+      console.log("products", cart, detailedProducts)
+      setCartProducts(detailedProducts);
     }
 
     fetchProducts();
@@ -148,32 +151,39 @@ const UserCart = () => {
       // summation of cart prices
       const cartTotal = cartPrices.reduce(
         (accumulator, currentValue) => accumulator + currentValue
-      );
+      )
       setCheckoutTotal(cartTotal);
+    } else {
+      setCheckoutTotal(0)
     }
-  }, [cart, cartProducts])
+  }, [cartProducts])
 
   // save order upon checkout
   async function handleCheckout () {
-    console.log(cart.items)
+    let success = 0;
+
     for (const item of cart.items) {
       try { 
-        const res = await axios.post("http://localhost:3000/api/orders/create", {
+        const createRes = await axios.post("http://localhost:3000/api/orders/create", {
           productId: item.productId,
           quantity: item.quantity,
           email
         })
-        
+        success++;
       } catch (error) {
-        switch (error?.response?.status) {
-          case 404:
-            console.log("Product not found")
-            break;
-          case 500:
-            console.log("Error adding to cart")
-        }
-        
+        console.log(error);
+        alert(`Error placing an order for the product with the ID ${item.productId}`)
+        return
       }
+    }
+
+    console.log(success, cart.items.length)
+    if (success === cart.items.length) {
+      // clear cart
+      const clearRes = await axios.delete("http://localhost:3000/api/cart/clear")
+      setCart([]);
+
+      alert("All orders successfully placed!")
     }
   }
 
