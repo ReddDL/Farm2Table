@@ -5,7 +5,7 @@ import axios from 'axios';
 const AdminDashboard = () => {
     const [sales, setSales] = useState(0);
     const [orders, setOrders] = useState([]);
-    const [interval, setInterval] = useState('Annual');
+    const [interval, setInterval] = useState('Weekly');
     const [loading, setLoading] = useState(false);
 
     const activeLink = 'relative tracking-[1px] mb-4 text-periwinkle after:content-[""] after:bg-periwinkle after:h-[3px] after:w-[100%] after:left-0 after:-bottom-[5px] after:rounded-xl after:absolute';
@@ -13,35 +13,8 @@ const AdminDashboard = () => {
 
     const handleIntervalChange = (newInterval) => {
         setInterval(newInterval);
-        // fetch and set sales
         fetchSales(newInterval.toLowerCase());
-        // You might want to update sales data here based on the newInterval
-        // Example: setSales(fetchSalesData(newInterval));
     };
-    
-    const dummyOrders = [
-        {
-          productId: 123345345,
-          quantity: 3,
-          status: 0,
-          email: 'email@email.com',
-          dateOrdered: '05/25/2003'
-        },
-        {
-          productId: 123345346,
-          quantity: 5,
-          status: 1,
-          email: 'anotheremail@email.com',
-          dateOrdered: '06/15/2003'
-        },
-        {
-          productId: 123345347,
-          quantity: 2,
-          status: 2,
-          email: 'yetanotheremail@email.com',
-          dateOrdered: '07/20/2003'
-        },
-      ]
     
     // fetch all customer orders and sales once component is mounted
     useEffect(() => {

@@ -89,11 +89,8 @@ const UserProducts = () => {
     return (
     <>
     <div className='bg-eggshell flex flex-col pt-32'>
-
     <div className = 'flex justify-center mb-10'>
-
       <h1 className='text-midnight-green text-4xl'>Welcome to our shop</h1>
-
     </div>
     <div className=' mx-auto' >
       {/*  FILTERS  */}

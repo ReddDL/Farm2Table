@@ -35,9 +35,9 @@ const AdminUsers = () => {
   }, [])
 
   return (
-    <div className='bg-eggshell flex flex-col px-8 lg:px-32 md:px-24 sm:px-10 pt-32 text-midnight-green pb-10 min-h-screen'>
-      <h1 className='lato-bold text-4xl'> Total users: {userCount}</h1>
-      <div className='bg-alabaster p-5 mb-5 rounded-xl mt-4 flex flex-row sm:flex-col md:flex-row sm:items-center flex-wrap justify-start gap-10'>
+    <div className='bg-eggshell min-h-screen px-5 pt-28 pb-10'>
+      <div className='mx-auto max-w-7xl'>
+        <h1 className='lato-bold text-4xl'> Total users: {userCount}</h1>
         {users.map((user) => (
           <AdminUserCard key={user.email} user={user} />
         ))}

@@ -66,36 +66,42 @@ const AdminProducts = () => {
                 <AdminProductCard product={product} key ={product._id}/>
             </>
         )
-
         })
   }
   return (
-    <div className='bg-eggshell flex flex-col px-8 lg:px-32 md:px-24 sm:px-10 pt-32 min-h-screen'>
-      <div className='flex poppins-regular items-center gap-4'>
-        <div>
-          {/* <label htmlFor="filter">Filter by: </label> */}
-          <select name="filter" id="filter" className='bg-eggshell text-midnight-green px-2 py-1 mr-3 border border-solid border-gray-600 pr-9'>
-            <option value="filterBy">Filter by</option>
-            <option value="name">Name</option>
-            <option value="price">Price</option>
-            <option value="type">Type</option>
-            <option value="quantity">Quantity</option>
-          </select>
+    <>
+    <div className='bg-eggshell flex flex-col pt-32'>
+    <div className='mx-auto px-2'>
+      {/*  FILTERS  */}
+      <div className='flex poppins-regular justify-start items-center gap-4 '>
+          <div>
+            <select name="filter" id="filter" className='bg-eggshell text-midnight-green px-2 py-1 mr-3 border border-solid border-gray-600 pr-9'>
+              <option value="filterBy">Filter by</option>
+              <option value="name">Name</option>
+              <option value="price">Price</option>
+              <option value="type">Type</option>
+              <option value="quantity">Quantity</option>
+            </select>
+          </div>
+          <div>
+            <select name="sort" id="sort" className='bg-eggshell text-midnight-green px-2 py-1 mr-3 border border-solid border-gray-600 pr-9'>
+              <option value="sortBy">Sort by</option>
+              <option value="ascending">Ascending</option>
+              <option value="descending">Descending</option>
+            </select>
+          </div>
+          <button onClick={filter} className='bg-eggshell text-midnight-green px-3 py-1 border border-solid border-gray-600'>Apply</button>
         </div>
-        <div>
-          {/* <label htmlFor="sort">Sort by: </label> */}
-          <select name="sort" id="sort" className='bg-eggshell text-midnight-green px-2 py-1 mr-3 border border-solid border-gray-600 pr-9'>
-            <option value="sortBy">Sort by</option>
-            <option value="ascending">Ascending</option>
-            <option value="descending">Descending</option>
-          </select>
+        {/* PRODUCTS */}
+        <div className='product bg-alabaster min-h-screen max-w-7xl p-5 mb-5 rounded-xl mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 shadow-md'>
+          {products.map((product) => (
+            <AdminProductCard product={product} key={product._id} />
+          ))}
         </div>
-        <button onClick={filter} className='bg-eggshell text-midnight-green px-3 py-1 border border border-solid border-gray-600'>Apply</button>
-      </div>
-      <div id="product" className='product bg-alabaster p-5 mb-5 rounded-xl mt-4 flex flex-row sm:flex-col md:flex-row sm:items-center flex-wrap justify-start gap-10'>
-        {PlaceHolder()}
+
       </div>
     </div>
+    </>
   );
 };
 

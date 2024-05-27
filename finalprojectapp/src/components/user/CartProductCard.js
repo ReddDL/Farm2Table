@@ -9,30 +9,6 @@ export default function CartProductCard ({ product, updateCart }) {
   const [orderQuantity, setOrderQuantity] = useState(product["orderQuantity"]);
   const [showInput, setShowInput] = useState(false);
 
-  const products = [
-    {
-        name: "product1",
-        description: "desc1",
-        type: 'crop',
-        price: 12,
-        orderQuantity: 1
-    },
-    {
-        name: "product2",
-        description: "desc2",
-        type: 'poultry',
-        price: 20,
-        orderQuantity: 10
-    },
-    {
-        name: "product3",
-        description: "desc3",
-        type: 'crop',
-        price: 300,
-        orderQuantity: 100
-    }
-  ]
-
   // increment order quantity
   function addOrderQuantity() {
     setOrderQuantity(orderQuantity+1)
@@ -59,23 +35,17 @@ export default function CartProductCard ({ product, updateCart }) {
 
   return (
     <div className="flex">
-      <div className="flex-1 flex rounded-[20px] bg-white text-space-cadet p-5 my-5">
+      <div className="flex-1 flex flex-col lg:flex-row rounded-md bg-eggshell text-space-cadet p-5 my-2 border border-solid border-space-cadet lg:divide-x-2 divide-space-cadet" >
         {/* Product image and name */}
-        <div className="flex flex-1 font-bold text-xl gap-5 items-center">
-          {/* <div className="badge bg-midnight-green text-eggshell font-bold">
-            { type.toUpperCase() }
-          </div> */}
-          <img src={image} className = "size-20"/>
-          { name }
-          
-          {/* <p>
-            { description }
-          </p> */}
+        <div className="flex items-center flex-initial w-64">
+          <div className='h-20 w-20 bg-periwinkle rounded-xl flex items-center justify-center'>
+            <img src={product.image} alt={product.name} className='h-full w-full object-cover rounded-xl' />
+          </div>
+          <p className="text-xl poppins-regular ml-6"> {name} </p>
         </div>
         <div className="flex-1 flex ">
           {/* Order Quantity */}
-          <div className="flex items-center justify-start">
-            <div className="divider divider-horizontal"></div>
+          <div className="flex items-center w-full justify-center px-5">
               <div className="flex gap-10 justify-center items-center">
                 <FontAwesomeIcon icon={faMinus} onClick={subOrderQuantity} className="btn btn-ghost btn-xs p-2" />
                 <div className={`text-lg w-10 text-center`} onClick={() => setShowInput(true)}>
@@ -83,16 +53,13 @@ export default function CartProductCard ({ product, updateCart }) {
                 </div>
                 <FontAwesomeIcon icon={faPlus} onClick={addOrderQuantity} className="btn btn-ghost btn-xs p-2"/>
               </div>
-            <div className="divider divider-horizontal"></div>
           </div>
         </div>
         {/* Total Price of Product */}
-        <div className="flex-1 text-lg place-content-center text-center max-w-20">
-          $ { price*orderQuantity }
-        </div>
-      </div>
-      <div className="p-5 justify-center content-center text-black">
+        <div className="flex-1 flex flex-row text-lg text-center items-center justify-between">
+          <p className="ml-6">$ { price*orderQuantity } </p>
           <FontAwesomeIcon icon={faTrash} className="btn btn-ghost size-5" onClick={deleteItem}/>
+        </div>
       </div>
     </div>
     

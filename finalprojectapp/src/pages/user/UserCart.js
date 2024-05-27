@@ -11,35 +11,6 @@ const UserCart = () => {
   const [cartProducts, setCartProducts] = useState([]);
   const [checkoutTotal, setCheckoutTotal] = useState(0);
   
-  // ([
-  //   {
-  //       productId : "6648a04e92b6a06ae2277ac0",
-  //       name: "product1",
-  //       description: "desc1",
-  //       type: 'crop',
-  //       price: 12,
-  //       quantity: 1,
-  //       image: "https://media.post.rvohealth.io/wp-content/uploads/sites/3/2020/02/295268_2200-732x549.jpg"
-  //   }
-  //   // },
-  //   // {   
-  //   //     _id : 2,
-  //   //     name: "product2",
-  //   //     description: "desc2",
-  //   //     type: 'poultry',
-  //   //     price: 20,
-  //   //     quantity: 10
-  //   // },
-  //   // {
-  //   //     _id : 3,
-  //   //     name: "product3",
-  //   //     description: "desc3",
-  //   //     type: 'crop',
-  //   //     price: 300,
-  //   //     quantity: 100
-  //   // }
-  // ])
-  
   // fetch user's cart
   useEffect(() => {
     async function fetchCart () {
@@ -81,9 +52,9 @@ const UserCart = () => {
         const res = await axios.delete(`http://localhost:3000/api/cart/remove/${productId}`, {
           productId
         })
-        console.log('hip')
+        // console.log('hip')
       } catch (error) {
-        console.log('eror')
+        // console.log('eror')
         switch (error?.response?.status) {
           case 500:
             console.log("Error updating cart")
@@ -97,9 +68,9 @@ const UserCart = () => {
           productId,
           quantity
         })
-        console.log('hip')
+        // console.log('hip')
       } catch (error) {
-        console.log('eror')
+        // console.log('eror')
         switch (error?.response?.status) {
           case 500:
             console.log("Error updating cart")
@@ -107,7 +78,7 @@ const UserCart = () => {
       }
     }
 
-    console.log("nc", newCart)
+    // console.log("nc", newCart)
     // update state variable
     setCart(newCart);
 
@@ -115,7 +86,7 @@ const UserCart = () => {
   }
   // fetch details of products in cart
   useEffect(() => {
-    console.log("cartooo", cart)
+    // console.log("cartooo", cart)
     async function fetchProducts() {
       const products = cart.items;
       // placeholder variable for product data
@@ -133,7 +104,7 @@ const UserCart = () => {
           }
         }
       }
-      console.log("products", cart, detailedProducts)
+      // console.log("products", detailedProducts)
       setCartProducts(detailedProducts);
     }
 
@@ -142,12 +113,12 @@ const UserCart = () => {
   
   // update checkout total
   useEffect(() => {
-    console.log("products", cartProducts)
+    // console.log("products", cartProducts)
     if (cartProducts?.length > 0) {
       // get total price of each product given unit price and order quantity 
       const cartPrices = cartProducts.map(({price, orderQuantity}) => price*orderQuantity)
 
-      console.log(cartPrices)
+      // console.log(cartPrices)
       // summation of cart prices
       const cartTotal = cartPrices.reduce(
         (accumulator, currentValue) => accumulator + currentValue
@@ -162,12 +133,14 @@ const UserCart = () => {
   async function handleCheckout () {
     let success = 0;
 
+    console.log(cart)
     for (const item of cart.items) {
       try { 
         const createRes = await axios.post("http://localhost:3000/api/orders/create", {
           productId: item.productId,
           quantity: item.quantity,
-          email
+          email,
+          // totalPrice: item.price * item.quantity
         })
         success++;
       } catch (error) {
@@ -189,51 +162,54 @@ const UserCart = () => {
 
   return (
     <>
-    <div className='bg-eggshell min-h-screen flex flex-row px-8 lg:px-32 md:px-24 sm:px-10 pt-32'>
-      {/* Cart products */}
-      <div className = 'w-2/3'>
-        <label className = "text-2xl text-gunmetal">Your Shopping Cart</label>
-        {
-          cart?.items?.length > 0 ? (
-            cartProducts.map((product) => {
-              // const productInfo = fetchProduct(product.productId);
-              return <CartProductCard product={product} updateCart={handleUpdateCart} key={product._id}/>
-            })
-          ) : (
-            "Your cart is currently empty"
-          )
-        }
-      </div>
-      {/* Cart summary + checkout */}
-      <div className = 'w-1/3 m-10 flex'>
-        <div className="flex-1 flex flex-col rounded-box bg-white">
-          <div className="flex flex-1 p-10 text-center items-center justify-between text-2xl text-black">
-            <div>
-              Total Number of Items:
-            </div> 
-            <div>
-              {
-                cart?.items?.length > 0 ? (
-                  cart.items.map((item)=>item.quantity).reduce(
-                    (accumulator, currentValue) => accumulator + currentValue
-                  )
-                ) : (
-                  0
+    <div className='bg-eggshell min-h-screen px-5 pt-32 pb-5'>
+      <div className="mx-auto max-w-7xl">
+        <label className = "text-2xl text-gunmetal lato-bold">Your Shopping Cart</label>
+        <div className="flex">
+          <div>Total Number of Items:</div> 
+          <div>
+            {
+              cart?.items?.length > 0 ? (
+                cart.items.map((item)=>item.quantity).reduce(
+                  (accumulator, currentValue) => accumulator + currentValue
                 )
-              }
-            </div>
+              ) : (
+                0
+              )
+            }
           </div>
-          <div className="flex flex-1 p-10 text-center items-center justify-between text-2xl text-black">
-            <div>
-              Total:
-            </div> 
-            <div>
-              $ {checkoutTotal}
-            </div>
+        </div>
+        <div className=" hidden lg:flex w-3/5 poppins-regular">
+          <p className="flex px-28 border-solid "> PRODUCT</p>
+          <p className="flex flex-1 justify-center "> QTY</p>
+          <p className="flex flex-1 pl-16 "> TOTAL</p>
+        </div>
+        <div className="flex flex-col gap-6 lg:flex-row min-h-[calc(100vh-18rem)]">
+          {/* CART PRODUCTS */}
+          <div className = 'w-full lg:w-2/3 lg:max-h-[500px] lg:overflow-y-scroll no-scrollbar'>
+            {
+              cart?.items?.length > 0 ? (
+                cartProducts.map((product) => {
+                  // const productInfo = fetchProduct(product.productId);
+                  return <CartProductCard product={product} updateCart={handleUpdateCart} key={product._id}/>
+                })
+              ) : (
+                "Your cart is currently empty"
+              )
+            }
           </div>
-          <button className="btn m-10" onClick={handleCheckout}>Checkout</button>
+          {/* Cart summary + checkout */}
+            <div className="bg-alabaster lg:w-2/5 border border-solid border-space-cadet rounded-md p-5 shadow-lg">
+              <h1 className="text-3xl lato-bold "> Order summary</h1>
+              <div className="flex justify-between text-xl poppins-regular my-10">
+                <h2> Total </h2>
+                <h2> ${checkoutTotal}</h2>
+              </div>
+                <button className="btn w-full bg-midnight-green text-white text-xl poppins-regular hover:bg-periwinkle" onClick={handleCheckout}> Proceed to checkout</button>
+            </div>
         </div>
       </div>
+      
     </div>
     </>
     

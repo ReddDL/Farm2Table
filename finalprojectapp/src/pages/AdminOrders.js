@@ -37,8 +37,7 @@ const AdminOrders = () => {
   }, [])
 
   return (
-    <div className='bg-eggshell flex flex-col px-8 lg:px-32 md:px-24 sm:px-10 pt-32 text-midnight-green pb-10 min-h-screen'>
-      <div className='bg-alabaster p-5 mb-5 rounded-xl mt-4 flex flex-row sm:flex-col md:flex-row sm:items-center flex-wrap justify-center gap-10'>
+    <div className='bg-eggshell min-h-screen px-5 pt-28 pb-10'>
         { orders.length == 0 ? (
           <p className='text-3xl poppins-regular'> No orders yet </p>
         ) : (
@@ -47,7 +46,6 @@ const AdminOrders = () => {
             ))
           )
         }
-      </div>
     </div>
   )
 }
