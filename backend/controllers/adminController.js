@@ -1,6 +1,7 @@
 //import statements
 import Product from '../models/Product.js';
 import User from '../models/User.js';
+import Order from '../models/Order.js';
 
 //get total number of users
 export const getTotalUsers = async (req, res) => {
