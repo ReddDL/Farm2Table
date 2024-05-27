@@ -1,6 +1,7 @@
 //import statements
 import Product from '../models/Product.js';
 import User from '../models/User.js';
+import Order from '../models/Order.js'; 
 
 //get total number of users
 export const getTotalUsers = async (req, res) => {
@@ -18,15 +19,12 @@ export const getTotalUsers = async (req, res) => {
 // create a new product
 export const createProduct = async (req, res) => {
     try {
-        // create a new product instance with the data from the request body
         const newProduct = new Product(req.body);
-        // save the new product to the database
         await newProduct.save();
-        // send the newly created product as a response
         res.status(201).json(newProduct);
     } catch (err) {
-        // handle any errors and send a 500 (Internal Server Error) response
-        res.status(500).json({ message: 'Server Error' });
+        console.error(err); // Log the error details
+        res.status(500).json({ message: 'Server Error', error: err.message }); // Send detailed error message
     }
 };
 
@@ -102,6 +100,96 @@ export const confirmOrderFulfillment = async (req, res) => {
         res.status(200).json(order);
     } catch (err) {
         // handle any errors and send a 500 (Internal Server Error) response
+        res.status(500).json({ message: 'Server Error' });
+    }
+};
+
+// get confirmed/fulfilled orders
+export const getConfirmedOrders = async (req, res) => {
+    try {
+        const orders = await Order.find({ status: 1 }); // Ensure the status matches your database values
+        if (!orders.length) return res.status(404).json({ message: 'No confirmed orders found' });
+        res.status(200).json(orders);
+    } catch (err) {
+        res.status(500).json({ message: 'Server Error' });
+    }
+};
+
+// Generate sales report
+const generateSalesReport = async (interval) => {
+    let startDate;
+
+    switch (interval) {
+        case 'weekly':
+            startDate = new Date();
+            startDate.setDate(startDate.getDate() - 7);
+            break;
+        case 'monthly':
+            startDate = new Date();
+            startDate.setMonth(startDate.getMonth() - 1);
+            break;
+        case 'annual':
+            startDate = new Date();
+            startDate.setFullYear(startDate.getFullYear() - 1);
+            break;
+        default:
+            throw new Error('Invalid interval');
+    }
+
+    const orders = await Order.find({ 
+        dateOrdered: { $gte: startDate },
+        status: 1 // Only include completed orders
+    });
+
+    const salesReport = {};
+    let totalSalesAmount = 0;
+
+    for (const order of orders) {
+        const productId = order.productId.toString();
+        const product = await Product.findById(productId);
+
+        if (!salesReport[productId]) {    
+            salesReport[productId] = {
+                productName: product.name,
+                quantitySold: 0,
+                income: 0,
+            };
+        }
+
+        salesReport[productId].quantitySold += order.quantity;
+        salesReport[productId].income += order.quantity * product.price;
+        totalSalesAmount += order.quantity * product.price;
+    }
+
+    return { salesReport, totalSalesAmount };
+};
+
+// get weekly sales report
+export const getWeeklySalesReport = async (req, res) => {
+    try {
+        const report = await generateSalesReport('weekly');
+        res.status(200).json(report);
+    } catch (err) {
+        res.status(500).json({ message: 'Server Error' });
+    }
+};
+
+// get monthly sales report
+export const getMonthlySalesReport = async (req, res) => {
+    try {
+        const report = await generateSalesReport('monthly');
+        res.status(200).json(report);
+    } catch (err) {
+        res.status(500).json({ message: 'Server Error' });
+    }
+};
+
+// get annual sales report
+export const getAnnualSalesReport = async (req, res) => {
+    try {
+        const report = await generateSalesReport('annual');
+        res.status(200).json(report);
+    } catch (err) {
         res.status(500).json({ message: 'Server Error' });
     }
 };

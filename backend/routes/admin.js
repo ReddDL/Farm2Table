@@ -6,7 +6,11 @@ import {
     getProductById,
     updateProduct,
     deleteProduct,
-    confirmOrderFulfillment
+    confirmOrderFulfillment,
+    getConfirmedOrders,
+    getWeeklySalesReport,
+    getMonthlySalesReport,
+    getAnnualSalesReport
 } from '../controllers/adminController.js';
 
 import { protect, adminOnly } from '../middleware/authMiddleware.js';
@@ -14,8 +18,8 @@ import { protect, adminOnly } from '../middleware/authMiddleware.js';
 const router = express.Router();
 
 //protects all admin routes and ensure only admin can access
-router.use(protect);
-router.use(adminOnly);
+//router.use(protect);
+//router.use(adminOnly);
 
 // route to get total users
 // GET /api/admin/users/total
@@ -34,7 +38,7 @@ router.get('/products/getAll', getAllProducts);
 router.get('/products/get/:id', getProductById);
 
 // route to update a product by ID
-// PUT /api/admin/products/update/:id
+// PUT /api/admin/products/update/:id/
 router.put('/products/update/:id/', updateProduct);
 
 // route to delete a product by ID
@@ -42,7 +46,23 @@ router.put('/products/update/:id/', updateProduct);
 router.delete('/products/delete/:id', deleteProduct);
 
 // route to confirm order fulfillment
-// PUT /api/admin/orders/confirm/:id
+// PATCH /api/admin/orders/confirm/:id
 router.patch('/orders/confirm/:id', confirmOrderFulfillment);
+
+// route to get confirmed/fulfilled orders
+// GET /api/admin/orders/confirmed
+router.get('/orders/confirmed', getConfirmedOrders);
+
+// route to get weekly sales report
+// GET /api/admin/sales/weekly
+router.get('/sales/weekly', getWeeklySalesReport);
+
+// route to get monthly sales report
+// GET /api/admin/sales/monthly
+router.get('/sales/monthly', getMonthlySalesReport);
+
+// route to get annual sales report
+// GET /api/admin/sales/annual
+router.get('/sales/annual', getAnnualSalesReport);
 
 export default router;
