@@ -38,8 +38,8 @@ const ProductCard2 = (prop) => {
   }
 
   return (
-    <div className="card w-80 bg-white shadow-xl" key = {attributes._id} id = {attributes.name}>
-        <figure className="object-fill w-80 h-60"><img src={attributes.image} alt={attributes.title} className = "h-80"/></figure>
+    <div className="card min-h-96 bg-white shadow-xl" key = {attributes._id} id = {attributes.name}>
+        <figure className="object-cover w-full h-60"><img src={attributes.image} alt={attributes.title} className = "h-full w-full object-cover"/></figure>
         <div className="card-body">
             <div className = 'flex flex-col flex-wrap'>
               <div className="flex justify-between">
@@ -66,9 +66,9 @@ const ProductCard2 = (prop) => {
             
             {
               inCart ? (
-                <button className = "AddToCart bg-space-cadet h-10 mt-3 rounded-lg text-eggshell" id = {attributes._id} disabled>IN CART</button>
+                <button className = "AddToCart bg-space-cadet h-10 mt-3 rounded-2xl text-eggshell" id = {attributes._id} disabled>Item already in cart</button>
               ) : (
-                <button onClick= {addToCart} className = "AddToCart bg-tea-green h-10 mt-3 rounded-2xl text-oxford-blue lato-bold" id = {attributes._id} > Add to cart</button>
+                <button onClick= {addToCart} className = "AddToCart bg-tea-green h-10 mt-3 rounded-2xl text-oxford-blue lato-bold hover:bg-periwinkle" id = {attributes._id} > Add to cart</button>
               )
             }
             
