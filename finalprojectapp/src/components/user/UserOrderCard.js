@@ -1,58 +1,51 @@
 import axios from 'axios';
-import React from 'react';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const OrderCard = ({ order, updateOrders, key }) => {
   const [status, setStatus] = useState(order.status);
-  const [product, setProducData] = useState({});
-  // Determine button color based on order status
-  const buttonClass = order.status === 0
-    ? 'bg-gray-400 text-black' // Pending status
-    : 'bg-midnight-green text-white'; // Confirmed status
+  const [product, setProductData] = useState({});
 
-  // function for cancelling order
+  // Fetch product details
+  useEffect(() => {
+    async function fetchProduct() {
+      try {
+        const res = await axios.get(`http://localhost:3000/api/products/view/${order.productId}`);
+        setProductData(res.data);
+      } catch (error) {
+        console.log("Error fetching product data");
+      }
+    }
+    fetchProduct();
+  }, [order.productId]);
+
+  // Update order's status and orders in user profile
+  useEffect(() => {
+    order.status = status;
+    updateOrders(order, key);
+  }, [status, order, key, updateOrders]);
+
+  // Handle order cancellation
   async function handleCancelOrder() {
-    // if order is just pending/not yet confirmed
-    if ( order.status === 0 ) {
+    if (order.status === 0) {
       try {
         const res = await axios.put(`http://localhost:3000/api/orders/updateOrder/${order._id}`, {
           orderId: order._id,
           newStatus: 2
-        })
-
-        setStatus(2)
+        });
+        setStatus(2);
       } catch (error) {
-        console.log("Server error encountered while trying to update status")
+        console.log("Server error encountered while trying to update status");
       }
     }
   }
 
-  useEffect(() => {
-    async function fetchProduct() {
-      try{
-        const res = await axios.get(`http://localhost:3000/api/products/view/${order.productId}`)
-        setProducData(res.data);
-      } catch (error) {
-        
-      }
-    }
-    fetchProduct()
-  })
-
-  // update order's status and orders in user profile 
-  useEffect(() => {
-    order["status"] = status;
-    updateOrders(order, key);
-  }, [status])
-  
   return (
     <div className='h-36 w-full bg-white flex items-center justify-between rounded-xl border-solid border border-gunmetal shadow-lg p-5'>
       {/* Order details */}
       <div className='flex items-center'>
         <div className='h-28 w-28 bg-periwinkle rounded-xl flex items-center justify-center'>
           {/* Placeholder for product image */}
-          <img src={product.image} alt="" className='h-full w-full object-cover rounded-xl' />
+          <img src={product.image} alt={product.name} className='h-full w-full object-cover rounded-xl' />
         </div>
         <div className='pl-3'>
           <h1 className='poppins-medium text-xl'>Order ID: {order._id}</h1>
@@ -60,12 +53,21 @@ const OrderCard = ({ order, updateOrders, key }) => {
           <p className='poppins-regular'>Date Ordered: {order.dateOrdered}</p>
         </div>
       </div>
-      <button className={`px-5 py-4 rounded-xl w-40 ${buttonClass}`}>
-        {order.status === 0 ? 'Pending' : order.status === 1 ? 'Confirmed' : 'Cancelled'}
-      </button>
-      <button className={`px-5 py-4 rounded-xl w-40 ${buttonClass} ${order.status === 0? "": "hidden"}`} onClick={handleCancelOrder}>
-        Cancel Order
-      </button>
+      {status === 0 && (
+        <button className='bg-gray-400 text-black px-5 py-4 rounded-xl w-40' onClick={handleCancelOrder}>
+          Cancel Order
+        </button>
+      )}
+      {status === 1 && (
+        <button className='bg-midnight-green text-white px-5 py-4 rounded-xl w-40'>
+          Confirmed
+        </button>
+      )}
+      {status === 2 && (
+        <button className='bg-red-500 text-white px-5 py-4 rounded-xl w-40'>
+          Cancelled
+        </button>
+      )}
     </div>
   );
 }
