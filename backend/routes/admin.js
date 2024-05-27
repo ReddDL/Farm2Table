@@ -8,6 +8,7 @@ import {
     deleteProduct,
     confirmOrderFulfillment,
     getConfirmedOrders,
+    getUnConfirmedOrders,
     generateSalesReport
 } from '../controllers/adminController.js';
 
@@ -50,6 +51,10 @@ router.patch('/orders/confirm/:id', confirmOrderFulfillment);
 // route to get confirmed/fulfilled orders
 // GET /api/admin/orders/confirmed
 router.get('/orders/confirmed', getConfirmedOrders);
+
+// route to get confirmed/fulfilled orders
+// GET /api/admin/orders/unconfirmed
+router.get('/orders/unconfirmed', getUnConfirmedOrders);
 
 // route to get weekly sales report
 // GET /api/admin/sales/interval

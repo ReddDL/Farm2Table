@@ -107,8 +107,19 @@ export const confirmOrderFulfillment = async (req, res) => {
 // get confirmed/fulfilled orders
 export const getConfirmedOrders = async (req, res) => {
     try {
-        const orders = await Order.find({ status: 1 }); // Ensure the status matches your database values
+        const orders = await Order.find({ status: 1 }); 
         if (!orders.length) return res.status(404).json({ message: 'No confirmed orders found' });
+        res.status(200).json(orders);
+    } catch (err) {
+        res.status(500).json({ message: 'Server Error' });
+    }
+};
+
+// get unconfirmed/fulfilled orders
+export const getUnConfirmedOrders = async (req, res) => {
+    try {
+        const orders = await Order.find({ status: 0 }); 
+        if (!orders.length) return res.status(404).json({ message: 'No unconfirmed orders found' });
         res.status(200).json(orders);
     } catch (err) {
         res.status(500).json({ message: 'Server Error' });
