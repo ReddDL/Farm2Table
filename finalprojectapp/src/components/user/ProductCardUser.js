@@ -1,34 +1,14 @@
-import { faCross, faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import React, { useState, useEffect } from 'react';
-import { ItemCount } from '../../pages/user/UserProducts';
-import CartProductCard from "./CartProductCard";
+
 import axios from "axios";
 
 const ProductCard2 = (prop) => {
   let attributes = prop.data;
-  const [inCart, setInCart] = useState(attributes?.inCart);
+  const [inCart, setInCart] = useState(prop?.inCart);
   const [orderQuantity, setOrderQuantity] = useState(1);
 
   console.log(attributes)
-  function PrepareToCart () {
-    ItemCount(prop.setNumItems, prop.numItems, orderQuantity)
-    // console.log(attributes)
-    updateCart({productId: attributes._id, quantity: orderQuantity})
-    setOrderQuantity(1)
-  }
-
-  function addOrderQuantity() {
-    setOrderQuantity(orderQuantity+1)
-
-  }
-
-  function subOrderQuantity() {
-    if (orderQuantity > 1) {
-      setOrderQuantity(orderQuantity-1)
-    } 
-  }
-  
   // add product to cart
   async function addToCart() {
     try { 
@@ -44,6 +24,17 @@ const ProductCard2 = (prop) => {
           console.log("Error fetching cart")
       }
     }
+  }
+
+  if (document.getElementById(attributes._id)!== null){
+    document.getElementById(attributes._id).addEventListener("click", InCart);
+  }
+
+  function InCart(){
+    document.getElementById(attributes._id).innerHTML = "IN CART";
+    document.getElementById(attributes._id).disabled = true;
+    document.getElementById(attributes._id).className = "AddToCart bg-space-cadet h-10 mt-3 rounded-lg text-eggshell"; 
+
   }
 
   return (
@@ -84,27 +75,11 @@ const ProductCard2 = (prop) => {
         </div>
     </div>
   )
+
+  
 }
 
 
-async function updateCart({ productId, quantity }) {
-  try { 
-    const res = await axios.post("http://localhost:3000/api/cart/add", {
-      productId,
-      quantity
-    })
-    console.log("SUCCESS!!  ")
-  } catch (error) {
-    switch (error?.response?.status) {
-      case 404:
-        console.log("Product not found")
-        break;
-      case 500:
-        console.log("Error adding to cart")
-    }
-    
-  }
-}
 
 
 
