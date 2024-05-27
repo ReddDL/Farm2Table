@@ -116,79 +116,51 @@ export const getConfirmedOrders = async (req, res) => {
 };
 
 // Generate sales report
-const generateSalesReport = async (interval) => {
-    let startDate;
+export const generateSalesReport = async (req, res) => {
+    try {
+        const { interval } = req.query; // access the parameter using req.query.interval
+        let startDate;
 
-    switch (interval) {
-        case 'weekly':
-            startDate = new Date();
-            startDate.setDate(startDate.getDate() - 7);
-            break;
-        case 'monthly':
-            startDate = new Date();
-            startDate.setMonth(startDate.getMonth() - 1);
-            break;
-        case 'annual':
-            startDate = new Date();
-            startDate.setFullYear(startDate.getFullYear() - 1);
-            break;
-        default:
-            throw new Error('Invalid interval');
-    }
-
-    const orders = await Order.find({ 
-        dateOrdered: { $gte: startDate },
-        status: 1 // Only include completed orders
-    });
-
-    const salesReport = {};
-    let totalSalesAmount = 0;
-
-    for (const order of orders) {
-        const productId = order.productId.toString();
-        const product = await Product.findById(productId);
-
-        if (!salesReport[productId]) {    
-            salesReport[productId] = {
-                productName: product.name,
-                quantitySold: 0,
-                income: 0,
-            };
+        // Calculate start date based on the interval
+        switch (interval) {
+            case 'weekly':
+                startDate = new Date();
+                startDate.setDate(startDate.getDate() - 7);
+                break;
+            case 'monthly':
+                startDate = new Date();
+                startDate.setMonth(startDate.getMonth() - 1);
+                break;
+            case 'annual':
+                startDate = new Date();
+                startDate.setFullYear(startDate.getFullYear() - 1);
+                break;
+            default:
+                return res.status(400).json({ message: 'Invalid interval' });
         }
 
-        salesReport[productId].quantitySold += order.quantity;
-        salesReport[productId].income += order.quantity * product.price;
-        totalSalesAmount += order.quantity * product.price;
-    }
+        // find orders within the specified interval
+        const orders = await Order.find({ dateOrdered: { $gte: startDate } }); // gte is greater than or equal to
 
-    return { salesReport, totalSalesAmount };
-};
+        // aggregate sales data
+        const salesReport = {};
+        let totalSalesAmount = 0;
 
-// get weekly sales report
-export const getWeeklySalesReport = async (req, res) => {
-    try {
-        const report = await generateSalesReport('weekly');
-        res.status(200).json(report);
-    } catch (err) {
-        res.status(500).json({ message: 'Server Error' });
-    }
-};
-
-// get monthly sales report
-export const getMonthlySalesReport = async (req, res) => {
-    try {
-        const report = await generateSalesReport('monthly');
-        res.status(200).json(report);
-    } catch (err) {
-        res.status(500).json({ message: 'Server Error' });
-    }
-};
-
-// get annual sales report
-export const getAnnualSalesReport = async (req, res) => {
-    try {
-        const report = await generateSalesReport('annual');
-        res.status(200).json(report);
+        for (const order of orders) {
+            const productId = order.productId;
+            const product = await Product.findById(productId);
+            if (!salesReport[productId]) {    
+                salesReport[productId] = {
+                    productName: product.name,
+                    quantitySold: 0,
+                    income: 0,
+                };
+            }
+            salesReport[productId].quantitySold += order.quantity;
+            salesReport[productId].income += order.quantity * product.price; // assuming `price` is part of the order model
+            totalSalesAmount += order.quantity * product.price;
+        }
+        res.status(200).json({ salesReport, totalSalesAmount });
     } catch (err) {
         res.status(500).json({ message: 'Server Error' });
     }

@@ -1,55 +1,59 @@
-//import statements
 import Order from '../models/Order.js';
 import Product from '../models/Product.js';
 import mongoose from 'mongoose';
 
 // create new order
-// create new order
 export const createOrder = async (req, res) => {
   try {
-      //extract necessary information from the request body
-      const { productId, quantity, email } = req.body;
+    // Extract necessary information from the request body
+    const { productId, quantity, email } = req.body;
 
-      //check if the product ID is valid
-      if (!mongoose.Types.ObjectId.isValid(productId)) {
-          return res.status(400).json({ message: 'Invalid product ID' });
-      }
+    // Check if the product ID is valid
+    if (!mongoose.Types.ObjectId.isValid(productId)) {
+        return res.status(400).json({ message: 'Invalid product ID' });
+    }
 
-      //find the product by its ID
-      const product = await Product.findById(productId);
-      if (!product) {
-          return res.status(404).json({ message: 'Product not found' });
-      }
+    // Find the product by its ID
+    const product = await Product.findById(productId);
+    if (!product) {
+        return res.status(404).json({ message: 'Product not found' });
+    }
 
-      //check if the product has sufficient quantity
-      if (product.quantity < quantity) {
-          return res.status(400).json({ message: 'Insufficient product quantity' });
-      }
+    // Check if the product has sufficient quantity
+    if (product.quantity < quantity) {
+        return res.status(400).json({ message: 'Insufficient product quantity' });
+    }
 
-      //create a new order instance
-      const newOrder = new Order({
-          userId: req.user._id,
-          productId,
-          quantity,
-          status: 0,
-          email,
-          dateOrdered: new Date()
-      });
+    // Calculate total price
+    const totalPrice = product.price * quantity;
 
-      // update the product quantity and save changes
-      product.quantity -= quantity;
-      await product.save();
-      // save the new order
-      await newOrder.save();
+    // Create a new order instance
+    const newOrder = new Order({
+        userId: req.user._id,
+        productId,
+        quantity,
+        status: 0,
+        email,
+        dateOrdered: new Date(),
+        totalPrice // Set the totalPrice
+    });
 
-      // send a success response
-      res.status(201).json({ message: 'Order placed successfully', order: newOrder });
+    // Update the product quantity and save changes
+    product.quantity -= quantity;
+    await product.save();
+    
+    // Save the new order
+    await newOrder.save();
+
+    // Send a success response
+    res.status(201).json({ message: 'Order placed successfully', order: newOrder });
   } catch (error) {
-      // handle any errors and send a 500 (Internal Server Error) response
-      console.error(error);
-      res.status(500).json({ message: 'Internal server error' });
+    // Handle any errors and send a 500 (Internal Server Error) response
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
+
 
 // // create new order
 // export const createOrder = async (req, res) => {

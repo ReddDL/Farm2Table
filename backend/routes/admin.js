@@ -8,9 +8,7 @@ import {
     deleteProduct,
     confirmOrderFulfillment,
     getConfirmedOrders,
-    getWeeklySalesReport,
-    getMonthlySalesReport,
-    getAnnualSalesReport
+    generateSalesReport
 } from '../controllers/adminController.js';
 
 import { protect, adminOnly } from '../middleware/authMiddleware.js';
@@ -54,15 +52,7 @@ router.patch('/orders/confirm/:id', confirmOrderFulfillment);
 router.get('/orders/confirmed', getConfirmedOrders);
 
 // route to get weekly sales report
-// GET /api/admin/sales/weekly
-router.get('/sales/weekly', getWeeklySalesReport);
-
-// route to get monthly sales report
-// GET /api/admin/sales/monthly
-router.get('/sales/monthly', getMonthlySalesReport);
-
-// route to get annual sales report
-// GET /api/admin/sales/annual
-router.get('/sales/annual', getAnnualSalesReport);
+// GET /api/admin/sales/interval
+router.get('/sales/interval', generateSalesReport);
 
 export default router;

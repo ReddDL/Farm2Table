@@ -6,7 +6,8 @@ const orderSchema = new mongoose.Schema({
     quantity: { type: Number, required: true },
     status: { type: Number, enum: [0, 1, 2], default: 0 },
     email: { type: String, required: true },
-    dateOrdered: { type: Date, default: Date.now }
+    dateOrdered: { type: Date, default: Date.now },
+    totalPrice: { type: Number, required: true } // ADDED TOTALPRICE FIELD
 });
 
 const Order = mongoose.model('Orders', orderSchema);
