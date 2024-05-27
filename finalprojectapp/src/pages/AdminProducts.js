@@ -15,8 +15,60 @@ const AdminProducts = () => {
 
   const filter = () => {
     // Implement your filtering and sorting logic here
+
+        let sortValue = document.getElementById("sort");
+        let filterValue = document.getElementById("filter");
+
+        if (filterValue.value ==="price" &&sortValue.value ==="ascending") {
+            const productsCopy = [...products];
+            productsCopy.sort((a,b)=>a.price-b.price);
+            setProducts(productsCopy)
+
+        } if (filterValue.value ==="price" &&sortValue.value ==="descending") {
+            const productsCopy = [...products];
+            productsCopy.sort((a,b)=>b.price-a.price);
+            setProducts(productsCopy)
+        } if (filterValue.value ==="quantity" &&sortValue.value ==="ascending") {
+            const productsCopy = [...products];
+            productsCopy.sort((a,b)=>a.quantity-b.quantity);
+            setProducts(productsCopy);
+        } if (filterValue.value ==="quantity" &&sortValue.value ==="descending") {
+            const productsCopy = [...products];
+            productsCopy.sort((a,b)=>b.quantity-a.quantity);
+            setProducts(productsCopy);
+        } if (filterValue.value ==="name" && sortValue.value ==="ascending") {
+            const productsCopy = [...products];
+            productsCopy.sort((a,b)=>a.name.localeCompare(b.name));
+            setProducts(productsCopy);
+        }  if (filterValue.value ==="name" && sortValue.value ==="descending") {
+            const productsCopy = [...products];
+            productsCopy.sort((a,b)=>b.name.localeCompare(a.name));
+            setProducts(productsCopy);
+        }  if (filterValue.value ==="type" && sortValue.value ==="ascending") {
+            const productsCopy = [...products];
+            productsCopy.sort((a,b)=>a.type.localeCompare(b.type));
+            setProducts(productsCopy);
+        }  if (filterValue.value ==="type" && sortValue.value ==="descending") {
+            const productsCopy = [...products];
+            productsCopy.sort((a,b)=>b.type.localeCompare(a.type));
+            setProducts(productsCopy);
+        }
   };
 
+
+  function PlaceHolder() {
+        
+    return products.map((product)=>{
+
+        
+        return(
+            <>
+                <AdminProductCard product={product} key ={product._id}/>
+            </>
+        )
+
+        })
+  }
   return (
     <div className='bg-eggshell flex flex-col px-8 lg:px-32 md:px-24 sm:px-10 pt-32 min-h-screen'>
       <div className='flex poppins-regular items-center gap-4'>
@@ -41,9 +93,7 @@ const AdminProducts = () => {
         <button onClick={filter} className='bg-eggshell text-midnight-green px-3 py-1 border border border-solid border-gray-600'>Apply</button>
       </div>
       <div id="product" className='product bg-alabaster p-5 mb-5 rounded-xl mt-4 flex flex-row sm:flex-col md:flex-row sm:items-center flex-wrap justify-start gap-10'>
-        {products.map((product) => (
-          <AdminProductCard key={product.id} product={product} />
-        ))}
+        {PlaceHolder()}
       </div>
     </div>
   );
