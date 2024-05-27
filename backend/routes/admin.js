@@ -6,7 +6,8 @@ import {
     getProductById,
     updateProduct,
     deleteProduct,
-    confirmOrderFulfillment
+    confirmOrderFulfillment,
+    getConfirmedOrders
 } from '../controllers/adminController.js';
 
 import { protect, adminOnly } from '../middleware/authMiddleware.js';
@@ -42,7 +43,11 @@ router.put('/products/update/:id/', updateProduct);
 router.delete('/products/delete/:id', deleteProduct);
 
 // route to confirm order fulfillment
-// PUT /api/admin/orders/confirm/:id
+// PATCH /api/admin/orders/confirm/:id
 router.patch('/orders/confirm/:id', confirmOrderFulfillment);
+
+// route to get confirmed/fulfilled orders
+// GET /api/admin/orders/confirmed
+router.get('/orders/confirmed', getConfirmedOrders);
 
 export default router;

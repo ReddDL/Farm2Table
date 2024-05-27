@@ -18,17 +18,15 @@ export const getTotalUsers = async (req, res) => {
 // create a new product
 export const createProduct = async (req, res) => {
     try {
-        // create a new product instance with the data from the request body
         const newProduct = new Product(req.body);
-        // save the new product to the database
         await newProduct.save();
-        // send the newly created product as a response
         res.status(201).json(newProduct);
     } catch (err) {
-        // handle any errors and send a 500 (Internal Server Error) response
-        res.status(500).json({ message: 'Server Error' });
+        console.error(err); // Log the error details
+        res.status(500).json({ message: 'Server Error', error: err.message }); // Send detailed error message
     }
 };
+
 
 // get all products
 export const getAllProducts = async (req, res) => {
@@ -102,6 +100,17 @@ export const confirmOrderFulfillment = async (req, res) => {
         res.status(200).json(order);
     } catch (err) {
         // handle any errors and send a 500 (Internal Server Error) response
+        res.status(500).json({ message: 'Server Error' });
+    }
+};
+
+// get confirmed/fulfilled orders
+export const getConfirmedOrders = async (req, res) => {
+    try {
+        const orders = await Order.find({ status: 1 });
+        if (!orders.length) return res.status(404).json({ message: 'No confirmed orders found' });
+        res.status(200).json(orders);
+    } catch (err) {
         res.status(500).json({ message: 'Server Error' });
     }
 };
