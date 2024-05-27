@@ -93,8 +93,8 @@ export const confirmOrderFulfillment = async (req, res) => {
         const order = await Order.findById(req.params.id);
         // if the order doesn't exist, send a 404 (Not Found) response
         if (!order) return res.status(404).json({ message: 'Order not found' });
-        // update the order status to 'Confirmed'
-        order.status = 'Confirmed';
+        // update the order status to 'Confirmed' (assuming 1 represents 'Confirmed')
+        order.status = 1;
         await order.save();
         // send the updated order as a response
         res.status(200).json(order);
