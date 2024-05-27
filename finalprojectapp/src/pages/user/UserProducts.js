@@ -201,7 +201,7 @@ const UserProducts = () => {
 
     </div>
     
-        <div className='flex poppins-regular items-center gap-4'>
+        <div className='flex poppins-regular items-center gap-4 relative'>
             <div>
                 <label htmlFor="filter">Filter by: </label>
                 <select name="filter" id="filter" className='bg-midnight-green text-white px-2 py-1 rounded-lg mr-3'>
@@ -211,7 +211,7 @@ const UserProducts = () => {
                     <option value="quantity">Quantity</option>
                 </select>
                 </div>
-            <div>
+            <div >
                 <label htmlFor="sort" >Sort by: </label>
                 <select name="sort" id="sort" className='bg-midnight-green text-white px-2 py-1 rounded-lg'>
                     <option value="ascending">Ascending</option>
@@ -220,10 +220,10 @@ const UserProducts = () => {
             </div>
             <button onClick={filterOn}className='bg-midnight-green text-white px-3 py-1 rounded-lg'> Apply </button>
         </div>
-        <div className='product bg-alabaster min-h-screen p-5 mb-5 rounded-xl mt-4 flex flex-col justify-center items-center'>
+        <div className='product bg-alabaster min-h-screen max-w-7xl mx-auto p-5 mb-5 rounded-xl mt-4 flex flex-col justify-center items-center'>
             <div className = 'flex flex-row justify-center mb-16 items-center'>
                 <label id = 'cart-items' className = "text-3xl mr-16">Number of Items Added to Cart: {numItems}</label>
-                <NavLink to='/cart'><button className = "text-3xl bg-midnight-green w-96 h-12 rounded-xl">Proceed to Checkout</button></NavLink>
+                {/* <NavLink to='/cart'><button className = "text-3xl bg-midnight-green w-96 h-12 rounded-xl">Proceed to Checkout</button></NavLink> */}
             </div>
 
             {/* FOR DIFFERENT SORTING TEKNIKS */}

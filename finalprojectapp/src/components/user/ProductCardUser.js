@@ -9,7 +9,6 @@ const ProductCard2 = (prop) => {
   let attributes = prop.data;
   const [inCart, setInCart] = useState(attributes?.inCart);
   const [orderQuantity, setOrderQuantity] = useState(1);
-  // console.log(prop)
 
   console.log(attributes)
   function PrepareToCart () {
@@ -51,38 +50,34 @@ const ProductCard2 = (prop) => {
     <div className="card w-80 bg-white shadow-xl" key = {attributes._id} id = {attributes.name}>
         <figure className="object-fill w-80 h-60"><img src={attributes.image} alt={attributes.title} className = "h-80"/></figure>
         <div className="card-body">
-            <div className = 'flex flex-row flex-wrap items-center justify-center'>
-              <div className="">
-                <h2 className="card-title">{attributes.name}</h2>
-                <div className="flex flex-row">
-                  <h3 className = "text-center">Type: </h3>
-                  <h3 className = "text-center"> {attributes.type}</h3>
-                </div>
-                
+            <div className = 'flex flex-col flex-wrap'>
+              <div className="flex justify-between">
+                <h2 className="card-title lato-bold">{attributes.name}</h2>
+                <h3> ${attributes.price}</h3>
               </div>
-              
-              <div className="ml-10">
-                <div className="flex flex-row">
-                  <h3 className = "text-center">Price: </h3>
-                  <h3 className = "text-center"> {attributes.price}</h3>
+                <div className="bg-periwinkle w-fit px-4 py-1 rounded-3xl mb-4">
+                  <p className="text-xs poppins-regular">
+                    {attributes.type}
+                  </p>
                 </div>
-                <div className="flex flex-row">
-                  <h3 className = "text-center">Quantity: </h3>
-                  <h3 className = "text-center"> {attributes.quantity}</h3>
-                </div>
-                <FontAwesomeIcon icon={faMinus} onClick={subOrderQuantity} className="btn btn-ghost btn-xs p-2" />
-                <FontAwesomeIcon icon={faPlus} onClick={addOrderQuantity} className="btn btn-ghost btn-xs p-2"/>
-                {orderQuantity}
-                
-              </div>  
+                <p className = "poppins-regular">{attributes.description}</p>
+                <p className="text-xs poppins-regular"> {attributes.quantity} left</p>
             </div>
-            <p className = "text-center">{attributes.description}</p>
+                {/* + and - */}
+              <div className="flex flex-row justify-between">
+                <div className="flex justify-center items-center gap-6">
+
+                  {/* <FontAwesomeIcon icon={faMinus} onClick={subOrderQuantity} className="btn btn-ghost btn-xs p-2" />
+                  {orderQuantity}
+                  <FontAwesomeIcon icon={faPlus} onClick={addOrderQuantity} className="btn btn-ghost btn-xs p-2"/> */}
+                </div>
+              </div>
             
             {
               inCart ? (
                 <button className = "AddToCart bg-space-cadet h-10 mt-3 rounded-lg text-eggshell" id = {attributes._id} disabled>IN CART</button>
               ) : (
-                <button onClick= {addToCart} className = "AddToCart bg-tea-green h-10 mt-3 rounded-lg text-oxford-blue" id = {attributes._id} >ADD TO CART</button>
+                <button onClick= {addToCart} className = "AddToCart bg-tea-green h-10 mt-3 rounded-2xl text-oxford-blue lato-bold" id = {attributes._id} > Add to cart</button>
               )
             }
             
