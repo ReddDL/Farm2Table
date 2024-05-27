@@ -154,25 +154,27 @@ const UserProducts = () => {
 
     </div>
     
-        <div className='flex poppins-regular items-center gap-4 relative'>
-            <div>
-                <label htmlFor="filter">Filter by: </label>
-                <select name="filter" id="filter" className='bg-midnight-green text-white px-2 py-1 rounded-lg mr-3'>
-                    <option value="name">Name</option> 
-                    <option value="price">Price</option>
-                    <option value="type">Type</option>
-                    <option value="quantity">Quantity</option>
-                </select>
-                </div>
-            <div >
-                <label htmlFor="sort" >Sort by: </label>
-                <select name="sort" id="sort" className='bg-midnight-green text-white px-2 py-1 rounded-lg'>
-                    <option value="ascending">Ascending</option>
-                    <option value="descending">Descending</option>
-                </select>
-            </div>
-            <button onClick={filterOn} className='bg-midnight-green text-white px-3 py-1 rounded-lg'> Apply </button>
+    <div className='flex poppins-regular items-center gap-4'>
+        <div>
+          {/* <label htmlFor="filter">Filter by: </label> */}
+          <select name="filter" id="filter" className='bg-eggshell text-midnight-green px-2 py-1 mr-3 border border-solid border-gray-600 pr-9'>
+            <option value="filterBy">Filter by</option>
+            <option value="name">Name</option>
+            <option value="price">Price</option>
+            <option value="type">Type</option>
+            <option value="quantity">Quantity</option>
+          </select>
         </div>
+        <div>
+          {/* <label htmlFor="sort">Sort by: </label> */}
+          <select name="sort" id="sort" className='bg-eggshell text-midnight-green px-2 py-1 mr-3 border border-solid border-gray-600 pr-9'>
+            <option value="sortBy">Sort by</option>
+            <option value="ascending">Ascending</option>
+            <option value="descending">Descending</option>
+          </select>
+        </div>
+        <button onClick={filterOn} className='bg-eggshell text-midnight-green px-3 py-1 border border border-solid border-gray-600'>Apply</button>
+      </div>
         <div className='product bg-alabaster min-h-screen max-w-7xl mx-auto p-5 mb-5 rounded-xl mt-4 flex flex-col justify-center items-center'>
             <div className = 'flex flex-row justify-center mb-16 items-center'>
                 <label id = 'cart-items' className = "text-3xl mr-16">Number of Items Added to Cart: {numItems}</label>
