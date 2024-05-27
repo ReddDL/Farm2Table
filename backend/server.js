@@ -8,13 +8,9 @@ const app = express();
 //middleware setup
 app.use(bodyParser.json()); // parses incoming JSON requests
 app.use(cors()); // enable Cross-Origin Resource Sharing
-app.use(express.json())
+app.use(express.json());
 
 //connect to MongoDB database
-// mongoose.connect('mongodb://localhost/Farm-to-Table', {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-// });
 mongoose.connect('mongodb+srv://admin:Farm2Table100@cluster0.acgesz2.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
   dbName: "cmsc100project"
 });
@@ -32,7 +28,6 @@ import usersRouter from './routes/users.js';
 import authRouter from './routes/auth.js'; 
 import productsRouter from './routes/products.js';
 import ordersRouter from './routes/orders.js';
-import salesRouter from './routes/sales.js';
 import shoppingCartRouter from './routes/shoppingCart.js';
 
 app.use('/api/admin', adminRouter); //mount admin routes
@@ -40,7 +35,6 @@ app.use('/api/users', usersRouter); //mount user routes
 app.use('/api/auth', authRouter);   //mount authentication routes
 app.use('/api/products', productsRouter); //mount product routes
 app.use('/api/orders', ordersRouter);     //mount order routes
-app.use('/api/sales', salesRouter);       //mount sales routes
 app.use('/api/cart', shoppingCartRouter); //mount shopping cart routes
 
 // port number
