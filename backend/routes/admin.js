@@ -9,7 +9,9 @@ import {
     confirmOrderFulfillment,
     getConfirmedOrders,
     getUnConfirmedOrders,
-    generateSalesReport
+    generateSalesReport,
+    getOrdersByInterval,
+    getSalesSummaryByInterval
 } from '../controllers/adminController.js';
 
 import { protect, adminOnly } from '../middleware/authMiddleware.js';
@@ -59,5 +61,13 @@ router.get('/orders/unconfirmed', getUnConfirmedOrders);
 // route to get weekly sales report
 // GET /api/admin/sales/interval
 router.get('/sales/interval', generateSalesReport);
+
+// Route to get all orders for a specific interval
+// GET /api/admin/orders/interval
+router.get('/orders/interval', getOrdersByInterval);
+
+// Route to get sales summary for a specific interval
+// GET /api/admin/sales/summary
+router.get('/sales/summary', getSalesSummaryByInterval);
 
 export default router;
