@@ -176,3 +176,92 @@ export const generateSalesReport = async (req, res) => {
         res.status(500).json({ message: 'Server Error' });
     }
 }; 
+
+import Order from '../models/Order.js';
+import Product from '../models/Product.js';
+
+// Get all orders for a specific interval
+export const getOrdersByInterval = async (req, res) => {
+    try {
+        const { interval } = req.query;
+        let startDate;
+
+        // Calculate start date based on the interval
+        switch (interval) {
+            case 'weekly':
+                startDate = new Date();
+                startDate.setDate(startDate.getDate() - 7);
+                break;
+            case 'monthly':
+                startDate = new Date();
+                startDate.setMonth(startDate.getMonth() - 1);
+                break;
+            case 'annually':
+                startDate = new Date();
+                startDate.setFullYear(startDate.getFullYear() - 1);
+                break;
+            default:
+                return res.status(400).json({ message: 'Invalid interval' });
+        }
+
+        // find orders within the specified interval
+        const orders = await Order.find({ dateOrdered: { $gte: startDate } });
+
+        res.status(200).json({ orders });
+    } catch (err) {
+        console.error(err); // Log error details for debugging
+        res.status(500).json({ message: 'Server Error' });
+    }
+};
+
+// Get summary of total sales and income per interval by product
+export const getSalesSummaryByInterval = async (req, res) => {
+    try {
+        const { interval } = req.query;
+        let startDate;
+
+        // Calculate start date based on the interval
+        switch (interval) {
+            case 'weekly':
+                startDate = new Date();
+                startDate.setDate(startDate.getDate() - 7);
+                break;
+            case 'monthly':
+                startDate = new Date();
+                startDate.setMonth(startDate.getMonth() - 1);
+                break;
+            case 'annually':
+                startDate = new Date();
+                startDate.setFullYear(startDate.getFullYear() - 1);
+                break;
+            default:
+                return res.status(400).json({ message: 'Invalid interval' });
+        }
+
+        // find orders within the specified interval
+        const orders = await Order.find({ dateOrdered: { $gte: startDate } });
+
+        // aggregate sales data by product
+        const salesSummary = {};
+        for (const order of orders) {
+            const productId = order.productId;
+            const product = await Product.findById(productId);
+            if (product) {
+                if (!salesSummary[productId]) {
+                    salesSummary[productId] = {
+                        productName: product.name,
+                        totalQuantitySold: 0,
+                        totalIncome: 0,
+                    };
+                }
+                salesSummary[productId].totalQuantitySold += order.quantity;
+                salesSummary[productId].totalIncome += order.totalPrice;
+            }
+        }
+
+        res.status(200).json({ salesSummary });
+    } catch (err) {
+        console.error(err); // Log error details for debugging
+        res.status(500).json({ message: 'Server Error' });
+    }
+};
