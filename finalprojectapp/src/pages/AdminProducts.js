@@ -93,7 +93,7 @@ const AdminProducts = () => {
           <button onClick={filter} className='bg-eggshell text-midnight-green px-3 py-1 border border-solid border-gray-600'>Apply</button>
         </div>
         {/* PRODUCTS */}
-        <div className='product bg-alabaster min-h-screen max-w-7xl p-5 mb-5 rounded-xl mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 shadow-md'>
+        <div className='product min-h-screen max-w-7xl mb-5 rounded-xl mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
           {products.map((product) => (
             <AdminProductCard product={product} key={product._id} />
           ))}
