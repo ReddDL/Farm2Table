@@ -38,7 +38,7 @@ const ProductCard2 = (prop) => {
   }
 
   return (
-    <div className="card min-h-96 bg-white shadow-xl" key = {attributes._id} id = {attributes.name}>
+    <div className="card min-h-96 max-h-[30rem] bg-white shadow-xl" key = {attributes._id} id = {attributes.name}>
         <figure className="object-cover w-full h-60"><img src={attributes.image} alt={attributes.title} className = "h-full w-full object-cover"/></figure>
         <div className="card-body">
             <div className = 'flex flex-col flex-wrap'>
