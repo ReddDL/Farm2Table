@@ -126,13 +126,13 @@ export const getUnConfirmedOrders = async (req, res) => {
     }
 };
 
-// Generate sales report
+// generate sales report
 export const generateSalesReport = async (req, res) => {
     try {
         const { interval } = req.query; // access the parameter using req.query.interval
         let startDate;
 
-        // Calculate start date based on the interval
+        // calculate start date based on the interval
         switch (interval) {
             case 'weekly':
                 startDate = new Date();
@@ -175,4 +175,4 @@ export const generateSalesReport = async (req, res) => {
     } catch (err) {
         res.status(500).json({ message: 'Server Error' });
     }
-};
+}; 
