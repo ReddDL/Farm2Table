@@ -177,9 +177,6 @@ export const generateSalesReport = async (req, res) => {
     }
 }; 
 
-import Order from '../models/Order.js';
-import Product from '../models/Product.js';
-
 // Get all orders for a specific interval
 export const getOrdersByInterval = async (req, res) => {
     try {
