@@ -37,7 +37,7 @@ function Signup() {
             setPassword('')
 
             // user prompt for successful login
-            alert('Registration successful')
+            // alert('Registration successful')
 
             // return to landing page
             navigate('/')

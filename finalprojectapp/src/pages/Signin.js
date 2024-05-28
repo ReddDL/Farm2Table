@@ -33,7 +33,7 @@ function Signin() {
             setPassword('')
 
             // user prompt for successful login
-            alert('Login successful')
+            // alert('Login successful')
 
             // return to landing page
             navigate('/')
