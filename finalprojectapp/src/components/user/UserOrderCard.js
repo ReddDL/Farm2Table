@@ -1,3 +1,5 @@
+import { faCheck, faCheckCircle, faXmark, faXmarkCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
@@ -63,18 +65,23 @@ const OrderCard = ({ order, updateOrders, key }) => {
           <p className='poppins-regular'>Date Ordered: {formatDate(order.dateOrdered)}</p>
         </div>
       </div>
+      {/* Pending / Cancel Order */}
       {status === 0 && (
-        <button className='bg-gray-400 text-black px-5 py-4 rounded-xl min-w-40' onClick={handleCancelOrder}>
-          Cancel Order
+        <button 
+          className='btn btn-error border-none bg-gray-400 text-black hover:text-white px-5 py-4 rounded-xl min-w-40 hover:before:content-["Cancel_Order"] before:content-["Pending"]'
+          onClick={handleCancelOrder}
+        >
         </button>
       )}
+      {/* Confirmed */}
       {status === 1 && (
-        <button className='bg-midnight-green text-white px-5 py-4 rounded-xl min-w-40'>
+        <button className='btn bg-midnight-green hover:bg-midnight-green no-animation border-none cursor-default text-white px-5 py-4 rounded-xl min-w-40'>
           Confirmed
         </button>
       )}
+      {/* Cancelled */}
       {status === 2 && (
-        <button className='bg-red-500 text-white px-5 py-4 rounded-xl min-w-40'>
+        <button className='btn bg-red-500 hover:bg-red-500 no-animation border-none cursor-default text-white px-5 py-4 rounded-xl min-w-40'>
           Cancelled
         </button>
       )}
