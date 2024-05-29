@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import CartProductCard from "../../components/user/CartProductCard"
 import axios from "axios";
+import { NavLink } from "react-router-dom";
 
 // import CartProductCard from '../../components/user/CartProductCard.js'
 const UserCart = () => {
@@ -151,7 +152,7 @@ const UserCart = () => {
     }
 
     console.log(success, cart.items.length)
-    if (success === cart.items.length) {
+    if (success === cart.items.length && success > 0) {
       // clear cart
       const clearRes = await axios.delete("http://localhost:3000/api/cart/clear")
       setCart([]);
@@ -165,7 +166,7 @@ const UserCart = () => {
     <div className='bg-eggshell min-h-screen px-5 pt-32 pb-5'>
       <div className="mx-auto max-w-7xl">
         <label className = "text-2xl text-gunmetal lato-bold">Your Shopping Cart</label>
-        <div className="flex">
+        <div className="flex gap-1">
           <div>Total Number of Items:</div> 
           <div>
             {
@@ -179,22 +180,34 @@ const UserCart = () => {
             }
           </div>
         </div>
-        <div className=" hidden lg:flex w-3/5 poppins-regular">
-          <p className="flex px-28 border-solid "> PRODUCT</p>
-          <p className="flex flex-1 justify-center "> QTY</p>
-          <p className="flex flex-1 pl-16 "> TOTAL</p>
-        </div>
+        {/* Cart products header */}
+        {
+          cart?.items?.length > 0 &&
+          <div className=" hidden lg:flex w-3/5 poppins-regular">
+            <p className="flex px-28 border-solid "> PRODUCT</p>
+            <p className="flex flex-1 justify-center "> QTY</p>
+            <p className="flex flex-1 pl-16 "> TOTAL</p>
+          </div>
+        }
         <div className="flex flex-col gap-6 lg:flex-row min-h-[calc(100vh-18rem)]">
-          {/* CART PRODUCTS */}
+          {/* CART PRODUCTS */} 
           <div className = 'w-full lg:w-2/3 lg:max-h-[500px] lg:overflow-y-scroll no-scrollbar'>
             {
               cart?.items?.length > 0 ? (
                 cartProducts.map((product) => {
-                  // const productInfo = fetchProduct(product.productId);
                   return <CartProductCard product={product} updateCart={handleUpdateCart} key={product._id}/>
                 })
               ) : (
-                "Your cart is currently empty"
+                <div className="flex-1 h-full flex flex-col items-center justify-center gap-3 content-center">
+                  <h1 className="text-4xl">
+                    Your cart is currently empty
+                  </h1>
+                  <NavLink to="/products">
+                    <button className="btn bg-tea-green text-midnight-green border-none hover:bg-periwinkle">
+                      Browse products
+                    </button>
+                  </NavLink>
+                </div>
               )
             }
           </div>
@@ -205,7 +218,12 @@ const UserCart = () => {
                 <h2> Total </h2>
                 <h2> ${checkoutTotal}</h2>
               </div>
-                <button className="btn w-full bg-midnight-green text-white text-xl poppins-regular hover:bg-periwinkle" onClick={handleCheckout}> Proceed to checkout</button>
+                <button 
+                  className="btn w-full bg-midnight-green text-white text-xl poppins-regular hover:bg-periwinkle" 
+                  onClick={handleCheckout}
+                > 
+                  Proceed to checkout
+                </button>
             </div>
         </div>
       </div>
