@@ -47,7 +47,7 @@ const ProductCard2 = (prop) => {
                 <h3> ${attributes.price}</h3>
               </div>
                 <div className="bg-periwinkle w-fit px-4 py-1 rounded-3xl mb-4">
-                  <p className="text-xs poppins-regular">
+                  <p className="text-xs poppins-regular text-midnight-green">
                     {attributes.type}
                   </p>
                 </div>
