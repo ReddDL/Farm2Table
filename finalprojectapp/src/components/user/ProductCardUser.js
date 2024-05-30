@@ -6,7 +6,7 @@ import { NavLink } from 'react-router-dom';
 
 const ProductCard2 = (prop) => {
   let attributes = prop.data;
-  const [inCart, setInCart] = useState(prop?.inCart);
+  const [inCart, setInCart] = useState(attributes.inCart);
   const [orderQuantity, setOrderQuantity] = useState(1);
 
   console.log(attributes)
@@ -28,17 +28,6 @@ const ProductCard2 = (prop) => {
       }
     }
   }
-
-  // if (document.getElementById(attributes._id)!== null){
-  //   document.getElementById(attributes._id).addEventListener("click", InCart);
-  // }
-
-  // function InCart(){
-  //   document.getElementById(attributes._id).innerHTML = "IN CART";
-  //   document.getElementById(attributes._id).disabled = true;
-  //   document.getElementById(attributes._id).className = "AddToCart bg-space-cadet h-10 mt-3 rounded-lg text-eggshell"; 
-
-  // }
 
   return (
     <div className="card min-h-96 max-h-[30rem] bg-white shadow-xl" key = {attributes._id} id = {attributes.name}>
@@ -70,7 +59,10 @@ const ProductCard2 = (prop) => {
             {
               inCart ? (
                 <NavLink to="/cart" >
-                  <button className = "AddToCart bg-space-cadet/80 hover:bg-oxford-blue btn border-none w-full h-10 mt-3 rounded-2xl text-eggshell lato-bold" id = {attributes._id}>View item in cart</button>
+                  <button 
+                    className = 'AddToCart bg-space-cadet/80 hover:bg-oxford-blue btn border-none w-full h-10 mt-3 rounded-2xl text-eggshell lato-bold hover:before:content-["View_item_in_cart"] before:content-["In_cart"]' 
+                    id = {attributes._id}>
+                  </button>
                 </NavLink>
               ) : (
                 <button onClick= {addToCart} className = "AddToCart btn border-none bg-tea-green h-10 mt-3 rounded-2xl text-oxford-blue lato-bold hover:bg-periwinkle" id = {attributes._id} > Add to cart</button>

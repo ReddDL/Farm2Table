@@ -15,37 +15,35 @@ const UserProducts = () => {
 
     const userId = useOutletContext();
 
+    // fetch products and user cart
     useEffect(() => {   
-        async function fetchProducts (){
+        async function fetchData (){
             try{
-                const res = await axios.get('http://localhost:3000/api/products/list')
-                console.log(res.data)
-                setFarmProducts(res.data)
-            } catch(error){
-            }
-        }
-        fetchProducts()
-    }, [])
+                const productsRes = await axios.get('http://localhost:3000/api/products/list')
+                const products = productsRes.data;
 
-    useEffect(() => {
-        async function fetchCart () {
-          try { 
-            const res = await axios.get("http://localhost:3000/api/cart/")
-            console.log(res.data)
-            setCart(res.data)
-            setLoading(false)
-          } catch (error) {
-            switch (error?.response?.status) {
-              case 404:
-                console.log("User has no cart")
-                break;
-              case 500:
-                console.log("Error fetching cart")
+                const cartRes = await axios.get("http://localhost:3000/api/cart/")
+                const cart = cartRes.data;
+
+                setCart(cart)
+
+                // assign inCart attribute to each product
+                for (const product of products) {
+                    if (cart.items.find(item => item.productId === product._id)) {
+                        product["inCart"] = true;
+                    } else {
+                        product["inCart"] = false;
+                    }
+                }
+
+                setFarmProducts(products)
+                setLoading(false)
+            } catch(error){
+                console.log(error)
             }
-          }
         }
-        fetchCart();
-    }, [])      
+        fetchData()
+    }, [])
     
     function filterOn (){
         let sortValue = document.getElementById("sort");
@@ -116,7 +114,7 @@ const UserProducts = () => {
         {/* PRODUCTS */}
         <div className='product bg-alabaster min-h-screen max-w-7xl p-5 mb-5 rounded-xl mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 shadow-md'>
         {farmProducts.map((user_product) => (
-          <ProductCardUser data={user_product} cart={cart} setCart={setCart} key={user_product._id} inCart={cart.items?.some(item => item.productId === user_product._id) ?? false} />
+          <ProductCardUser data={user_product} cart={cart} setCart={setCart} key={user_product._id} />
         ))}
         </div>
         </div>
