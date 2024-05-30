@@ -25,7 +25,7 @@ export default function CartProductCard ({ product, updateCart }) {
 
   // decrement order quantity
   function deleteItem() {
-    setOrderQuantity(0)
+    updateCart({_id, orderQuantity: 0})
   }
 
   // update cart when order quantity changes
