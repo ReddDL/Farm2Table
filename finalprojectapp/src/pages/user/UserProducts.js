@@ -21,15 +21,20 @@ const UserProducts = () => {
             try{
                 const productsRes = await axios.get('http://localhost:3000/api/products/list')
                 const products = productsRes.data;
+                let cart = {};
 
-                const cartRes = await axios.get("http://localhost:3000/api/cart/")
-                const cart = cartRes.data;
-
-                setCart(cart)
+                // fetch user's cart
+                try {
+                  const cartRes = await axios.get("http://localhost:3000/api/cart/")
+                  cart = cartRes.data;
+                  setCart(cart)
+                } catch (error) {
+                  console.log(error)
+                }
 
                 // assign inCart attribute to each product
                 for (const product of products) {
-                    if (cart.items.find(item => item.productId === product._id)) {
+                    if (cart?.items?.find(item => item.productId === product._id)) {
                         product["inCart"] = true;
                     } else {
                         product["inCart"] = false;
