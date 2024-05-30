@@ -68,7 +68,7 @@ const OrderCard = ({ order, updateOrders, key }) => {
       {/* Pending / Cancel Order */}
       {status === 0 && (
         <button 
-          className='btn btn-error border-none bg-gray-400 text-black hover:text-white px-5 py-4 rounded-xl min-w-40 hover:before:content-["Cancel_Order"] before:content-["Pending"]'
+          className='btn btn-error border-none bg-gray-400 text-black hover:text-white px-5 py-4 rounded-xl min-w-40 hover:before:content-["X_Cancel_Order"] before:content-["Pending"]'
           onClick={handleCancelOrder}
         >
         </button>
