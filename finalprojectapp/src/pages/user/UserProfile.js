@@ -109,12 +109,12 @@ const UserProfile = () => {
       <div className="max-w-7xl mx-auto">
         <h1 className="text-4xl lato-bold">My Profile</h1>
         <h5 className="mt-3 text-lg poppins-regular">Personal information</h5>
-        <div className='flex bg-alabaster h-36 rounded-xl max-w-7xl mx-auto p-9 border border-solid border-gunmetal shadow-lg items-center'>
-          <div className="flex-1 flex flex-col">
+        <div className='flex flex-wrap flex-col md:flex-row gap-5 bg-alabaster rounded-xl max-w-7xl mx-auto p-9 border border-solid border-gunmetal shadow-lg items-center'>
+          <div className="flex-1 flex flex-col break-words min-w-0 w-full">
             <p className="text-2xl poppins-medium">{firstName} {lastName}</p>
             <p>{email}</p>
           </div>
-          <button className="btn border-none bg-midnight-green hover:bg-periwinkle text-tea-green hover:text-black" onClick={() => 
+          <button className="max-md:w-full px-5 btn border-none bg-midnight-green hover:bg-periwinkle text-tea-green hover:text-black" onClick={() => 
               {
                 document.getElementById("editProfileModal").showModal()
               }
