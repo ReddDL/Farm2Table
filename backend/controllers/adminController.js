@@ -177,7 +177,7 @@ export const generateSalesReport = async (req, res) => {
     }
 }; 
 
-// Get all orders for a specific interval
+// Get all orders for a specific interval and confirmed
 export const getOrdersByInterval = async (req, res) => {
     try {
         const { interval } = req.query;
@@ -201,8 +201,11 @@ export const getOrdersByInterval = async (req, res) => {
                 return res.status(400).json({ message: 'Invalid interval' });
         }
 
-        // find orders within the specified interval
-        const orders = await Order.find({ dateOrdered: { $gte: startDate } });
+        // find confirmed orders within the specified interval
+        const orders = await Order.find({ 
+            dateOrdered: { $gte: startDate },
+            status: 1 // Assuming 1 is the status for confirmed orders
+        });
 
         res.status(200).json({ orders });
     } catch (err) {
@@ -211,7 +214,7 @@ export const getOrdersByInterval = async (req, res) => {
     }
 };
 
-// Get summary of total sales and income per interval by product
+// Get summary of total sales and income per interval by product including those not bought
 export const getSalesSummaryByInterval = async (req, res) => {
     try {
         const { interval } = req.query;
@@ -238,19 +241,22 @@ export const getSalesSummaryByInterval = async (req, res) => {
         // find orders within the specified interval
         const orders = await Order.find({ dateOrdered: { $gte: startDate } });
 
+        // get all products
+        const products = await Product.find();
+
         // aggregate sales data by product
         const salesSummary = {};
+        for (const product of products) {
+            salesSummary[product._id] = {
+                productName: product.name,
+                totalQuantitySold: 0,
+                totalIncome: 0,
+            };
+        }
+
         for (const order of orders) {
             const productId = order.productId;
-            const product = await Product.findById(productId);
-            if (product) {
-                if (!salesSummary[productId]) {
-                    salesSummary[productId] = {
-                        productName: product.name,
-                        totalQuantitySold: 0,
-                        totalIncome: 0,
-                    };
-                }
+            if (salesSummary[productId]) {
                 salesSummary[productId].totalQuantitySold += order.quantity;
                 salesSummary[productId].totalIncome += order.totalPrice;
             }
