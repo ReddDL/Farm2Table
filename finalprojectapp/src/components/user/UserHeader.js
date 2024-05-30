@@ -51,9 +51,11 @@ const Header = () => {
                     <div className='absolute right-1 mt-32 w-32 bg-alabaster rounded-md shadow-lg z-20 '>
                         <ul>
                             <li>
+                              <NavLink className='' to='/profile'>
                                 <button className='block px-4 py-2 w-full text-gray-800 hover:bg-gray-100 hover:rounded-md' onClick={toggleDropdown}>
-                                    <NavLink className='' to='/profile'>Profile</NavLink>
+                                    Profile
                                 </button>
+                              </NavLink>
                             </li>
                             <li>
                                 <button className='block px-4 py-2 w-full text-gray-800 hover:bg-gray-100 hover:rounded-md' onClick={handleLogout}>Log Out</button>
