@@ -1,4 +1,4 @@
-import { useOutletContext } from "react-router-dom";
+import { NavLink, useOutletContext } from "react-router-dom";
 import UserOrderCard from "../../components/user/UserOrderCard";
 import axios from "axios";
 import { useState } from "react";
@@ -124,9 +124,24 @@ const UserProfile = () => {
         </div>
         <h5 className="mt-8 text-lg poppins-regular">Order History</h5>
         {/* <div className='bg-alabaster h-fit rounded-xl max-w-7xl mx-auto p-9 border border-solid border-gunmetal shadow-lg flex flex-col gap-4'> */}
-          {orders.map((order, index) => (
-            <UserOrderCard key={index} order={order} updateOrders={updateOrders} />
-          ))}
+          {
+            orders.length > 0 ? (
+              orders.map((order, index) => (
+              <UserOrderCard key={index} order={order} updateOrders={updateOrders} />
+              ))
+            ) : (
+              <div className="flex-1 p-20 flex flex-col items-center justify-center gap-3 content-center">
+                  <h1 className="text-4xl text-center">
+                    You have no order history
+                  </h1>
+                  <NavLink to="/products">
+                    <button className="btn bg-tea-green text-midnight-green border-none hover:bg-periwinkle">
+                      Browse products
+                    </button>
+                  </NavLink>
+                </div>
+            )
+          }
         {/* </div> */}
       </div>
       {/* Modal for editing profile info */}

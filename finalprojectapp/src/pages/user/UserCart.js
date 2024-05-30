@@ -198,8 +198,8 @@ const UserCart = () => {
                   return <CartProductCard product={product} updateCart={handleUpdateCart} key={product._id}/>
                 })
               ) : (
-                <div className="flex-1 h-full flex flex-col items-center justify-center gap-3 content-center">
-                  <h1 className="text-4xl">
+                <div className="flex-1 h-full p-20 flex flex-col items-center justify-center gap-3 content-center">
+                  <h1 className="text-4xl text-center">
                     Your cart is currently empty
                   </h1>
                   <NavLink to="/products">
