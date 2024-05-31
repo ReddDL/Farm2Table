@@ -93,6 +93,16 @@ export const confirmOrderFulfillment = async (req, res) => {
         const order = await Order.findById(req.params.id);
         // if the order doesn't exist, send a 404 (Not Found) response
         if (!order) return res.status(404).json({ message: 'Order not found' });
+        
+        const product = await Product.findById(order.productId);
+        // check if product has sufficient quantity
+        if (product.quantity >= order.quantity) {
+          product.quantity -= order.quantity;
+          product.save();
+        } else {
+          return res.status(400).json({ message: 'Insufficient product quantity' });
+        }
+
         // update the order status to 'Confirmed' (assuming 1 represents 'Confirmed')
         order.status = 1;
         await order.save();

@@ -22,6 +22,7 @@ const AdminOrderCard = ({ order }) => {
       console.log('Order confirmed:', res);
       window.location.reload();
     } catch (error) {
+      alert("Couldn't confirm order: " + error.response.data.message)
       console.error("Couldn't confirm order:", error.response.data);
     }
   };
