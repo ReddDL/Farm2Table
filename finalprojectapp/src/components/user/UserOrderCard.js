@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
-const OrderCard = ({ order, updateOrders, key }) => {
+const OrderCard = ({ order, updateOrders, index }) => {
   const [status, setStatus] = useState(order.status);
   const [product, setProductData] = useState({});
 
@@ -23,8 +23,8 @@ const OrderCard = ({ order, updateOrders, key }) => {
   // Update order's status and orders in user profile
   useEffect(() => {
     order.status = status;
-    updateOrders(order, key);
-  }, [status, order, key, updateOrders]);
+    updateOrders(order, index);
+  }, [status]);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);

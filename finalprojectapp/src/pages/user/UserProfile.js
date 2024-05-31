@@ -127,7 +127,7 @@ const UserProfile = () => {
           {
             orders.length > 0 ? (
               orders.map((order, index) => (
-              <UserOrderCard key={index} order={order} updateOrders={updateOrders} />
+              <UserOrderCard key={index} order={order} updateOrders={updateOrders} index={index}/>
               ))
             ) : (
               <div className="flex-1 p-20 flex flex-col items-center justify-center gap-3 content-center">
