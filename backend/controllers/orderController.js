@@ -126,6 +126,11 @@ export const updateOrderStatus = async (req, res) => {
     // find the order by ID and update its status
     const order = await Order.findByIdAndUpdate(orderId, { status: newStatus });
 
+    // if cancelled, restore quantity to product
+    if (newStatus === 2) {
+      const product = await Product.findByIdAndUpdate(order.productId, { $inc: { quantity: order.quantity }});
+    }
+
     // send a success response
     res.status(200).json({ message: 'Order status updated successfully' });
   } catch (error) {
