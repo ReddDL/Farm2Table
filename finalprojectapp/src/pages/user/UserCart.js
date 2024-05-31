@@ -149,7 +149,7 @@ const UserCart = () => {
       }
 
       if (cantOrder.length > 0) { 
-        // if there is more than one product with insufficient stocks
+        // if there is at least one product with insufficient stocks
         alert(`Cannot place an order for ${"[" + cantOrder + "]"} due to insufficient number of stocks`)
         return
       } else {
