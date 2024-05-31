@@ -131,33 +131,53 @@ const UserCart = () => {
   }, [cartProducts])
 
   // save order upon checkout
-  async function handleCheckout () {
-    let success = 0;
-
-    console.log(cart)
+  async function handleCheckout () {// check if all products have sufficient stocks to fulfill orders
+    let cantOrder = [];
     for (const item of cart.items) {
-      try { 
-        const createRes = await axios.post("http://localhost:3000/api/orders/create", {
-          productId: item.productId,
-          quantity: item.quantity,
-          email,
-          // totalPrice: item.price * item.quantity
-        })
-        success++;
-      } catch (error) {
-        console.log(error);
-        alert(`Error placing an order for the product with the ID ${item.productId}`)
-        return
+      // get product id and order quantity of item
+      const productId = item.productId;
+      const orderQuantity = item.quantity;
+      // name and number of stocks
+      const {name, quantity} = cartProducts.find(product => product._id === item.productId);
+      // place order on product
+      if (orderQuantity > quantity) {
+        cantOrder.push(name);
       }
     }
 
-    console.log(success, cart.items.length)
-    if (success === cart.items.length && success > 0) {
-      // clear cart
-      const clearRes = await axios.delete("http://localhost:3000/api/cart/clear")
-      setCart([]);
+    if (cantOrder.length > 0) { 
+      // if there is more than one product with insufficient stocks
+      alert(`Cannot place an order for ${"[" + cantOrder + "]"} due to insufficient number of stocks`)
+      return
+    } else {
+      try {
+        // create orders
+        for (const item of cart.items) {
+          // get product id and order quantity of item
+          const productId = item.productId;
+          const orderQuantity = item.quantity;
+          // name and number of stocks
+          const {name, quantity} = cartProducts.find(product => product._id === item.productId);
+          // place order on product
+          try { 
+            const createRes = await axios.post("http://localhost:3000/api/orders/create", {
+              productId,
+              quantity: orderQuantity,
+              email
+            })
+          } catch (error) {
+            alert(`Error placing an order for ${name}: ${error.response.data.message}`)
+          }
+        }
 
-      alert("All orders successfully placed!")
+        // clear cart
+        const clearRes = await axios.delete("http://localhost:3000/api/cart/clear")
+        setCart([]);
+
+        alert("All orders successfully placed!")
+      } catch (error) {
+        console.log(error);
+      }      
     }
   }
 
