@@ -16,3 +16,7 @@ code {
     monospace;
 }
 
+* {
+  @apply text-black;
+}
+
