@@ -4,14 +4,18 @@ import { useContext, useEffect, useState } from "react";
 
 export default function CartProductCard ({ product, updateCart }) {
   // destructure product info
-  const {_id, name, type, price, image} = product;
+  const {_id, name, type, price, image, quantity} = product;
   // state variables
   const [orderQuantity, setOrderQuantity] = useState(product["orderQuantity"]);
   const [showInput, setShowInput] = useState(false);
 
   // increment order quantity
   function addOrderQuantity() {
-    setOrderQuantity(orderQuantity+1)
+    if (quantity >= orderQuantity+1) {
+      setOrderQuantity(orderQuantity+1)
+    } else {
+      alert(`Cannot increase order quantity for ${name} with only ${quantity} ${quantity>1 ? "stocks":"stock"} left.`)
+    }
     // updateCart({productId: _id, quantity})
   }
 
@@ -23,7 +27,7 @@ export default function CartProductCard ({ product, updateCart }) {
     } 
   }
 
-  // decrement order quantity
+  // delete item from cart
   function deleteItem() {
     updateCart({_id, orderQuantity: 0})
   }
