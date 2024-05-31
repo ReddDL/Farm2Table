@@ -57,7 +57,14 @@ const ProductCard2 = (prop) => {
               </div>
             
             {
-              inCart ? (
+              attributes.quantity < 1 ? (
+                <button 
+                  className = "AddToCart btn border-none bg-gray-400 hover:bg-gray-400 h-10 mt-3 rounded-2xl text-oxford-blue lato-bold no-animation cursor-default" 
+                  id = {attributes._id} 
+                > 
+                  OUT OF STOCK
+                </button>
+              ) : inCart ? (
                 <NavLink to="/cart" >
                   <button 
                     className = 'AddToCart bg-space-cadet/80 hover:bg-oxford-blue btn border-none w-full h-10 mt-3 rounded-2xl text-eggshell lato-bold hover:before:content-["View_item_in_cart"] before:content-["In_cart"]' 
@@ -65,7 +72,13 @@ const ProductCard2 = (prop) => {
                   </button>
                 </NavLink>
               ) : (
-                <button onClick= {addToCart} className = "AddToCart btn border-none bg-tea-green h-10 mt-3 rounded-2xl text-oxford-blue lato-bold hover:bg-periwinkle" id = {attributes._id} > Add to cart</button>
+                <button 
+                  className = "AddToCart btn border-none bg-tea-green h-10 mt-3 rounded-2xl text-oxford-blue lato-bold hover:bg-periwinkle" 
+                  id = {attributes._id} 
+                  onClick= {addToCart} 
+                > 
+                  Add to cart
+                </button>
               )
             }
             
