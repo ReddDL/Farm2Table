@@ -61,7 +61,7 @@ export default function CartProductCard ({ product, updateCart }) {
         </div>
         {/* Total Price of Product */}
         <div className="flex-1 flex flex-row text-lg text-center items-center justify-between">
-          <p className="ml-6">$ { price*orderQuantity } </p>
+          <p className="ml-6">$ { Math.ceil(price*orderQuantity*100)/100 } </p>
           <FontAwesomeIcon icon={faTrash} className="btn btn-ghost size-5" onClick={deleteItem}/>
         </div>
       </div>

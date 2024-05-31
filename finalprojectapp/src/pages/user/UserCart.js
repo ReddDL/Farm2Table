@@ -117,7 +117,7 @@ const UserCart = () => {
     // console.log("products", cartProducts)
     if (cartProducts?.length > 0) {
       // get total price of each product given unit price and order quantity 
-      const cartPrices = cartProducts.map(({price, orderQuantity}) => price*orderQuantity)
+      const cartPrices = cartProducts.map(({price, orderQuantity}) => Math.ceil(price*orderQuantity*100)/100)
 
       // console.log(cartPrices)
       // summation of cart prices
