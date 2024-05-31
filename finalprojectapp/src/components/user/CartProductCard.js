@@ -4,14 +4,18 @@ import { useContext, useEffect, useState } from "react";
 
 export default function CartProductCard ({ product, updateCart }) {
   // destructure product info
-  const {_id, name, type, price, image} = product;
+  const {_id, name, type, price, image, quantity} = product;
   // state variables
   const [orderQuantity, setOrderQuantity] = useState(product["orderQuantity"]);
   const [showInput, setShowInput] = useState(false);
 
   // increment order quantity
   function addOrderQuantity() {
-    setOrderQuantity(orderQuantity+1)
+    if (quantity >= orderQuantity+1) {
+      setOrderQuantity(orderQuantity+1)
+    } else {
+      alert(`Cannot increase order quantity for ${name} with only ${quantity} ${quantity>1 ? "stocks":"stock"} left.`)
+    }
     // updateCart({productId: _id, quantity})
   }
 
@@ -23,9 +27,9 @@ export default function CartProductCard ({ product, updateCart }) {
     } 
   }
 
-  // decrement order quantity
+  // delete item from cart
   function deleteItem() {
-    setOrderQuantity(0)
+    updateCart({_id, orderQuantity: 0})
   }
 
   // update cart when order quantity changes
@@ -57,7 +61,7 @@ export default function CartProductCard ({ product, updateCart }) {
         </div>
         {/* Total Price of Product */}
         <div className="flex-1 flex flex-row text-lg text-center items-center justify-between">
-          <p className="ml-6">$ { price*orderQuantity } </p>
+          <p className="ml-6">$ { Math.ceil(price*orderQuantity*100)/100 } </p>
           <FontAwesomeIcon icon={faTrash} className="btn btn-ghost size-5" onClick={deleteItem}/>
         </div>
       </div>

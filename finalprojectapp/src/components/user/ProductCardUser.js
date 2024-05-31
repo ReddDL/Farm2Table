@@ -2,10 +2,11 @@
 import React, { useState, useEffect } from 'react';
 
 import axios from "axios";
+import { NavLink } from 'react-router-dom';
 
 const ProductCard2 = (prop) => {
   let attributes = prop.data;
-  const [inCart, setInCart] = useState(prop?.inCart);
+  const [inCart, setInCart] = useState(attributes.inCart);
   const [orderQuantity, setOrderQuantity] = useState(1);
 
   console.log(attributes)
@@ -15,6 +16,8 @@ const ProductCard2 = (prop) => {
       const res = await axios.post("http://localhost:3000/api/cart/add", {
         productId: attributes._id
       })
+
+      setInCart(true);
     } catch (error) {
       switch (error?.response?.status) {
         case 404:
@@ -24,17 +27,6 @@ const ProductCard2 = (prop) => {
           console.log("Error fetching cart")
       }
     }
-  }
-
-  if (document.getElementById(attributes._id)!== null){
-    document.getElementById(attributes._id).addEventListener("click", InCart);
-  }
-
-  function InCart(){
-    document.getElementById(attributes._id).innerHTML = "IN CART";
-    document.getElementById(attributes._id).disabled = true;
-    document.getElementById(attributes._id).className = "AddToCart bg-space-cadet h-10 mt-3 rounded-lg text-eggshell"; 
-
   }
 
   return (
@@ -47,7 +39,7 @@ const ProductCard2 = (prop) => {
                 <h3> ${attributes.price}</h3>
               </div>
                 <div className="bg-periwinkle w-fit px-4 py-1 rounded-3xl mb-4">
-                  <p className="text-xs poppins-regular">
+                  <p className="text-xs poppins-regular text-midnight-green">
                     {attributes.type}
                   </p>
                 </div>
@@ -65,10 +57,28 @@ const ProductCard2 = (prop) => {
               </div>
             
             {
-              inCart ? (
-                <button className = "AddToCart bg-space-cadet h-10 mt-3 rounded-2xl text-eggshell" id = {attributes._id} disabled>Item already in cart</button>
+              attributes.quantity < 1 ? (
+                <button 
+                  className = "AddToCart btn border-none bg-gray-400 hover:bg-gray-400 h-10 mt-3 rounded-2xl text-oxford-blue lato-bold no-animation cursor-default" 
+                  id = {attributes._id} 
+                > 
+                  OUT OF STOCK
+                </button>
+              ) : inCart ? (
+                <NavLink to="/cart" >
+                  <button 
+                    className = 'AddToCart bg-space-cadet/80 hover:bg-oxford-blue btn border-none w-full h-10 mt-3 rounded-2xl text-eggshell lato-bold hover:before:content-["View_item_in_cart"] before:content-["In_cart"]' 
+                    id = {attributes._id}>
+                  </button>
+                </NavLink>
               ) : (
-                <button onClick= {addToCart} className = "AddToCart bg-tea-green h-10 mt-3 rounded-2xl text-oxford-blue lato-bold hover:bg-periwinkle" id = {attributes._id} > Add to cart</button>
+                <button 
+                  className = "AddToCart btn border-none bg-tea-green h-10 mt-3 rounded-2xl text-oxford-blue lato-bold hover:bg-periwinkle" 
+                  id = {attributes._id} 
+                  onClick= {addToCart} 
+                > 
+                  Add to cart
+                </button>
               )
             }
             
