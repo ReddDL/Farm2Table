@@ -131,53 +131,57 @@ const UserCart = () => {
   }, [cartProducts])
 
   // save order upon checkout
-  async function handleCheckout () {// check if all products have sufficient stocks to fulfill orders
+  async function handleCheckout () {
     let cantOrder = [];
-    for (const item of cart.items) {
-      // get product id and order quantity of item
-      const productId = item.productId;
-      const orderQuantity = item.quantity;
-      // name and number of stocks
-      const {name, quantity} = cartProducts.find(product => product._id === item.productId);
-      // place order on product
-      if (orderQuantity > quantity) {
-        cantOrder.push(name);
-      }
-    }
 
-    if (cantOrder.length > 0) { 
-      // if there is more than one product with insufficient stocks
-      alert(`Cannot place an order for ${"[" + cantOrder + "]"} due to insufficient number of stocks`)
-      return
-    } else {
-      try {
-        // create orders
-        for (const item of cart.items) {
-          // get product id and order quantity of item
-          const productId = item.productId;
-          const orderQuantity = item.quantity;
-          // name and number of stocks
-          const {name, quantity} = cartProducts.find(product => product._id === item.productId);
-          // place order on product
-          try { 
-            const createRes = await axios.post("http://localhost:3000/api/orders/create", {
-              productId,
-              quantity: orderQuantity,
-              email
-            })
-          } catch (error) {
-            alert(`Error placing an order for ${name}: ${error.response.data.message}`)
-          }
+    if (cart?.items?.length > 0) {
+      // check if all products have sufficient stocks to fulfill orders
+      for (const item of cart.items) {
+        // get product id and order quantity of item
+        const productId = item.productId;
+        const orderQuantity = item.quantity;
+        // name and number of stocks
+        const {name, quantity} = cartProducts.find(product => product._id === item.productId);
+        // place order on product
+        if (orderQuantity > quantity) {
+          cantOrder.push(name);
         }
+      }
 
-        // clear cart
-        const clearRes = await axios.delete("http://localhost:3000/api/cart/clear")
-        setCart([]);
+      if (cantOrder.length > 0) { 
+        // if there is more than one product with insufficient stocks
+        alert(`Cannot place an order for ${"[" + cantOrder + "]"} due to insufficient number of stocks`)
+        return
+      } else {
+        try {
+          // create orders
+          for (const item of cart.items) {
+            // get product id and order quantity of item
+            const productId = item.productId;
+            const orderQuantity = item.quantity;
+            // name and number of stocks
+            const {name, quantity} = cartProducts.find(product => product._id === item.productId);
+            // place order on product
+            try { 
+              const createRes = await axios.post("http://localhost:3000/api/orders/create", {
+                productId,
+                quantity: orderQuantity,
+                email
+              })
+            } catch (error) {
+              alert(`Error placing an order for ${name}: ${error.response.data.message}`)
+            }
+          }
 
-        alert("All orders successfully placed!")
-      } catch (error) {
-        console.log(error);
-      }      
+          // clear cart
+          const clearRes = await axios.delete("http://localhost:3000/api/cart/clear")
+          setCart([]);
+
+          alert("All orders successfully placed!")
+        } catch (error) {
+          console.log(error);
+        }      
+      }
     }
   }
 
